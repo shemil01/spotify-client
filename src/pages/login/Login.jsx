@@ -43,6 +43,7 @@ const Login = () => {
         <div className="flex justify-center">
           <hr className="w-2/3 opacity-35" />
         </div>
+        
         <div>
           <span className="text-white flex justify-center font-semibold">
             Email or username
