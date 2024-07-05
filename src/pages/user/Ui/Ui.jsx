@@ -1,5 +1,7 @@
 import React from "react";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router-dom";
+
 
 
 
@@ -36,14 +38,14 @@ const Ui = () => {
 
         <div className="flex flex-col items-center mt-4">
           <button className="flex justify-center items-center font-semibold bg-logoColor w-28 md:w-32 h-10 md:h-12 rounded-full text-black text-sm md:text-base">
-            Login  <FaArrowUpRightFromSquare className="ml-2" />
+          <Link to={"/login"}> Login</Link> <FaArrowUpRightFromSquare className="ml-2" />
           </button>
 
          
           <div className="mt-4 flex flex-col md:flex-row items-center">
             <span className="text-white text-sm md:text-base">New to Spotify?</span>
             <span className="font-bold text-white ml-0 md:ml-1 mt-1 md:mt-0 flex items-center text-sm md:text-base">
-             Sign up free <FaArrowUpRightFromSquare className="ml-1" />
+            <Link to={'/register'}>Sign up free</Link> <FaArrowUpRightFromSquare className="ml-1" />
             </span>
           </div>
         </div>

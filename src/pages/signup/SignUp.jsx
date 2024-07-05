@@ -2,6 +2,7 @@ import React from "react";
 import { AiFillSpotify } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   return (
@@ -73,7 +74,7 @@ const SignUp = () => {
           Already have an account?
           </span>
           <span className="font-bold text-white ml-0 md:ml-1 mt-1 md:mt-0 flex items-center text-sm md:text-base">
-            Log in here.
+            <Link to={'/login'}>Log in here.</Link>
           </span>
         </div>
       </div>
