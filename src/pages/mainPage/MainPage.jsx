@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { Routes, Route } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
 import Ui from '../user/Ui/Ui';
-import Login from '../login/Login';
-import SignUp from '../signup/SignUp';
+import Login from '../Login&signup/Login';
+import SignUp from '../Login&signup/SignUp';
 import axios from "axios"
 import myContext from '../../context/Context';
+import Home from '../home/Home';
+import { Toaster } from 'react-hot-toast';
+import PasswordResetRequest from '../resetPassword/ResetRequest';
+import PasswordReset from '../resetPassword/PasswordReset';
 
 export const Axios = axios.create({
  baseURL:"http://localhost:4500/api"
@@ -21,11 +24,14 @@ const MainPage = () => {
   return (
     <div>
         <myContext.Provider value={details}>
-        <ToastContainer />
+        <Toaster />
         <Routes>
+          <Route path='/home' element={<Home />} />
             <Route path='/' element={<Ui />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<SignUp />} />
+            <Route path='/reset-password' element={<PasswordResetRequest />} />
+            <Route path='/reset-save' element={<PasswordReset />} />
         </Routes>
         </myContext.Provider>
     </div>
