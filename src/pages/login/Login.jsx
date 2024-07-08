@@ -5,7 +5,8 @@ import { FaFacebook, FaApple } from "react-icons/fa";
 import { useGoogleLogin } from "@react-oauth/google";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../../context/Context";
-
+import { BiSolidHide } from "react-icons/bi";
+import { BiSolidShow } from "react-icons/bi";
 import Cookies from "js-cookie";
 import { Axios } from "../mainPage/MainPage";
 import toast from "react-hot-toast";
@@ -14,6 +15,11 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUserData, setLog } = useContext(myContext);
   const [user, setUser] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const passwordVisible = () => {
+    setShowPassword((prevShowPass) => !prevShowPass);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,8 +47,7 @@ const Login = () => {
       });
   };
 
-  //google aouth
-
+  // Google OAuth
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
@@ -58,16 +63,17 @@ const Login = () => {
         navigate("/home");
         setLog(true);
         setUserData(userData);
-        toast.success("login succesfull")
+        toast.success("Login successful");
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
     },
   });
 
-
   return (
-    <div className="w-full bg-[#292929] flex justify-center overflow-y-scroll no-scrollbar">
+
+    
+    <div className="w-full bg-[#292929] min-h-screen flex justify-center overflow-y-scroll no-scrollbar">
       <div className="relative bg-[#121212] shadow-lg w-full md:w-8/12 lg:w-[730px] rounded-lg flex md:mt-8 flex-col space-y-5 p-4 h-full">
         <div className="flex flex-col items-center mt-10 md:mt-4">
           <AiFillSpotify color="white" size="3em" />
@@ -128,13 +134,21 @@ const Login = () => {
           </span>
         </div>
         <div className="flex justify-center">
-          <input
-            type="password"
-            placeholder="Password"
-            value={user.password}
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-            className="rounded-md px-8 text-white py-3 w-80 font-semibold border-solid border-2 border-[#727272] bg-[#121212]"
-          />
+          <div className="relative w-80">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={user.password}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
+              className="rounded-md px-8 text-white py-3 w-full font-semibold border-solid border-2 border-[#727272] bg-[#121212]"
+            />
+            <button
+              onClick={passwordVisible}
+              className="absolute inset-y-0 right-0 flex items-center pr-3 text-2xl text-[#a7a7a7]"
+            >
+              {showPassword ? <BiSolidHide /> : <BiSolidShow />}
+            </button>
+          </div>
         </div>
         <div className="flex justify-center">
           <button
@@ -145,7 +159,7 @@ const Login = () => {
           </button>
         </div>
         <div className="text-white font-semibold flex justify-center">
-            <Link to={'/reset-password'}>ForgotYourPassword  </Link>
+          <Link to="/forget-password">Forgot Your Password?</Link>
         </div>
         <div className="flex justify-center">
           <hr className="w-2/3 opacity-35" />
@@ -155,7 +169,7 @@ const Login = () => {
             Don't have an account?
           </span>
           <span className="font-bold text-white ml-0 md:ml-1 mt-1 md:mt-0 flex items-center text-sm md:text-base">
-            <Link to={"/register"}> Sign up Spotify.</Link>
+            <Link to="/register"> Sign up for Spotify.</Link>
           </span>
         </div>
       </div>

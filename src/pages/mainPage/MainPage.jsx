@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Routes, Route } from "react-router-dom";
 import Ui from '../user/Ui/Ui';
-import Login from '../Login&signup/Login';
-import SignUp from '../Login&signup/SignUp';
+import Login from '../login/Login';
+import SignUp from '../signup/EmailStep';
 import axios from "axios"
 import myContext from '../../context/Context';
 import Home from '../home/Home';
@@ -30,8 +30,8 @@ const MainPage = () => {
             <Route path='/' element={<Ui />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<SignUp />} />
-            <Route path='/reset-password' element={<PasswordResetRequest />} />
-            <Route path='/reset-save' element={<PasswordReset />} />
+            <Route path='/forget-password' element={<PasswordResetRequest />} />
+            <Route path='/reset-password/:token' element={<PasswordReset />} />
         </Routes>
         </myContext.Provider>
     </div>
