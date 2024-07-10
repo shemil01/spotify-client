@@ -17,6 +17,11 @@ const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
 
+
+
+
+
+
   const passwordVisible = () => {
     setShowPassword((prevShowPass) => !prevShowPass);
   };
@@ -106,9 +111,9 @@ const Login = () => {
             </button>
           </div>
           <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80">
-            <button className="text-white font-semibold px-5">
+           <Link to={'/login-number'}> <button  className="text-white font-semibold px-5">
               Continue With Mobile
-            </button>
+            </button></Link>
           </div>
         </div>
         <div className="flex justify-center">

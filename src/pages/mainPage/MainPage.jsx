@@ -10,6 +10,7 @@ import { Toaster } from 'react-hot-toast';
 import PasswordResetRequest from '../resetPassword/ResetRequest';
 import PasswordReset from '../resetPassword/PasswordReset';
 import Signup from '../signup/Signup';
+import LoginNumber from '../login/LoginNumber';
 
 export const Axios = axios.create({
   baseURL: 'http://localhost:4500/api',
@@ -47,6 +48,7 @@ const MainPage = () => {
           <Route path='/register' element={<Signup/>} />
           <Route path="/forget-password" element={<PasswordResetRequest />} />
           <Route path="/reset-password/:token" element={<PasswordReset />} />
+          <Route path='/login-number' element={<LoginNumber/>} />
         </Routes>
       </myContext.Provider>
     </div>

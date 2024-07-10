@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import { Axios } from "../mainPage/MainPage";
-import { BiSolidShow } from "react-icons/bi";
-import { BiSolidHide } from "react-icons/bi";
 
 
 function PasswordResetRequest() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
- //show and hide
- const togglePasswordVisibility = () => {
-  setShowPassword((prevShowPassword) => !prevShowPassword);
-};
+
+
 
 
   const handleSubmit = async (e) => {
