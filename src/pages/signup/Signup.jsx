@@ -16,12 +16,12 @@ const navigate = useNavigate()
   const handleFinish = (event) => {
     event.preventDefault()
     console.log(signup)
-    Axios.post('/user/register',{...signup,dateOfBirth :`${signup.dateOfBirth.year}/${signup.dateOfBirth.month}/${signup.dateOfBirth.day}`})
+    Axios.post('/user/register',{...signup,dateOfBirth :`${signup.dateOfBirth.day}/${signup.dateOfBirth.month}/${signup.dateOfBirth.year}`})
     .then((response)=>{
       toast.success("Signup complete!")
       navigate('/home')
     }).catch((error)=>{
-      console.error('registration error',error)
+      console.error('registration error',error) 
     })
     
   };

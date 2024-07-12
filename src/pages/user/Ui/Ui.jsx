@@ -1,6 +1,6 @@
 import React from "react";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 

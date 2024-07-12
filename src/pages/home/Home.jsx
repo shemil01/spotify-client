@@ -1,10 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import NavBar from "./NavBar";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import myContext from "../../context/Context";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { userData } = useContext(myContext);
+  const navigate = useNavigate();
+
+  const onToggleMenu = (e) => {
+    setIsMenuOpen(!isMenuOpen);
+    e.name = e.name === "menu" ? "close" : "menu";
+  };
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
       <NavBar />
@@ -23,7 +31,7 @@ const Home = () => {
             </div>
           </div>
           <div>
-            <button className="text-white text-3xl">
+            <button className="text-white text-3xl" onClick={onToggleMenu}>
               <img
                 className="w-8 h-8 rounded-full"
                 src={userData.profilePicture}
@@ -46,6 +54,25 @@ const Home = () => {
           </div>
         </div>
       </div>
+      {isMenuOpen && (
+        <div className="w-48 bg-[#292828] h-64 rounded-md absolute top-14 right-4">
+          <div className="h-full">
+            <ul className="text-white font-semibold  px-2 flex flex-col justify-evenly h-full">
+              <li
+                onClick={() => navigate("/profail")}
+                className="hover:bg-[#383838] p-2"
+              >
+                account{" "}
+              </li>
+              <li className="hover:bg-[#383838] p-2">Upgrade To Premium</li>
+              <li className="hover:bg-[#383838] p-2">Private Session</li>
+              <li className="hover:bg-[#383838] p-2">settings</li>
+              <hr />
+              <li className="hover:bg-[#383838] p-2">logout</li>
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
