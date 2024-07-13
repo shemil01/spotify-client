@@ -1,7 +1,7 @@
 // src/MainPage.js
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Ui from "../user/Ui/Ui";
+
 import Login from "../login/Login";
 import axios from "axios";
 import myContext from "../../context/Context";
@@ -11,7 +11,8 @@ import PasswordResetRequest from "../resetPassword/ResetRequest";
 import PasswordReset from "../resetPassword/PasswordReset";
 import Signup from "../signup/Signup";
 import LoginNumber from "../login/LoginNumber";
-import Profail from "../user/account/Profail";
+import Profail from "../../components/user/account/Profail";
+import Ui from "../../components/user/Ui/Ui";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",

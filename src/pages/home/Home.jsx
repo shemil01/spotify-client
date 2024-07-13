@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import NavBar from "./NavBar";
+import NavBar from "../../components/nav/NavBar";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import myContext from "../../context/Context";
 import { useNavigate } from "react-router-dom";

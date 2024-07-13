@@ -1,9 +1,13 @@
+import EditProfail from "./components/user/account/EditProfail";
+
 import MainPage from "./pages/mainPage/MainPage";
 
 function App() {
   return (
     <div>
-      <MainPage />
+      {/* <MainPage /> */}
+      <EditProfail />
+      
     </div>
   );
 }
