@@ -1,21 +1,36 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiFillSpotify } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import myContext from "../../context/Context";
+import { Axios } from "../mainPage/MainPage";
+import toast from "react-hot-toast";
 
 const Emailstep = ({ onNext }) => {
   const { signup, setSignup } = useContext(myContext);
   const [formError, setFormError] = useState({});
-  
+  const [isExist, setIsExist] = useState(false);
+
+  const emailCheck = async () => {
+    await Axios.post("/user/email-check", signup)
+      .then((response) => {
+        setIsExist(response.data.success);
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+
+        setIsExist(error.response.data.success);
+      });
+  };
+
   const handleEmailChange = (e) => {
     setSignup({ ...signup, email: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    emailCheck();
     const errors = {};
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -27,9 +42,8 @@ const Emailstep = ({ onNext }) => {
 
     setFormError(errors);
 
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(errors).length === 0 && isExist !== false) {
       onNext();
-      
     }
   };
 
@@ -112,7 +126,7 @@ const Emailstep = ({ onNext }) => {
             Already have an account?
           </span>
           <span className="font-bold text-white ml-0 md:ml-1 mt-1 md:mt-0 flex items-center text-sm md:text-base">
-            <Link to={'/login'}>Log in here.</Link>
+            <Link to={"/login"}>Log in here.</Link>
           </span>
         </div>
       </div>

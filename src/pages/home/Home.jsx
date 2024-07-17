@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import NavBar from "../../components/nav/NavBar";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+import { RiAccountCircleFill } from "react-icons/ri";
 import myContext from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 
@@ -32,11 +33,11 @@ const Home = () => {
           </div>
           <div>
             <button className="text-white text-3xl" onClick={onToggleMenu}>
-              <img
+              {userData.profilePicture ?<img
                 className="w-8 h-8 rounded-full"
                 src={userData.profilePicture}
                 alt=""
-              />
+              /> :  <RiAccountCircleFill className="text-3xl" />}
             </button>
           </div>
         </header>

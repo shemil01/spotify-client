@@ -13,6 +13,7 @@ import Signup from "../signup/Signup";
 import LoginNumber from "../login/LoginNumber";
 import Profail from "../../components/user/account/Profail";
 import Ui from "../../components/user/Ui/Ui";
+import EditProfail from "../../components/user/account/EditProfail";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -22,6 +23,7 @@ const MainPage = () => {
   const [userData, setUserData] = useState([]);
   const [log, setLog] = useState(false);
   const [isOpen, onClose] = useState(false);
+
   const [signup, setSignup] = useState({
     email: "",
     password: "",
@@ -55,6 +57,7 @@ const MainPage = () => {
           <Route path="/reset-password/:token" element={<PasswordReset />} />
           <Route path="/login-number" element={<LoginNumber />} />
           <Route path="/profail" element={<Profail />} />
+          <Route path="edit-profail" element={<EditProfail />} />
         </Routes>
       </myContext.Provider>
     </div>

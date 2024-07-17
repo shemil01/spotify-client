@@ -13,17 +13,6 @@ import Nav from "./Nav";
 const Profail = () => {
  
 
-  // useEffect(() => {
-  //   Axios.get("/user/view-profail", {
-  //     withCredentials: true,
-  //   })
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
 
   return (
     <div className="pb-10 w-full bg-[#131313]">
@@ -45,7 +34,7 @@ const Profail = () => {
           <Link className="flex  justify-between py-3 hover:bg-[#383838] rounded-md">
             <div className="flex justify-between ">
               <MdOutlineEdit className="mr-3 text-[#a7a7a7] mt-1" />
-              <span className="text-white">Edit Profail</span>
+              <Link to={'/edit-profail'}><span className="text-white">Edit Profail</span></Link>
             </div>
             <span className="text-[#a7a7a7]">
               {" "}
