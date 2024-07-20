@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Link } from "react-router-dom";
 import { FaSpotify,FaArrowRight } from "react-icons/fa";
@@ -10,9 +10,9 @@ import { ImEye } from "react-icons/im";
 import { TbPasswordMobilePhone } from "react-icons/tb";
 import Nav from "./Nav";
 
+
 const Profail = () => {
  
-
 
   return (
     <div className="pb-10 w-full bg-[#131313]">

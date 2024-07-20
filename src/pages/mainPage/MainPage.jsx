@@ -1,5 +1,4 @@
-// src/MainPage.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Login from "../login/Login";
@@ -14,6 +13,8 @@ import LoginNumber from "../login/LoginNumber";
 import Profail from "../../components/user/account/Profail";
 import Ui from "../../components/user/Ui/Ui";
 import EditProfail from "../../components/user/account/EditProfail";
+import ProtectRoute from "../../components/Authentication/ProtectedRoute";
+import LoginProtect from "../../components/Authentication/LoginProtect";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -23,7 +24,7 @@ const MainPage = () => {
   const [userData, setUserData] = useState([]);
   const [log, setLog] = useState(false);
   const [isOpen, onClose] = useState(false);
-
+  const [songs, setSongs] = useState([]);
   const [signup, setSignup] = useState({
     email: "",
     password: "",
@@ -41,14 +42,35 @@ const MainPage = () => {
     setSignup,
     isOpen,
     onClose,
+    songs,
+    setSongs,
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setLog(true);
+    }
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      const userData = JSON.stringify(userInfo);
+      setUserData(userData);
+      setLog(true);
+    }
+  }, []);
 
   return (
     <div>
       <myContext.Provider value={details}>
         <Toaster />
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route
+            path="/home"
+            element={
+              <ProtectRoute>
+                <Home />
+              </ProtectRoute>
+            }
+          />
           <Route path="/" element={<Ui />} />
           <Route path="/login" element={<Login />} />
           {/* <Route path="/register" element={<SignUp />} /> */}
@@ -56,8 +78,22 @@ const MainPage = () => {
           <Route path="/forget-password" element={<PasswordResetRequest />} />
           <Route path="/reset-password/:token" element={<PasswordReset />} />
           <Route path="/login-number" element={<LoginNumber />} />
-          <Route path="/profail" element={<Profail />} />
-          <Route path="edit-profail" element={<EditProfail />} />
+          <Route
+            path="/profail"
+            element={
+              <ProtectRoute>
+                <Profail />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="edit-profail"
+            element={
+              <ProtectRoute>
+                <EditProfail />
+              </ProtectRoute>
+            }
+          />
         </Routes>
       </myContext.Provider>
     </div>

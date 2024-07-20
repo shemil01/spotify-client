@@ -44,6 +44,8 @@ const EditProfail = () => {
       setShowEdit(false);
       toast.success("profail updated")
     } catch (error) {
+      toast.error(error.response.data.message)
+      console.log(error)
       setError(error);
     }
   };
@@ -79,7 +81,7 @@ const EditProfail = () => {
           dateOfBirth: {
             year: userData.dateOfBirth.split("-")[0],
             month: userData.dateOfBirth.split("-")[1],
-            day: userData.dateOfBirth.split("-")[2],
+            day: new Date(userData.dateOfBirth).getDate(),
           },
           image: null,
           profilePicture: userData.profilePicture,
@@ -95,7 +97,7 @@ const EditProfail = () => {
   }, []);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error loading user data</p>;
+ 
 
   return (
     <div className="pb-10 w-full bg-[#131313]">
