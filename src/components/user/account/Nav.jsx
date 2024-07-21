@@ -20,7 +20,7 @@ const Nav = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
-              <RiCloseLine className="text-4xl" />
+              <RiCloseLine className="text-4xl " />
             ) : (
               <RiMenu3Line className="text-4xl" />
             )}

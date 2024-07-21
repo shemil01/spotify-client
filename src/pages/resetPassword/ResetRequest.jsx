@@ -54,13 +54,13 @@ function PasswordResetRequest() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
             required
-            className="rounded-md text-white px-8 py-3 w-80 md:w-80 font-semibold border-solid border-2 border-[#727272] bg-[#121212]"
+            className="rounded-md text-white px-8 py-3 w-80 md:w-80 font-semibold border-solid border-2 border-[#727272] bg-[#121212]  hover:border-white transition duration-300"
           />
         </div>
         <div className="flex justify-center  py-8">
           <button
             onClick={handleSubmit}
-            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 md:w-80"
+            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 md:w-80 transform transition-transform duration-200 hover:scale-105"
           >
             Send link
           </button>

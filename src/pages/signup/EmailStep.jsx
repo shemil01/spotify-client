@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext,  useState } from "react";
 import { AiFillSpotify } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
@@ -72,7 +72,7 @@ const Emailstep = ({ onNext }) => {
                 placeholder="name@domain.com"
                 value={signup.email}
                 onChange={handleEmailChange}
-                className="rounded-md px-8 py-3 w-72 md:w-80 font-semibold text-white border-solid border-2 border-[#727272] bg-[#121212]"
+                className="rounded-md px-8 py-3 w-72 md:w-80 font-semibold text-white border-solid border-2 border-[#727272] bg-[#121212] hover:border-green-500 transition duration-300"
               />
             </div>
             {formError.email && (
@@ -83,7 +83,7 @@ const Emailstep = ({ onNext }) => {
         <div className="flex justify-center">
           <button
             onClick={handleSubmit}
-            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80"
+            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 transform transition-transform duration-200 hover:scale-105"
           >
             Next
           </button>
@@ -94,25 +94,25 @@ const Emailstep = ({ onNext }) => {
           <hr className="w-40 opacity-35" />
         </div>
         <div className="flex flex-col items-center mt-6 md:mt-4 space-y-2">
-          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80">
+          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <FcGoogle />
             <button className="text-white font-semibold px-5">
               Continue With Google
             </button>
           </div>
-          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80">
+          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <FaFacebook className="text-xl text-blue-600" />
             <button className="text-white font-semibold px-5">
               Continue With Facebook
             </button>
           </div>
-          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80">
+          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <FaApple className="text-xl text-white" />
             <button className="text-white font-semibold px-5">
               Continue With Apple
             </button>
           </div>
-          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80">
+          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <button className="text-white font-semibold px-5">
               Continue With Mobile
             </button>
@@ -126,7 +126,7 @@ const Emailstep = ({ onNext }) => {
             Already have an account?
           </span>
           <span className="font-bold text-white ml-0 md:ml-1 mt-1 md:mt-0 flex items-center text-sm md:text-base">
-            <Link to={"/login"}>Log in here.</Link>
+            <Link to={"/login"} className="hover:underline">Log in here.</Link>
           </span>
         </div>
       </div>

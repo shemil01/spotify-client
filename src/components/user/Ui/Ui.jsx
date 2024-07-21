@@ -13,8 +13,9 @@ const Ui = () => {
         className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://helios-i.mashable.com/imagery/articles/04Xg9z0OpmENu16hFQ4XGcs/hero-image.fill.size_1248x702.v1652732411.png')",
+            "url('https://images.unsplash.com/photo-1623018035813-9cfb5b502e04?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDAzMzh8MHwxfHNlYXJjaHw2fHxzcG90aWZ5fGVufDB8fHx8MTY2MDg2MzkwNw&ixlib=rb-1.2.1&q=80&w=1080')",
           filter: "blur(8px)",
+          // opacity:"50%"
         }}
       ></div>
 
@@ -38,14 +39,14 @@ const Ui = () => {
 
         <div className="flex flex-col items-center mt-4">
           <button className="flex justify-center items-center font-semibold bg-logoColor w-28 md:w-32 h-10 md:h-12 rounded-full text-black text-sm md:text-base">
-          <Link to={"/login"}> Login</Link> <FaArrowUpRightFromSquare className="ml-2" />
+          <Link to={"/login"} className="hover:underline"> Login</Link> <FaArrowUpRightFromSquare className="ml-2" />
           </button>
 
          
           <div className="mt-4 flex flex-col md:flex-row items-center">
             <span className="text-white text-sm md:text-base">New to Spotify?</span>
             <span className="font-bold text-white ml-0 md:ml-1 mt-1 md:mt-0 flex items-center text-sm md:text-base">
-            <Link to={'/register'}>Sign up free</Link> <FaArrowUpRightFromSquare className="ml-1" />
+            <Link  to={'/register'} className="text-white hover:underline" >Sign up free</Link> <FaArrowUpRightFromSquare className="ml-1 " />
             </span>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "../login/Login";
 import axios from "axios";
 import myContext from "../../context/Context";
-import Home from "../home/Home";
+
 import { Toaster } from "react-hot-toast";
 import PasswordResetRequest from "../resetPassword/ResetRequest";
 import PasswordReset from "../resetPassword/PasswordReset";
@@ -14,7 +14,8 @@ import Profail from "../../components/user/account/Profail";
 import Ui from "../../components/user/Ui/Ui";
 import EditProfail from "../../components/user/account/EditProfail";
 import ProtectRoute from "../../components/Authentication/ProtectedRoute";
-import LoginProtect from "../../components/Authentication/LoginProtect";
+import Home from "../home/Home";
+// import LoginProtect from "../../components/Authentication/LoginProtect";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",

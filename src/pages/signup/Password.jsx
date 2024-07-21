@@ -59,14 +59,14 @@ const PasswordStep = ({ onNext }) => {
              Password
             </label>
             <p className="text-red-600">{formError.password}</p>
-            <div className="flex items-center border border-[#727272] px-1 rounded-md">
+            <div className="flex items-center border border-[#727272] px-1 rounded-md hover:border-green-500 transition duration-300 ">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={signup.password}
                 onChange={handlePasswordChange}
                 required
-                className="flex-grow text-white px-3 py-3 font-semibold outline-none bg-[#121212]"
+                className="flex-grow text-white px-3 py-3 font-semibold outline-none bg-[#121212]  "
               />
               <button
                 type="button"
@@ -90,7 +90,7 @@ const PasswordStep = ({ onNext }) => {
           <div className="flex justify-center py-4">
             <button
               type="submit"
-              className="text-black font-semibold rounded-full bg-logoColor px-8 py-3 w-full md:w-80"
+              className="text-black font-semibold rounded-full bg-logoColor px-8 py-3 w-full md:w-80 transform transition-transform duration-200 hover:scale-105"
             >
               next
             </button>

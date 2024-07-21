@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { Axios } from "../mainPage/MainPage";
 import toast from "react-hot-toast";
 
+
 const Login = () => {
   const navigate = useNavigate();
   const { setUserData, setLog } = useContext(myContext);
@@ -64,11 +65,10 @@ const Login = () => {
         localStorage.setItem("token", token);
         const userInfo = JSON.stringify(userData);
         localStorage.setItem("userInfo", userInfo);
-        toast.success(response.data.message);
         navigate("/home");
         setLog(true);
         setUserData(userData);
-        toast.success("Login successful");
+        
       } catch (error) {
         console.error(error);
       }
@@ -89,7 +89,7 @@ const Login = () => {
           </div>
         </div>
         <div className="flex flex-col items-center mt-6 md:mt-4 space-y-2">
-          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80">
+          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <FcGoogle />
             <button
               onClick={() => googleLogin()}
@@ -98,19 +98,19 @@ const Login = () => {
               Continue With Google
             </button>
           </div>
-          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80">
+          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <FaFacebook className="text-xl text-blue-600" />
             <button className="text-white font-semibold px-5">
               Continue With Facebook
             </button>
           </div>
-          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80">
+          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <FaApple className="text-xl text-white" />
             <button className="text-white font-semibold px-5">
               Continue With Apple
             </button>
           </div>
-          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80">
+          <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
            <Link to={'/login-number'}> <button  className="text-white font-semibold px-5">
               Continue With Mobile
             </button></Link>
@@ -130,7 +130,7 @@ const Login = () => {
             placeholder="Email or username"
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e.target.value })}
-            className="rounded-md text-white px-8 py-3 w-80 font-semibold border-solid border-2 border-[#727272] bg-[#121212]"
+            className="rounded-md text-white px-8 py-3 w-80 font-semibold border-solid border-2 border-[#727272] bg-[#121212] hover:border-white transition duration-300"
           />
         </div>
         <div>
@@ -145,7 +145,7 @@ const Login = () => {
               placeholder="Password"
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
-              className="rounded-md px-8 text-white py-3 w-full font-semibold border-solid border-2 border-[#727272] bg-[#121212]"
+              className="rounded-md px-8 text-white py-3 w-full font-semibold border-solid border-2 border-[#727272] bg-[#121212] hover:border-white transition duration-300"
             />
             <button
               onClick={passwordVisible}
@@ -156,15 +156,16 @@ const Login = () => {
           </div>
         </div>
         <div className="flex justify-center">
-          <button
-            onClick={handleSubmit}
-            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80"
-          >
-            Login
-          </button>
+        <button
+  onClick={handleSubmit}
+  className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 transform transition-transform duration-200 hover:scale-105"
+>
+  Login
+</button>
+
         </div>
         <div className="text-white font-semibold flex justify-center">
-          <Link to="/forget-password">Forgot Your Password?</Link>
+          <Link to="/forget-password" className="hover:underline">Forgot Your Password?</Link>
         </div>
         <div className="flex justify-center">
           <hr className="w-2/3 opacity-35" />
@@ -174,7 +175,7 @@ const Login = () => {
             Don't have an account?
           </span>
           <span className="font-bold text-white ml-0 md:ml-1 mt-1 md:mt-0 flex items-center text-sm md:text-base">
-            <Link to="/register"> Sign up for Spotify.</Link>
+            <Link to="/register" className="hover:underline"> Sign up for Spotify.</Link>
           </span>
         </div>
       </div>
