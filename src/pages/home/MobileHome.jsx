@@ -8,7 +8,7 @@ import { Axios } from "../mainPage/MainPage";
 import { FaCirclePlay } from "react-icons/fa6";
 import { IoMdCloseCircle } from "react-icons/io";
 import { MdOutlinePauseCircleFilled, MdHomeFilled } from "react-icons/md";
-import { FaSearch,FaSpotify  } from "react-icons/fa";
+import { FaSearch, FaSpotify } from "react-icons/fa";
 import { BiLibrary } from "react-icons/bi";
 
 const MobileHome = () => {
@@ -175,10 +175,18 @@ const MobileHome = () => {
       )}
       <footer className="bg-black w-full fixed bottom-0 left-0 text-white  p-3">
         <div className="text-white flex font-extralight text-2xl justify-around">
-          <span><MdHomeFilled /></span>
-          <span><FaSearch /></span>
-          <span><BiLibrary /></span>
-          <span><FaSpotify /></span>
+          <span>
+            <MdHomeFilled />
+          </span>
+          <span>
+            <FaSearch />
+          </span>
+          <span>
+            <BiLibrary />
+          </span>
+          <span>
+            <FaSpotify />
+          </span>
         </div>
       </footer>
     </div>

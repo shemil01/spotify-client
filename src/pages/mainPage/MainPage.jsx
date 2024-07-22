@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Login from "../login/Login";
@@ -15,7 +15,7 @@ import Ui from "../../components/user/Ui/Ui";
 import EditProfail from "../../components/user/account/EditProfail";
 import ProtectRoute from "../../components/Authentication/ProtectedRoute";
 import Home from "../home/Home";
-// import LoginProtect from "../../components/Authentication/LoginProtect";
+import LoginProtect from "../../components/Authentication/LoginProtect";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -26,6 +26,7 @@ const MainPage = () => {
   const [log, setLog] = useState(false);
   const [isOpen, onClose] = useState(false);
   const [songs, setSongs] = useState([]);
+
   const [signup, setSignup] = useState({
     email: "",
     password: "",
@@ -33,6 +34,9 @@ const MainPage = () => {
     dateOfBirth: { year: "", month: "", day: "" },
     gender: "",
   });
+  const audioRef = useRef();
+  const seekBg = useRef();
+  const seekBar = useRef();
 
   const details = {
     userData,
@@ -45,6 +49,9 @@ const MainPage = () => {
     onClose,
     songs,
     setSongs,
+    audioRef,
+    seekBar,
+    seekBg,
   };
 
   useEffect(() => {
@@ -73,8 +80,15 @@ const MainPage = () => {
             }
           />
           <Route path="/" element={<Ui />} />
-          <Route path="/login" element={<Login />} />
-          {/* <Route path="/register" element={<SignUp />} /> */}
+          <Route
+            path="/login"
+            element={
+              <LoginProtect>
+                <Login />
+              </LoginProtect>
+            }
+          />
+
           <Route path="/register" element={<Signup />} />
           <Route path="/forget-password" element={<PasswordResetRequest />} />
           <Route path="/reset-password/:token" element={<PasswordReset />} />

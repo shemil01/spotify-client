@@ -1,39 +1,28 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import NavBar from "../../components/nav/NavBar";
-import { MdArrowBackIos, MdArrowForwardIos ,MdOutlinePauseCircleFilled} from "react-icons/md";
+import {
+  MdArrowBackIos,
+  MdArrowForwardIos,
+  MdOutlinePauseCircleFilled,
+} from "react-icons/md";
 import { RiAccountCircleFill } from "react-icons/ri";
 import myContext from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Axios } from "../mainPage/MainPage";
 import { FaCirclePlay } from "react-icons/fa6";
-import { BiSkipNext ,BiSkipPrevious} from "react-icons/bi";
-import SeekBar from "./SeekBar";
+import Player from "../../components/Player";
 
 const DeskTopHome = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+
   const { userData, setUserData, setLog, songs, setSongs } =
     useContext(myContext);
   const navigate = useNavigate();
 
   const audioRefs = useRef([]);
-
-  const handleLoadedMetadata = () => {
-    setDuration(audioRefs.current.audioEl.current.duration);
-  };
-
-  const handleTimeUpdate = () => {
-    setCurrentTime(audioRefs.current.audioEl.current.currentTime);
-  };
-
-  const handleSeek = (seekTime) => {
-    audioRefs.current.audioEl.current.currentTime = seekTime;
-    setCurrentTime(seekTime);
-  }
 
   const playPause = (index) => {
     if (currentSong !== null && currentSong !== index) {
@@ -92,13 +81,19 @@ const DeskTopHome = () => {
       <div className="bg-[#121212] flex-1 h-[85%] rounded-md">
         <header className="flex items-center justify-between py-3 px-3">
           <div className="flex space-x-4">
-            <div className="bg-black rounded-full w-8 h-8 flex items-center justify-center">
-              <button className="text-[#a7a7a7] text-1xl">
+            <div className="bg-black rounded-full w-8 h-8 flex items-center justify-center  hover:scale-110 transition-transform duration-200">
+              <button
+                className="text-[#a7a7a7] text-1xl "
+                onClick={() => navigate(-1)}
+              >
                 <MdArrowBackIos />
               </button>
             </div>
-            <div className="bg-black rounded-full w-8 h-8 flex items-center justify-center">
-              <button className="text-[#a7a7a7] text-1xl">
+            <div className="bg-black rounded-full w-8 h-8 flex items-center justify-center  hover:scale-110 transition-transform duration-200">
+              <button
+                className="text-[#a7a7a7] text-1xl"
+                onClick={() => navigate(1)}
+              >
                 <MdArrowForwardIos />
               </button>
             </div>
@@ -197,22 +192,15 @@ const DeskTopHome = () => {
           </div>
         </div>
       )}
-      <footer className="bg-black w-full fixed bottom-0 left-0 text-white  p-3">
-        <div className="flex items-center flex-col"> 
-          <div className="flex  justify-around text-2xl">
-            <span>< BiSkipPrevious/></span>
-            <span>
-              <FaCirclePlay />
-            </span>
-            <span><BiSkipNext /></span>
-          </div>
-          <div>
-            <span><SeekBar    currentTime={currentTime}
-              duration={duration}
-              onSeek={handleSeek} /></span>
-          </div>
-        </div>
-      </footer>
+      <Player
+        currentSong={currentSong !== null ? songs[currentSong] : null}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        audioRef={currentSong !== null ? audioRefs.current[currentSong] : null}
+        playPause={playPause}
+        currentSongIndex={currentSong}
+        setCurrentSongIndex={setCurrentSong}
+      />
     </div>
   );
 };
