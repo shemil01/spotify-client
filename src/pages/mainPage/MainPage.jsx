@@ -15,7 +15,7 @@ import Ui from "../../components/user/Ui/Ui";
 import EditProfail from "../../components/user/account/EditProfail";
 import ProtectRoute from "../../components/Authentication/ProtectedRoute";
 import Home from "../home/Home";
-import LoginProtect from "../../components/Authentication/LoginProtect";
+
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -83,9 +83,9 @@ const MainPage = () => {
           <Route
             path="/login"
             element={
-              <LoginProtect>
+              
                 <Login />
-              </LoginProtect>
+             
             }
           />
 

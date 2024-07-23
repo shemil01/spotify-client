@@ -10,6 +10,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { MdOutlinePauseCircleFilled, MdHomeFilled } from "react-icons/md";
 import { FaSearch, FaSpotify } from "react-icons/fa";
 import { BiLibrary } from "react-icons/bi";
+import Player from "../../components/Player";
 
 const MobileHome = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -142,9 +143,20 @@ const MobileHome = () => {
                   />
                 </div>
               ))}
+            <Player
+        currentSong={currentSong !== null ? songs[currentSong] : null}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        audioRef={currentSong !== null ? audioRefs.current[currentSong] : null}
+        playPause={playPause}
+        currentSongIndex={currentSong}
+        setCurrentSongIndex={setCurrentSong}
+      />
             </div>
           </div>
+          
         </div>
+        
       </div>
 
       {isMenuOpen && (
@@ -173,6 +185,7 @@ const MobileHome = () => {
           </div>
         </div>
       )}
+
       <footer className="bg-black w-full fixed bottom-0 left-0 text-white  p-3">
         <div className="text-white flex font-extralight text-2xl justify-around">
           <span>
