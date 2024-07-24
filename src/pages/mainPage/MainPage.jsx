@@ -9,13 +9,13 @@ import { Toaster } from "react-hot-toast";
 import PasswordResetRequest from "../resetPassword/ResetRequest";
 import PasswordReset from "../resetPassword/PasswordReset";
 import Signup from "../signup/Signup";
-import LoginNumber from "../login/LoginNumber";
 import Profail from "../../components/user/account/Profail";
 import Ui from "../../components/user/Ui/Ui";
 import EditProfail from "../../components/user/account/EditProfail";
 import ProtectRoute from "../../components/Authentication/ProtectedRoute";
 import Home from "../home/Home";
-
+import SongById from "../Songs/SongById";
+import CreatePlaylist from "../playlist/CreatePlaylist";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -26,7 +26,7 @@ const MainPage = () => {
   const [log, setLog] = useState(false);
   const [isOpen, onClose] = useState(false);
   const [songs, setSongs] = useState([]);
-
+  const [playlist, setPlaylist] = useState([]);
   const [signup, setSignup] = useState({
     email: "",
     password: "",
@@ -52,6 +52,8 @@ const MainPage = () => {
     audioRef,
     seekBar,
     seekBg,
+    playlist,
+    setPlaylist,
   };
 
   useEffect(() => {
@@ -80,19 +82,11 @@ const MainPage = () => {
             }
           />
           <Route path="/" element={<Ui />} />
-          <Route
-            path="/login"
-            element={
-              
-                <Login />
-             
-            }
-          />
+          <Route path="/login" element={<Login />} />
 
           <Route path="/register" element={<Signup />} />
           <Route path="/forget-password" element={<PasswordResetRequest />} />
           <Route path="/reset-password/:token" element={<PasswordReset />} />
-          <Route path="/login-number" element={<LoginNumber />} />
           <Route
             path="/profail"
             element={
@@ -109,6 +103,8 @@ const MainPage = () => {
               </ProtectRoute>
             }
           />
+          <Route path="/song-by-id/:songId" element={<SongById/>} />
+          <Route path="/create-playlist/:songId" element={<CreatePlaylist/>} />
         </Routes>
       </myContext.Provider>
     </div>

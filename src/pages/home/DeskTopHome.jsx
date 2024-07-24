@@ -1,17 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import NavBar from "../../components/nav/NavBar";
-import {
-  MdArrowBackIos,
-  MdArrowForwardIos,
-  MdOutlinePauseCircleFilled,
-} from "react-icons/md";
-import { RiAccountCircleFill } from "react-icons/ri";
+import { MdOutlinePauseCircleFilled } from "react-icons/md";
+
 import myContext from "../../context/Context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Axios } from "../mainPage/MainPage";
 import { FaCirclePlay } from "react-icons/fa6";
 import Player from "../../components/Player";
+import Playlist from "../playlist/Playlist";
+import ToggleMenu from "../../components/ToggleMenu";
 
 const DeskTopHome = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,6 +52,7 @@ const DeskTopHome = () => {
     Axios.get("/view-songs")
       .then((response) => {
         setSongs(response.data.songs);
+        
       })
       .catch((error) => {
         console.log(error);
@@ -70,48 +69,17 @@ const DeskTopHome = () => {
     navigate("/");
   };
 
-  const onToggleMenu = (e) => {
-    setIsMenuOpen(!isMenuOpen);
-    e.name = e.name === "menu" ? "close" : "menu";
-  };
-
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
       <NavBar />
       <div className="bg-[#121212] flex-1 h-[85%] rounded-md">
-        <header className="flex items-center justify-between py-3 px-3">
-          <div className="flex space-x-4">
-            <div className="bg-black rounded-full w-8 h-8 flex items-center justify-center  hover:scale-110 transition-transform duration-200">
-              <button
-                className="text-[#a7a7a7] text-1xl "
-                onClick={() => navigate(-1)}
-              >
-                <MdArrowBackIos />
-              </button>
-            </div>
-            <div className="bg-black rounded-full w-8 h-8 flex items-center justify-center  hover:scale-110 transition-transform duration-200">
-              <button
-                className="text-[#a7a7a7] text-1xl"
-                onClick={() => navigate(1)}
-              >
-                <MdArrowForwardIos />
-              </button>
-            </div>
-          </div>
-          <div>
-            <button className="text-white text-3xl" onClick={onToggleMenu}>
-              {userData.profilePicture ? (
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src={userData.profilePicture}
-                  alt=""
-                />
-              ) : (
-                <RiAccountCircleFill className="text-3xl" />
-              )}
-            </button>
-          </div>
-        </header>
+        <ToggleMenu
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+          navigate={navigate}
+          userData={userData}
+          Logout={Logout}
+        />
         <div className="flex ">
           <div className="flex flex-wrap space-x-7 py-3 px-4">
             <div className="bg-white rounded-full w-10 h-8 flex items-center justify-center">
@@ -127,11 +95,12 @@ const DeskTopHome = () => {
         </div>
         {/* list songs */}
         <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
+          <Playlist />
           <div className="m-5">
             <div>
               <p className="text-white font-bold text-2xl">Popular Songs</p>
             </div>
-            <div className=" grid grid-cols-4  gap-1">
+            <div className=" grid grid-cols-5  gap-1">
               {songs.map((songData, index) => (
                 <div
                   key={index}
@@ -154,9 +123,9 @@ const DeskTopHome = () => {
                       )}
                     </button>
                   </div>
-                  <p className="mt-2 text-white text-center font-semibold">
+                  <Link to={`/song-by-id/${songData._id}`}><p className="mt-2 text-white text-center font-semibold hover:underline">
                     {songData.name}
-                  </p>
+                  </p></Link>
                   <p className="text-gray-400 text-center text-sm">
                     {songData.artist}
                   </p>

@@ -4,8 +4,15 @@ import { GrSearch } from "react-icons/gr";
 import { BiLibrary } from "react-icons/bi";
 import { FaPlus, FaArrowRight } from "react-icons/fa";
 import { FaListUl } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { Axios } from "../../pages/mainPage/MainPage";
 
 const NavBar = () => {
+const navigate = useNavigate()
+const viewPlaylists = async()=>{
+await Axios.get('')
+}
+
   return (
     <div className="bg-black min-h-screen w-full md:w-[30%] flex px-2 py-2 flex-col space-y-2">
       <div className="bg-[#121212] w-full h-28 px-7 rounded-md py-5">
