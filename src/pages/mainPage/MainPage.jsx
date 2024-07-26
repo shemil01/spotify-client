@@ -16,6 +16,7 @@ import ProtectRoute from "../../components/Authentication/ProtectedRoute";
 import Home from "../home/Home";
 import SongById from "../Songs/SongById";
 import CreatePlaylist from "../playlist/CreatePlaylist";
+import PlaylistById from "../playlist/PlaylistById";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -27,12 +28,17 @@ const MainPage = () => {
   const [isOpen, onClose] = useState(false);
   const [songs, setSongs] = useState([]);
   const [playlist, setPlaylist] = useState([]);
+  const [isPlaylist, setIsPlaylist] = useState(false);
   const [signup, setSignup] = useState({
     email: "",
     password: "",
     username: "",
     dateOfBirth: { year: "", month: "", day: "" },
     gender: "",
+  });
+  const [addPlaylist, setAddPlaylist] = useState({
+    coverImage: null,
+    title: "",
   });
   const audioRef = useRef();
   const seekBg = useRef();
@@ -54,6 +60,10 @@ const MainPage = () => {
     seekBg,
     playlist,
     setPlaylist,
+    addPlaylist,
+    setAddPlaylist,
+    isPlaylist,
+    setIsPlaylist,
   };
 
   useEffect(() => {
@@ -103,8 +113,9 @@ const MainPage = () => {
               </ProtectRoute>
             }
           />
-          <Route path="/song-by-id/:songId" element={<SongById/>} />
-          <Route path="/create-playlist/:songId" element={<CreatePlaylist/>} />
+          <Route path="/song-by-id/:songId" element={<SongById />} />
+          <Route path="/create-playlist/:songId" element={<CreatePlaylist />} />
+          <Route path="/playlist-by-id/:playlistId" element={<PlaylistById />}/>
         </Routes>
       </myContext.Provider>
     </div>

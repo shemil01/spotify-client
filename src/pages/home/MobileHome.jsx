@@ -103,7 +103,7 @@ const MobileHome = () => {
         </div>
 
         {/* list songs */}
-        <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
+        <div className="w-full bg-[#161515] h-[100%] overflow-y-auto no-scrollbar">
           <div className="m-5">
             <div>
               <p className="text-white font-bold text-2xl">Popular Songs</p>

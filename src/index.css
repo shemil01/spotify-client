@@ -10,5 +10,24 @@
     .no-scrollbar {
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
+
+        
   }
+
+  .song-row {
+    position: relative;
+  }
+  
+  .song-row:hover .song-index {
+    display: none;
+  }
+  
+  .song-row:hover .song-play-button {
+    display: block;
+  }
+  
+  .song-row:hover .song-more-icon {
+    display: block;
+  }
+  
 }

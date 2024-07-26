@@ -29,8 +29,6 @@ const SongById = () => {
     setUserData("");
     navigate("/");
   };
-   
-
 
   // Play/pause function
   const playPause = () => {
@@ -53,7 +51,7 @@ const SongById = () => {
       });
   }, [songId]);
 
-  const onToggleMenu = (e) => {
+  const onToggSongleMenu = (e) => {
     setIsMenuOpen(!isMenuOpen);
     e.name = e.name === "menu" ? "close" : "menu";
   };
@@ -76,7 +74,7 @@ const SongById = () => {
           Logout={Logout}
         />
         <div className="w-full h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
-          <div className="mt-10 flex gap-2 flex-col md:flex-row md:items-end sm:items-center">
+          <div className="mt-10 flex gap-2 flex-col md:flex-row md:items-end ">
             <img
               src={song?.coverImage}
               alt=""
@@ -84,7 +82,9 @@ const SongById = () => {
             />
             <div className="flex flex-col gap-y-5 text-white">
               <p>song</p>
-              <h1 className="font-extrabold text-6xl">{song?.name}</h1>
+              <h1 className="font-extrabold text-6xl capitalize">
+                {song?.name}
+              </h1>
               <p className="hover:underline">artist</p>
               <audio ref={audioRef} src={song?.fileUrl} />
             </div>
@@ -97,7 +97,7 @@ const SongById = () => {
               <span className="text-white text-4xl">
                 <IoIosAddCircleOutline />
               </span>
-              <span className="text-white text-4xl" onClick={onToggleMenu}>
+              <span className="text-white text-4xl" onClick={onToggSongleMenu}>
                 <IoIosMore />
               </span>
             </div>
@@ -105,33 +105,40 @@ const SongById = () => {
         </div>
       </div>
       <div className="w-48  h-36  absolute flex flex-wrap justify-between">
-      {isMenuOpen && (
-        <div className="bg-[#292828] rounded-md ">
-          <div className="h-full">
-            <ul className="text-white font-semibold  text-sm px-2 flex flex-col  h-full">
-              <li className="hover:bg-[#383838] p-2">Add to Your Library</li>
-              <li className="hover:bg-[#383838] p-2" onClick={onToggleSubMenu}>Add to Playlist</li>
-              <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
-              <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
-            </ul>
+        {isMenuOpen && (
+          <div className="bg-[#292828] rounded-md ">
+            <div className="h-full">
+              <ul className="text-white font-semibold  text-sm px-2 flex flex-col  h-full">
+                <li className="hover:bg-[#383838] p-2">Add to Your Library</li>
+                <li
+                  className="hover:bg-[#383838] p-2"
+                  onClick={onToggleSubMenu}
+                >
+                  Add to Playlist
+                </li>
+                <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
+                <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
+              </ul>
+            </div>
           </div>
-        </div>
-      )}
-      {isSubMenuOpen && (
-        <div className="w-48 bg-[#292828] h-36 rounded-md ">
-        <div className="h-full">
-          <ul className="text-white font-semibold  text-sm px-2 flex flex-col  h-full">
-            <li className="hover:bg-[#383838] p-2">Add to Your Library</li>
-            <Link to={`/create-palaylist/${song?._id}`}><li className="hover:bg-[#383838] p-2" >Add to Playlist</li></Link>
-            <input  type="text" />
-            <input type="text" />
-            <input type="text" />
-            <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
-            <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
-          </ul>
-        </div>
-      </div>
-      )}
+        )}
+        {isSubMenuOpen && (
+          <div className="w-48 bg-[#292828] h-36 rounded-md ">
+            <div className="h-full">
+              <ul className="text-white font-semibold  text-sm px-2 flex flex-col  h-full">
+                <li className="hover:bg-[#383838] p-2">Add to Your Library</li>
+                <Link to={`/create-playlist/${songId}`}>
+                  <li className="hover:bg-[#383838] p-2">
+                    Create new Playlist
+                  </li>
+                </Link>
+
+                <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
+                <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -16,8 +16,9 @@ const DeskTopHome = () => {
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const { userData, setUserData, setLog, songs, setSongs } =
+  const { userData, setUserData, setLog, songs, setSongs ,addPlaylist} =
     useContext(myContext);
+    // console.log("userdt",userData)
   const navigate = useNavigate();
 
   const audioRefs = useRef([]);
@@ -95,7 +96,7 @@ const DeskTopHome = () => {
         </div>
         {/* list songs */}
         <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
-          <Playlist />
+          {addPlaylist && <Playlist />}
           <div className="m-5">
             <div>
               <p className="text-white font-bold text-2xl">Popular Songs</p>
