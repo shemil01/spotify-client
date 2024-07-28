@@ -1,44 +1,67 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Axios } from "../mainPage/MainPage";
 import NavBar from "../../components/nav/NavBar";
 import { FaCirclePlay } from "react-icons/fa6";
 import { IoIosAddCircleOutline, IoIosMore } from "react-icons/io";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
-// import ToggleMenu from "../../components/ToggleMenu";
+import PlaylistSongs from "../../components/PlaylistSongs/PlaylistSong";
+import myContext from "../../context/Context";
+import toast from "react-hot-toast";
+import { CiEdit } from "react-icons/ci";
+import { MdDelete, MdOutlineIosShare } from "react-icons/md";
+import { IoIosRemoveCircle } from "react-icons/io";
 
 const PlaylistById = () => {
+  const navigate = useNavigate();
   const { playlistId } = useParams();
-  const [playlist, setPlaylist] = useState([]);
+  const { playlist, setPlaylist } = useContext(myContext);
+
   const [isPlaying, setIsPlaying] = useState(false);
+  const [playlistMenu, setPlaylistMenu] = useState(false);
+  const playRef = useRef();
 
-const playRef = useRef()
+  const playlistToggle = (e) => {
+    setPlaylistMenu(!playlistMenu);
+    e.currentTarget.name = playlistMenu ? "menu" : "close";
+  };
 
-const playPause = ()=>{
-  if(isPlaying){
-    playRef.current.pause()
-  }else{
-    playRef.current.play()
-  }
-  setIsPlaying(!isPlaying)
-}
-
-
-  const mobileView = useMediaQuery({ query: "(max-width: 1000px)" });
+  const playPause = () => {
+    if (isPlaying) {
+      playRef.current.pause();
+    } else {
+      playRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   useEffect(() => {
-    Axios.get(`playlist-by-id/${playlistId}`, {
-      withCredentials: true,
-    })
+    Axios.get(`playlist-by-id/${playlistId}`, { withCredentials: true })
       .then((response) => {
-        console.log(response.data);
         setPlaylist(response.data.playlists);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [playlistId]);
+
+ 
+  const deletePlaylist = async () => {
+    await Axios.delete(`/delete-playlist/${playlistId}`,{
+      withCredentials:true
+    })
+      .then((response) => {
+        console.log(response.data);
+        toast.success(response.data.message);
+        navigate("/home");
+      })
+      .catch((error) => {
+        console.error("Error deleting playlist:", error);
+        toast.error("Failed to delete playlist. Please try again.");
+      });
+  };
+  const mobileView = useMediaQuery({ query: "(max-width: 1000px)" });
 
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
@@ -60,17 +83,56 @@ const playPause = ()=>{
               </h1>
             </div>
           </div>
-          <div className="flex justify-between">
-            <div className="flex flex-wrap md:gap-10 gap-16 md:m-3 m-5">
-              <span onClick={playPause} className="text-green-500 md:text-5xl text-4xl">
-                {isPlaying?<MdOutlinePauseCircleFilled/> :<FaCirclePlay />}
+          <div className="flex justify-between ">
+            <div className="flex flex-wrap md:gap-10 gap-16 md:m-3 m-5 relative ">
+              <span
+                onClick={playPause}
+                className="text-green-500 md:text-5xl text-4xl"
+              >
+                {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />}
               </span>
               <span className="text-white text-4xl">
                 <IoIosAddCircleOutline />
               </span>
               <span className="text-white text-4xl">
-                <IoIosMore />
+                <IoIosMore onClick={playlistToggle} />
               </span>
+              {playlistMenu && (
+                <div className="w-48 bg-[#292828] h-auto rounded-md  md:absolute top-5 right-[-190px] z-10">
+                  <div className="mx-2">
+                    <Link className="flex  justify-between py-3 hover:bg-[#383838] rounded-md">
+                      <div className="flex justify-between ">
+                        <CiEdit className="mr-3 text-[#a7a7a7] mt-1" />
+                        <span className="text-white "> Edit Details</span>
+                      </div>
+                    </Link>
+                    <Link className="flex  justify-between py-3 hover:bg-[#383838] rounded-md">
+                      <div className="flex justify-between ">
+                        <MdDelete className="mr-3 text-[#a7a7a7] mt-1" />
+                        <span className="text-white " onClick={deletePlaylist}>
+                          {" "}
+                          Delete
+                        </span>
+                      </div>
+                    </Link>
+                    <Link className="flex  justify-between py-3 hover:bg-[#383838] rounded-md">
+                      <div className="flex justify-between ">
+                        <IoIosRemoveCircle className="mr-3 text-[#a7a7a7] mt-1" />
+                        <span className="text-white ">
+                          {" "}
+                          Remove From Profail
+                        </span>
+                      </div>
+                    </Link>
+                    <Link className="flex  justify-between py-3 hover:bg-[#383838] rounded-md">
+                      <div className="flex justify-between ">
+                        <MdOutlineIosShare className="mr-3 text-[#a7a7a7] mt-1" />
+                        <span className="text-white "> Share</span>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           {!mobileView && (
@@ -79,34 +141,16 @@ const playPause = ()=>{
                 <b className="mr4">#</b>Title
               </p>
               <p>Album</p>
-              {/* <p className="hidden sm:block">Date Added</p> */}
             </div>
           )}
         </div>
         <hr className="opacity-35" />
-        {playlist?.songs?.map((songData, index) => (
-          <div
-            key={index}
-            className="items-center cursor-pointer mt-5 song-row"
-          >
-            <div className="grid grid-cols-4">
-              <div className="flex w-full justify-between">
-                <p className="text-white mx-3 song-index mt-3">
-                  <b>{index + 1}</b>
-                </p>
-                <button onClick={playPause}>{isPlaying?<MdOutlinePauseCircleFilled  className="text-green-500 mx-3 text-3xl mt-3 song-play-button hidden"/> :<FaCirclePlay className="text-green-500 mx-3 text-3xl mt-3 song-play-button hidden" />}</button>
-               
-                <img src={songData.coverImage} alt="" className="w-10" />
-                <p className="text-white mx-3">{songData.name}</p>
-              </div>
-              <div className="flex w-full mx-5">
-                {!mobileView && <p className="text-white">{playlist?.title}</p>}
-                <audio ref={playRef} src={songData?.fileUrl}></audio>
-              </div>
-              <IoIosMore className="text-white song-more-icon hidden mt-3" />
-            </div>
-          </div>
-        ))}
+        <PlaylistSongs
+          playlist={playlist}
+          isPlaying={isPlaying}
+          playPause={playPause}
+          playRef={playRef}
+        />
       </div>
     </div>
   );

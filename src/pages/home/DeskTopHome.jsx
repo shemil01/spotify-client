@@ -9,16 +9,16 @@ import { Axios } from "../mainPage/MainPage";
 import { FaCirclePlay } from "react-icons/fa6";
 import Player from "../../components/Player";
 import Playlist from "../playlist/Playlist";
-import ToggleMenu from "../../components/ToggleMenu";
+import ToggleMenu from "../../components/Toggle/ToggleMenu";
 
 const DeskTopHome = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const { userData, setUserData, setLog, songs, setSongs ,addPlaylist} =
+  const { userData, setUserData, setLog, songs, setSongs, playlist } =
     useContext(myContext);
-    // console.log("userdt",userData)
+
   const navigate = useNavigate();
 
   const audioRefs = useRef([]);
@@ -53,7 +53,6 @@ const DeskTopHome = () => {
     Axios.get("/view-songs")
       .then((response) => {
         setSongs(response.data.songs);
-        
       })
       .catch((error) => {
         console.log(error);
@@ -87,7 +86,7 @@ const DeskTopHome = () => {
               <span className="text-black ">All</span>
             </div>
             <div className="bg-[#292828] h-8 w-16 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold">Music</span>
+              <span className="text-white font-semibold" onClick={()=>navigate('/music')}>Music</span>
             </div>
             <div className="bg-[#292828] h-8 w-20 rounded-full flex items-center justify-center">
               <span className="text-white font-semibold">Podcast</span>
@@ -96,7 +95,8 @@ const DeskTopHome = () => {
         </div>
         {/* list songs */}
         <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
-          {addPlaylist && <Playlist />}
+          {playlist && <Playlist />}
+
           <div className="m-5">
             <div>
               <p className="text-white font-bold text-2xl">Popular Songs</p>
@@ -124,9 +124,11 @@ const DeskTopHome = () => {
                       )}
                     </button>
                   </div>
-                  <Link to={`/song-by-id/${songData._id}`}><p className="mt-2 text-white text-center font-semibold hover:underline">
-                    {songData.name}
-                  </p></Link>
+                  <Link to={`/song-by-id/${songData._id}`}>
+                    <p className="mt-2 text-white text-center font-semibold hover:underline">
+                      {songData.name}
+                    </p>
+                  </Link>
                   <p className="text-gray-400 text-center text-sm">
                     {songData.artist}
                   </p>

@@ -17,6 +17,7 @@ import Home from "../home/Home";
 import SongById from "../Songs/SongById";
 import CreatePlaylist from "../playlist/CreatePlaylist";
 import PlaylistById from "../playlist/PlaylistById";
+import Music from "../Songs/Music";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -116,6 +117,7 @@ const MainPage = () => {
           <Route path="/song-by-id/:songId" element={<SongById />} />
           <Route path="/create-playlist/:songId" element={<CreatePlaylist />} />
           <Route path="/playlist-by-id/:playlistId" element={<PlaylistById />}/>
+          <Route path="/music" element={<Music />} />
         </Routes>
       </myContext.Provider>
     </div>

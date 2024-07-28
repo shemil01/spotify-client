@@ -1,17 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useContext} from "react";
 import { useMediaQuery } from "react-responsive";
 import NavBar from "../../components/nav/NavBar";
 import { IoIosMore } from "react-icons/io";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Axios } from "../mainPage/MainPage";
 import toast from "react-hot-toast";
 import myContext from "../../context/Context";
 
 const CreatePlaylist = () => {
-  const { addPlaylist, setAddPlaylist } = useContext(myContext);
+  const { addPlaylist, setAddPlaylist ,setPlaylist,setIsPlaylist} = useContext(myContext);
   const { songId } = useParams();
   const mobileView = useMediaQuery({ query: "(max-width: 1000px)" });
-
+const navigate = useNavigate()
   // Function to get default image
   const getDefaultImage = () => {
     return "https://via.placeholder.com/150";
@@ -33,6 +33,9 @@ const CreatePlaylist = () => {
       );
       // console.log(response.data);
       toast.success(response.data.message);
+      navigate('/home')
+      setPlaylist(addPlaylist)
+      setIsPlaylist(true)
     } catch (error) {
       console.log(error);
     }

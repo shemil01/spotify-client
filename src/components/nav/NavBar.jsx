@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { GoHomeFill } from "react-icons/go";
 import { GrSearch } from "react-icons/gr";
 import { BiLibrary } from "react-icons/bi";
 import { FaPlus, FaArrowRight } from "react-icons/fa";
 import { FaListUl } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { Axios } from "../../pages/mainPage/MainPage";
+import myContext from "../../context/Context";
+// import { Axios } from "../../pages/mainPage/MainPage";
 
 const NavBar = () => {
 const navigate = useNavigate()
-const viewPlaylists = async()=>{
-await Axios.get('')
-}
+// const {playlist} = useContext(myContext)
+
 
   return (
     <div className="bg-black min-h-screen w-full md:w-[30%] flex px-2 py-2 flex-col space-y-2">
@@ -20,7 +20,7 @@ await Axios.get('')
           <div className="text-white text-3xl">
             <GoHomeFill />
           </div>
-          <span className="text-white font-bold">Home</span>
+          <span className="text-white font-bold" onClick={()=>navigate('/home')}>Home</span>
         </div>
 
         <div className="py-4 flex items-center space-x-5 hover:text-white group">
@@ -63,6 +63,18 @@ await Axios.get('')
             <FaListUl />
           </button>
         </div>
+        {/* <div className="flex w-full flex-col mt-2">
+             {playlist?.map((item)=>(
+               
+             <div className="">
+              
+               <img src={item.coverImage} alt="" className="w-10" />
+               <p className="text-white mx-3">{item.title}</p>
+             </div>
+
+             ))}
+             
+            </div> */}
       </div>
     </div>
   );

@@ -3,13 +3,15 @@ import myContext from "../../context/Context";
 import { BiSolidShow, BiSolidHide } from "react-icons/bi";
 import { AiFillSpotify } from "react-icons/ai";
 import { GrPrevious } from "react-icons/gr";
+import { useNavigate } from "react-router-dom";
 
 const PasswordStep = ({ onNext }) => {
   const [showPassword, setShowPassword] = useState(false);
   const { signup, setSignup } = useContext(myContext);
   const [formError, setFormError] = useState({});
-
+const navigate = useNavigate()
   const handlePasswordChange = (e) => {
+    
     setSignup({ ...signup, password: e.target.value });
   };
 
@@ -44,7 +46,7 @@ const PasswordStep = ({ onNext }) => {
       <div className="flex flex-col w-80 md:w-80 mx-auto space-y-4">
       <div className="flex space-x-3">
           <button className="text-[#a7a7a7] text-2xl hover:text-white transition duration-300">
-            <GrPrevious />
+            <GrPrevious onClick={()=>navigate(-1)} />
           </button>
           <div className="flex flex-col">
             <span className="text-[#a7a7a7]">Step 1 of 2</span>

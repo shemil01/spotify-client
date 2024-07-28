@@ -39,7 +39,7 @@ const Player = ({
         audioRef.removeEventListener("loadedmetadata", updateDuration);
       };
     }
-  }, [audioRef]);
+  }, []);
 
   const checWkidth = (e) => {
     let width = clickRef.current.clientWidth;

@@ -3,10 +3,11 @@ import myContext from "../../context/Context";
 import { GrPrevious } from "react-icons/gr";
 import { AiFillSpotify } from "react-icons/ai";
 import "./Signup.css";
+import { useNavigate } from "react-router-dom";
 
 const DateOfBirthStep = ({ onFinish }) => {
   const { signup, setSignup } = useContext(myContext);
-
+const navigate = useNavigate()
   const handleDateChange = (e) => {
     const { name, value } = e.target;
     setSignup((prev) => ({
@@ -27,7 +28,7 @@ const DateOfBirthStep = ({ onFinish }) => {
       <div className="flex flex-col w-80 md:w-80 mx-auto space-y-4">
         <div className="flex space-x-3">
           <button className="text-[#a7a7a7] text-2xl hover:text-white transition duration-300">
-            <GrPrevious />
+            <GrPrevious onClick={()=>navigate(-1)} />
           </button>
           <div className="flex flex-col">
             <span className="text-[#a7a7a7]">Step 2 of 2</span>

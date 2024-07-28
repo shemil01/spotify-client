@@ -1,25 +1,32 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import NavBar from "../../components/nav/NavBar";
-import ToggleMenu from "../../components/ToggleMenu";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import myContext from "../../context/Context";
 import Cookies from "js-cookie";
 import { Axios } from "../mainPage/MainPage";
 import { FaCirclePlay } from "react-icons/fa6";
 import { IoIosAddCircleOutline, IoIosMore } from "react-icons/io";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
+// import Menu from "../../components/Toggle/Menu";
+// import SubMenu from "../../components/ToggleMenu/SubMenu"
+
+import Menu from "../../components/Toggle/Menu";
+import SubMenu from "../../components/Toggle/SubMenu";
+import ToggleMenu from "../../components/Toggle/ToggleMenu";
 
 const SongById = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { userData, setUserData, setLog } = useContext(myContext);
+  const { userData, setUserData, setLog} = useContext(myContext);
   const { songId } = useParams();
   const [isPlaying, setIsPlaying] = useState(false);
   const [song, setSong] = useState(null);
   const audioRef = useRef(null);
 
+
+  
   // Logout function
   const Logout = () => {
     Cookies.remove("token");
@@ -51,7 +58,7 @@ const SongById = () => {
       });
   }, [songId]);
 
-  const onToggSongleMenu = (e) => {
+  const onToggleMenu = (e) => {
     setIsMenuOpen(!isMenuOpen);
     e.name = e.name === "menu" ? "close" : "menu";
   };
@@ -62,6 +69,7 @@ const SongById = () => {
 
   const mobileView = useMediaQuery({ query: "(max-width: 1000px)" });
 
+  
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
       {!mobileView && <NavBar />}
@@ -81,11 +89,11 @@ const SongById = () => {
               className="w-48 rounded m-2 flex"
             />
             <div className="flex flex-col gap-y-5 text-white">
-              <p>song</p>
+              <p>Song</p>
               <h1 className="font-extrabold text-6xl capitalize">
                 {song?.name}
               </h1>
-              <p className="hover:underline">artist</p>
+              <p className="hover:underline">Artist</p>
               <audio ref={audioRef} src={song?.fileUrl} />
             </div>
           </div>
@@ -97,49 +105,16 @@ const SongById = () => {
               <span className="text-white text-4xl">
                 <IoIosAddCircleOutline />
               </span>
-              <span className="text-white text-4xl" onClick={onToggSongleMenu}>
+              <span className="text-white text-4xl" onClick={onToggleMenu}>
                 <IoIosMore />
               </span>
+              <Menu isMenuOpen={isMenuOpen} onToggleSubMenu={onToggleSubMenu} />
+            <SubMenu isSubMenuOpen={isSubMenuOpen} songId={songId} />
             </div>
           </div>
         </div>
       </div>
-      <div className="w-48  h-36  absolute flex flex-wrap justify-between">
-        {isMenuOpen && (
-          <div className="bg-[#292828] rounded-md ">
-            <div className="h-full">
-              <ul className="text-white font-semibold  text-sm px-2 flex flex-col  h-full">
-                <li className="hover:bg-[#383838] p-2">Add to Your Library</li>
-                <li
-                  className="hover:bg-[#383838] p-2"
-                  onClick={onToggleSubMenu}
-                >
-                  Add to Playlist
-                </li>
-                <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
-                <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
-              </ul>
-            </div>
-          </div>
-        )}
-        {isSubMenuOpen && (
-          <div className="w-48 bg-[#292828] h-36 rounded-md ">
-            <div className="h-full">
-              <ul className="text-white font-semibold  text-sm px-2 flex flex-col  h-full">
-                <li className="hover:bg-[#383838] p-2">Add to Your Library</li>
-                <Link to={`/create-playlist/${songId}`}>
-                  <li className="hover:bg-[#383838] p-2">
-                    Create new Playlist
-                  </li>
-                </Link>
-
-                <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
-                <li className="hover:bg-[#383838] p-2">Add to Playlist</li>
-              </ul>
-            </div>
-          </div>
-        )}
-      </div>
+      
     </div>
   );
 };

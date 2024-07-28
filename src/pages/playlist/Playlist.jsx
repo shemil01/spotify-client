@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Axios } from "../mainPage/MainPage";
 import { Link } from "react-router-dom";
+import myContext from "../../context/Context";
 
 const Playlist = () => {
-  const [playlist, setPlaylist] = useState([]);
-  const [isPlaylist, setIsPlaylist] = useState(false);
+  const { playlist, setPlaylist, isPlaylist, setIsPlaylist } =
+    useContext(myContext);
 
   useEffect(() => {
     Axios.get("/view-playlist", {
