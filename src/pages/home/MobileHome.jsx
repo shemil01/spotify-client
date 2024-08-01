@@ -10,7 +10,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { MdOutlinePauseCircleFilled, MdHomeFilled } from "react-icons/md";
 import { FaSearch, FaSpotify } from "react-icons/fa";
 import { BiLibrary } from "react-icons/bi";
-import Player from "../../components/Player";
+import MobilePlayer from "../../components/player/Mobile";
 
 const MobileHome = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,7 +74,7 @@ const MobileHome = () => {
   };
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
-      <div className="bg-[#121212] flex-1 h-[85%] rounded-md">
+      <div className="bg-[#121212] flex-1 rounded-md">
         <div className="flex flex-wrap space-x-7 py-3 px-4 justify-between -z-20">
           <div className=" flex flex-wrap space-x-2">
             <div className="bg-white rounded-full w-10 h-8 flex items-center justify-center">
@@ -103,7 +103,7 @@ const MobileHome = () => {
         </div>
 
         {/* list songs */}
-        <div className="w-full bg-[#161515] h-[100%] overflow-y-auto no-scrollbar">
+        <div className="w-full bg-[#161515]  h-[calc(96%-6rem)]  overflow-y-auto no-scrollbar">
           <div className="m-5">
             <div>
               <p className="text-white font-bold text-2xl">Popular Songs</p>
@@ -122,7 +122,7 @@ const MobileHome = () => {
                     />
                     <button
                       onClick={() => playPause(index)}
-                      className="absolute right-2 bottom-2 text-green-600 bg-black rounded-full text-3xl  transform transition-transform transition-opacity duration-400 ease-in-out "
+                      className="absolute right-2 bottom-2 text-green-600 bg-black rounded-full text-3xl "
                     >
                       {isPlaying && currentSong === index ? (
                         <MdOutlinePauseCircleFilled />
@@ -143,20 +143,9 @@ const MobileHome = () => {
                   />
                 </div>
               ))}
-            <Player
-        currentSong={currentSong !== null ? songs[currentSong] : null}
-        isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
-        audioRef={currentSong !== null ? audioRefs.current[currentSong] : null}
-        playPause={playPause}
-        currentSongIndex={currentSong}
-        setCurrentSongIndex={setCurrentSong}
-      />
             </div>
           </div>
-          
         </div>
-        
       </div>
 
       {isMenuOpen && (
@@ -185,7 +174,15 @@ const MobileHome = () => {
           </div>
         </div>
       )}
-
+ <MobilePlayer
+        currentSong={currentSong !== null ? songs[currentSong] : null}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        audioRef={currentSong !== null ? audioRefs.current[currentSong] : null}
+        playPause={playPause}
+        currentSongIndex={currentSong}
+        setCurrentSongIndex={setCurrentSong}
+      />
       <footer className="bg-black w-full fixed bottom-0 left-0 text-white  p-3">
         <div className="text-white flex font-extralight text-2xl justify-around">
           <span>

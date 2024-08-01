@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import NavBar from "../../components/nav/NavBar";
+import NavBar from "../../components/nav/SideBar";
 import {  useNavigate, useParams } from "react-router-dom";
 import myContext from "../../context/Context";
 import Cookies from "js-cookie";
@@ -8,9 +8,6 @@ import { Axios } from "../mainPage/MainPage";
 import { FaCirclePlay } from "react-icons/fa6";
 import { IoIosAddCircleOutline, IoIosMore } from "react-icons/io";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
-// import Menu from "../../components/Toggle/Menu";
-// import SubMenu from "../../components/ToggleMenu/SubMenu"
-
 import Menu from "../../components/Toggle/Menu";
 import SubMenu from "../../components/Toggle/SubMenu";
 import ToggleMenu from "../../components/Toggle/ToggleMenu";

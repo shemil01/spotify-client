@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import NavBar from "../../components/nav/NavBar";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
-
 import myContext from "../../context/Context";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Axios } from "../mainPage/MainPage";
 import { FaCirclePlay } from "react-icons/fa6";
-import Player from "../../components/Player";
+
 import Playlist from "../playlist/Playlist";
 import ToggleMenu from "../../components/Toggle/ToggleMenu";
+import SideBar from "../../components/nav/SideBar";
+import DesktopPlayer from "../../components/player/Desktop";
+import Footer from "../../components/footer/Footer";
 
 const DeskTopHome = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,7 +21,6 @@ const DeskTopHome = () => {
     useContext(myContext);
 
   const navigate = useNavigate();
-
   const audioRefs = useRef([]);
 
   const playPause = (index) => {
@@ -59,7 +59,6 @@ const DeskTopHome = () => {
       });
   }, []);
 
-  //logout
   const Logout = () => {
     Cookies.remove("token");
     setLog(false);
@@ -71,7 +70,7 @@ const DeskTopHome = () => {
 
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
-      <NavBar />
+      <SideBar />
       <div className="bg-[#121212] flex-1 h-[85%] rounded-md">
         <ToggleMenu
           isMenuOpen={isMenuOpen}
@@ -80,32 +79,34 @@ const DeskTopHome = () => {
           userData={userData}
           Logout={Logout}
         />
-        <div className="flex ">
+        <nav className="flex ">
           <div className="flex flex-wrap space-x-7 py-3 px-4">
-            <div className="bg-white rounded-full w-10 h-8 flex items-center justify-center">
-              <span className="text-black ">All</span>
+            <div className="bg-white rounded-full w-10 h-8 flex items-center justify-center ">
+              <button onClick={() => console.log("first")} className="text-black cursor-pointer">All</button>
             </div>
             <div className="bg-[#292828] h-8 w-16 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold" onClick={()=>navigate('/music')}>Music</span>
+              <button className="text-white font-semibold" onClick={() => navigate('/music')}>Music</button>
             </div>
             <div className="bg-[#292828] h-8 w-20 rounded-full flex items-center justify-center">
               <span className="text-white font-semibold">Podcast</span>
             </div>
           </div>
-        </div>
+        </nav>
         {/* list songs */}
         <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
-          {playlist && <Playlist />}
+          <div>
 
+          </div>
+          {playlist && <Playlist />}
           <div className="m-5">
             <div>
               <p className="text-white font-bold text-2xl">Popular Songs</p>
             </div>
-            <div className=" grid grid-cols-5  gap-1">
+            <div className="grid grid-cols-5 gap-1">
               {songs.map((songData, index) => (
                 <div
                   key={index}
-                  className="group relative  items-center  bg-[#161515] p-4 w-48 rounded-lg transition-all duration-300 hover:bg-[#2b2929]"
+                  className="group relative items-center bg-[#161515] p-4 w-48 rounded-lg transition-all duration-300 hover:bg-[#2b2929]"
                 >
                   <div className="relative w-full">
                     <img
@@ -139,32 +140,26 @@ const DeskTopHome = () => {
                 </div>
               ))}
             </div>
+        <Footer />
           </div>
         </div>
       </div>
-
       {isMenuOpen && (
         <div className="w-48 bg-[#292828] h-64 rounded-md absolute top-14 right-4">
           <div className="h-full">
-            <ul className="text-white font-semibold  px-2 flex flex-col justify-evenly h-full">
-              <li
-                onClick={() => navigate("/profail")}
-                className="hover:bg-[#383838] p-2"
-              >
-                account
-              </li>
+            <ul className="text-white font-semibold px-2 flex flex-col justify-evenly h-full">
+              <li onClick={() => navigate("/profail")} className="hover:bg-[#383838] p-2">account</li>
               <li className="hover:bg-[#383838] p-2">Upgrade To Premium</li>
               <li className="hover:bg-[#383838] p-2">Private Session</li>
               <li className="hover:bg-[#383838] p-2">settings</li>
               <hr />
-              <li className="hover:bg-[#383838] p-2" onClick={() => Logout()}>
-                logout
-              </li>
+              <li className="hover:bg-[#383838] p-2" onClick={() => Logout()}>logout</li>
             </ul>
           </div>
         </div>
       )}
-      <Player
+     
+      <DesktopPlayer
         currentSong={currentSong !== null ? songs[currentSong] : null}
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
@@ -172,6 +167,7 @@ const DeskTopHome = () => {
         playPause={playPause}
         currentSongIndex={currentSong}
         setCurrentSongIndex={setCurrentSong}
+        songs={songs}
       />
     </div>
   );

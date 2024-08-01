@@ -1,6 +1,6 @@
 import React, { useContext} from "react";
 import { useMediaQuery } from "react-responsive";
-import NavBar from "../../components/nav/NavBar";
+import NavBar from "../../components/nav/SideBar";
 import { IoIosMore } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import { Axios } from "../mainPage/MainPage";
@@ -79,6 +79,16 @@ const navigate = useNavigate()
                 type="text"
                 className="bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[max(40vw,250px)]"
                 placeholder="Type here"
+                required
+                value={addPlaylist.title}
+                onChange={(e) =>
+                  setAddPlaylist({ ...addPlaylist, title: e.target.value })
+                }
+              />
+              <textarea
+                type="text"
+                className="bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[max(40vw,250px)]"
+                placeholder="Add a description"
                 required
                 value={addPlaylist.title}
                 onChange={(e) =>

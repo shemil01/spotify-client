@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Axios } from "../mainPage/MainPage";
-import NavBar from "../../components/nav/NavBar";
+import NavBar from "../../components/nav/SideBar";
 import { FaCirclePlay } from "react-icons/fa6";
 import { IoIosAddCircleOutline, IoIosMore } from "react-icons/io";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
@@ -12,11 +12,13 @@ import toast from "react-hot-toast";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete, MdOutlineIosShare } from "react-icons/md";
 import { IoIosRemoveCircle } from "react-icons/io";
+import { RiAccountCircleFill } from "react-icons/ri";
 
 const PlaylistById = () => {
   const navigate = useNavigate();
   const { playlistId } = useParams();
-  const { playlist, setPlaylist } = useContext(myContext);
+  const { playlist, setPlaylist, userData } = useContext(myContext);
+  console.log("dt", userData.username);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [playlistMenu, setPlaylistMenu] = useState(false);
@@ -46,10 +48,9 @@ const PlaylistById = () => {
       });
   }, [playlistId]);
 
- 
   const deletePlaylist = async () => {
-    await Axios.delete(`/delete-playlist/${playlistId}`,{
-      withCredentials:true
+    await Axios.delete(`/delete-playlist/${playlistId}`, {
+      withCredentials: true,
     })
       .then((response) => {
         console.log(response.data);
@@ -81,6 +82,21 @@ const PlaylistById = () => {
               <h1 className="font-extrabold md:text-6xl capitalize">
                 {playlist?.title}
               </h1>
+              {!mobileView && (
+                <div className="mt-10 flex flex-wrap gap-3">
+                  {userData.profilePicture ? (
+                    <img
+                      className="w-5 h-5 rounded-full"
+                      src={userData.profilePicture}
+                      alt=""
+                    />
+                  ) : (
+                    <RiAccountCircleFill />
+                  )}
+                  <span className="font-semibold">{userData?.username},</span>
+                  <span className="font-semibold">{playlist?.songs?.length} songs</span>
+                </div>
+              )}
             </div>
           </div>
           <div className="flex justify-between ">
