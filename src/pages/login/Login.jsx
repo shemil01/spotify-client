@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiFillSpotify } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
@@ -11,7 +11,6 @@ import Cookies from "js-cookie";
 import { Axios } from "../mainPage/MainPage";
 import toast from "react-hot-toast";
 
-
 const Login = () => {
   const navigate = useNavigate();
   const { setUserData, setLog } = useContext(myContext);
@@ -21,7 +20,15 @@ const Login = () => {
 
 
 
+  useEffect(() => {
+    const token = Cookies.get("token");
+    const userInfo = localStorage.getItem("userInfo");
 
+    if (token && userInfo) {
+      setLog(true);
+      setUserData(JSON.parse(userInfo));
+    }
+  }, [setLog, setUserData]);
 
   const passwordVisible = () => {
     setShowPassword((prevShowPass) => !prevShowPass);
@@ -61,14 +68,13 @@ const Login = () => {
           token: tokenResponse.access_token,
         });
         const { token, userData } = response.data;
-        Cookies.set("token", token, { expires: 1 });
+        Cookies.set("token", token);
         localStorage.setItem("token", token);
         const userInfo = JSON.stringify(userData);
         localStorage.setItem("userInfo", userInfo);
         navigate("/home");
         setLog(true);
-        setUserData(userData);
-        
+        setUserData(userInfo);
       } catch (error) {
         console.error(error);
       }
@@ -76,8 +82,6 @@ const Login = () => {
   });
 
   return (
-
-    
     <div className="w-full bg-[#292929] min-h-screen flex justify-center overflow-y-scroll no-scrollbar">
       <div className="relative bg-[#121212] shadow-lg w-full md:w-8/12 lg:w-[730px] rounded-lg flex md:mt-8 flex-col space-y-5 p-4 h-full">
         <div className="flex flex-col items-center mt-10 md:mt-4">
@@ -111,9 +115,12 @@ const Login = () => {
             </button>
           </div>
           <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
-           <Link to={'/login-number'}> <button  className="text-white font-semibold px-5">
-              Continue With Mobile
-            </button></Link>
+            <Link to={"/login-number"}>
+              {" "}
+              <button className="text-white font-semibold px-5">
+                Continue With Mobile
+              </button>
+            </Link>
           </div>
         </div>
         <div className="flex justify-center">
@@ -156,16 +163,17 @@ const Login = () => {
           </div>
         </div>
         <div className="flex justify-center">
-        <button
-  onClick={handleSubmit}
-  className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 transform transition-transform duration-200 hover:scale-105"
->
-  Login
-</button>
-
+          <button
+            onClick={handleSubmit}
+            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 transform transition-transform duration-200 hover:scale-105"
+          >
+            Login
+          </button>
         </div>
         <div className="text-white font-semibold flex justify-center">
-          <Link to="/forget-password" className="hover:underline">Forgot Your Password?</Link>
+          <Link to="/forget-password" className="hover:underline">
+            Forgot Your Password?
+          </Link>
         </div>
         <div className="flex justify-center">
           <hr className="w-2/3 opacity-35" />
@@ -175,7 +183,10 @@ const Login = () => {
             Don't have an account?
           </span>
           <span className="font-bold text-white ml-0 md:ml-1 mt-1 md:mt-0 flex items-center text-sm md:text-base">
-            <Link to="/register" className="hover:underline"> Sign up for Spotify.</Link>
+            <Link to="/register" className="hover:underline">
+              {" "}
+              Sign up for Spotify.
+            </Link>
           </span>
         </div>
       </div>

@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-
 import Login from "../login/Login";
 import axios from "axios";
 import myContext from "../../context/Context";
-
 import { Toaster } from "react-hot-toast";
 import PasswordResetRequest from "../resetPassword/ResetRequest";
 import PasswordReset from "../resetPassword/PasswordReset";
@@ -25,7 +23,7 @@ export const Axios = axios.create({
 });
 
 const MainPage = () => {
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
   const [log, setLog] = useState(false);
   const [isOpen, onClose] = useState(false);
   const [songs, setSongs] = useState([]);
@@ -41,10 +39,8 @@ const MainPage = () => {
   const [addPlaylist, setAddPlaylist] = useState({
     coverImage: null,
     title: "",
+    description: "",
   });
-  const audioRef = useRef();
-  const seekBg = useRef();
-  const seekBar = useRef();
 
   const details = {
     userData,
@@ -57,9 +53,6 @@ const MainPage = () => {
     onClose,
     songs,
     setSongs,
-    audioRef,
-    seekBar,
-    seekBg,
     playlist,
     setPlaylist,
     addPlaylist,
@@ -74,7 +67,7 @@ const MainPage = () => {
     }
     const userInfo = localStorage.getItem("userInfo");
     if (userInfo) {
-      const userData = JSON.stringify(userInfo);
+      const userData = JSON.parse(userInfo);
       setUserData(userData);
       setLog(true);
     }
@@ -117,7 +110,10 @@ const MainPage = () => {
           />
           <Route path="/song-by-id/:songId" element={<SongById />} />
           <Route path="/create-playlist/:songId" element={<CreatePlaylist />} />
-          <Route path="/playlist-by-id/:playlistId" element={<PlaylistById />}/>
+          <Route
+            path="/playlist-by-id/:playlistId"
+            element={<PlaylistById />}
+          />
           <Route path="/music" element={<Music />} />
           <Route path="/search" element={<Search />} />
         </Routes>

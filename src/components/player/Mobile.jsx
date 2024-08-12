@@ -1,7 +1,4 @@
 import { FaCirclePlay } from "react-icons/fa6";
-import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
-import { LuShuffle } from "react-icons/lu";
-import { RiRepeatFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
 
@@ -79,22 +76,7 @@ const MobilePlayer = ({
     }
   };
 
-  const handleNext = () => {
-    if (songs && songs.length > 0) {
-      const nextSongIndex = (currentSongIndex + 1) % songs.length;
-      setCurrentSongIndex(nextSongIndex);
-      playPause(nextSongIndex);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (songs && songs.length > 0) {
-      const prevSongIndex =
-        (currentSongIndex - 1 + songs.length) % songs.length;
-      setCurrentSongIndex(prevSongIndex);
-      playPause(prevSongIndex);
-    }
-  };
+  
 
   return (
     <div className="bg-black w-full fixed bottom-10 flex flex-col p-3">

@@ -17,13 +17,12 @@ import { RiAccountCircleFill } from "react-icons/ri";
 const PlaylistById = () => {
   const navigate = useNavigate();
   const { playlistId } = useParams();
-  const { playlist, setPlaylist, userData } = useContext(myContext);
-  console.log("dt", userData.username);
-
+  const { playlist, setPlaylist,userData } = useContext(myContext);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playlistMenu, setPlaylistMenu] = useState(false);
   const playRef = useRef();
 
+console.log('use',userData)
   const playlistToggle = (e) => {
     setPlaylistMenu(!playlistMenu);
     e.currentTarget.name = playlistMenu ? "menu" : "close";
@@ -82,6 +81,7 @@ const PlaylistById = () => {
               <h1 className="font-extrabold md:text-6xl capitalize">
                 {playlist?.title}
               </h1>
+              <p>{playlist?.description}</p>
               {!mobileView && (
                 <div className="mt-10 flex flex-wrap gap-3">
                   {userData.profilePicture ? (

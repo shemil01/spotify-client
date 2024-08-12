@@ -6,26 +6,25 @@ import { FaPlus, FaArrowRight } from "react-icons/fa";
 import { FaListUl } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 
-// import { Axios } from "../../pages/mainPage/MainPage";
 
 const SideBar = () => {
   const {playlistId} = useParams()
-  console.log(playlistId)
+ 
 const navigate = useNavigate()
-// const {playlist} = useContext(myContext)
+
 
 
   return (
     <div className="bg-black min-h-screen w-full md:w-[30%] flex px-2 py-2 flex-col space-y-2">
       <div className="bg-[#121212] w-full h-28 px-7 rounded-md py-5">
         <div className="flex items-center space-x-4">
-          <div className="text-white text-3xl">
+          <div className="text-white text-3xl" onClick={()=>navigate('/home')}>
             <GoHomeFill />
           </div>
-          <span className="text-white font-bold" onClick={()=>navigate('/home')}>Home</span>
+          <span className="text-white font-bold" >Home</span>
         </div>
 
-        <div className="py-4 flex items-center space-x-5 hover:text-white group">
+        <div className="py-4 flex items-center space-x-5 hover:text-white group" onClick={()=>navigate('/search')}>
           <div className="text-[#a7a7a7] text-2xl group-hover:text-white">
             <GrSearch />
           </div>

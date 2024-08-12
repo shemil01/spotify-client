@@ -1,4 +1,4 @@
-import React, { useContext} from "react";
+import React, { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import NavBar from "../../components/nav/SideBar";
 import { IoIosMore } from "react-icons/io";
@@ -8,10 +8,11 @@ import toast from "react-hot-toast";
 import myContext from "../../context/Context";
 
 const CreatePlaylist = () => {
-  const { addPlaylist, setAddPlaylist ,setPlaylist,setIsPlaylist} = useContext(myContext);
+  const { addPlaylist, setAddPlaylist, setPlaylist, setIsPlaylist } =
+    useContext(myContext);
   const { songId } = useParams();
   const mobileView = useMediaQuery({ query: "(max-width: 1000px)" });
-const navigate = useNavigate()
+  const navigate = useNavigate();
   // Function to get default image
   const getDefaultImage = () => {
     return "https://via.placeholder.com/150";
@@ -21,6 +22,7 @@ const navigate = useNavigate()
   const createPlaylist = async () => {
     const formData = new FormData();
     formData.append("title", addPlaylist.title);
+    formData.append("description", addPlaylist.description);
     formData.append("coverImage", addPlaylist.coverImage);
 
     try {
@@ -33,9 +35,9 @@ const navigate = useNavigate()
       );
       // console.log(response.data);
       toast.success(response.data.message);
-      navigate('/home')
-      setPlaylist(addPlaylist)
-      setIsPlaylist(true)
+      navigate("/home");
+      setPlaylist(addPlaylist);
+      setIsPlaylist(true);
     } catch (error) {
       console.log(error);
     }
@@ -90,9 +92,12 @@ const navigate = useNavigate()
                 className="bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[max(40vw,250px)]"
                 placeholder="Add a description"
                 required
-                value={addPlaylist.title}
+                value={addPlaylist.description}
                 onChange={(e) =>
-                  setAddPlaylist({ ...addPlaylist, title: e.target.value })
+                  setAddPlaylist({
+                    ...addPlaylist,
+                    description: e.target.value,
+                  })
                 }
               />
               <p className="hover:underline">Artist</p>

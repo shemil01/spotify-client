@@ -4,7 +4,10 @@ import { LuShuffle } from "react-icons/lu";
 import { RiRepeatFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
-
+import { LuMic2 } from "react-icons/lu";
+import { HiOutlineQueueList } from "react-icons/hi2";
+import { IoVolumeMuteSharp } from "react-icons/io5";
+import { MdOpenInFull } from "react-icons/md";
 
 const DesktopPlayer = ({
   audioRef,
@@ -69,6 +72,7 @@ const DesktopPlayer = ({
     setIsDrag(false);
   };
 
+
   const handlePlayPause = () => {
     if (audioRef) {
       if (isPlaying) {
@@ -77,8 +81,14 @@ const DesktopPlayer = ({
         audioRef.play();
       }
       setIsPlaying(!isPlaying);
+    } else {
+      if (!currentSong && songs.length > 0) {
+        setCurrentSongIndex(0);
+        playPause(0);
+      }
     }
   };
+
 
   const handleNext = () => {
     if (songs && songs.length > 0) {
@@ -158,7 +168,21 @@ const DesktopPlayer = ({
           </div>
         </div>
       </div>
-      <div className="text-white">sound</div>
+      <div
+        className="text-white  w-32">
+        <div className="flex justify-around ">
+          <button>
+            <LuMic2 />
+          </button>
+          <button>
+            <HiOutlineQueueList />
+          </button>
+          <button>
+            <IoVolumeMuteSharp />
+          </button>
+          <button><MdOpenInFull /></button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Axios } from "../mainPage/MainPage";
 import { FaCirclePlay } from "react-icons/fa6";
-
 import Playlist from "../playlist/Playlist";
 import ToggleMenu from "../../components/Toggle/ToggleMenu";
 import SideBar from "../../components/nav/SideBar";
@@ -17,11 +16,52 @@ const DeskTopHome = () => {
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const { userData, setUserData, setLog, songs, setSongs, playlist } =
-    useContext(myContext);
+  const {
+    userData,
+    setUserData,
+    setLog,
+    songs,
+    setSongs,
+    playlist,
+    setPlaylist,
+  } = useContext(myContext);
 
   const navigate = useNavigate();
   const audioRefs = useRef([]);
+  useEffect(() => {
+    if (currentSong !== null) {
+      const audioElement = audioRefs.current[currentSong];
+      if (isPlaying) {
+        audioElement.play();
+      } else {
+        audioElement.pause();
+      }
+    }
+  }, [isPlaying, currentSong]);
+
+  useEffect(() => {
+    const data = async () => {
+      try {
+        const Data = await Axios.get("/view-playlist", {
+          withCredentials: true,
+        });
+        setPlaylist(Data.data.playlist);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    data();
+  }, []);
+
+  useEffect(() => {
+    Axios.get("/view-songs")
+      .then((response) => {
+        setSongs(response.data.songs);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const playPause = (index) => {
     if (currentSong !== null && currentSong !== index) {
@@ -38,27 +78,6 @@ const DeskTopHome = () => {
     }
   };
 
-  useEffect(() => {
-    if (currentSong !== null) {
-      const audioElement = audioRefs.current[currentSong];
-      if (isPlaying) {
-        audioElement.play();
-      } else {
-        audioElement.pause();
-      }
-    }
-  }, [isPlaying, currentSong]);
-
-  useEffect(() => {
-    Axios.get("/view-songs")
-      .then((response) => {
-        setSongs(response.data.songs);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   const Logout = () => {
     Cookies.remove("token");
     setLog(false);
@@ -67,7 +86,6 @@ const DeskTopHome = () => {
     setUserData("");
     navigate("/");
   };
-
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
       <SideBar />
@@ -82,10 +100,20 @@ const DeskTopHome = () => {
         <nav className="flex ">
           <div className="flex flex-wrap space-x-7 py-3 px-4">
             <div className="bg-white rounded-full w-10 h-8 flex items-center justify-center ">
-              <button onClick={() => console.log("first")} className="text-black cursor-pointer">All</button>
+              <button
+                onClick={() => console.log("first")}
+                className="text-black cursor-pointer"
+              >
+                All
+              </button>
             </div>
             <div className="bg-[#292828] h-8 w-16 rounded-full flex items-center justify-center">
-              <button className="text-white font-semibold" onClick={() => navigate('/music')}>Music</button>
+              <button
+                className="text-white font-semibold"
+                onClick={() => navigate("/music")}
+              >
+                Music
+              </button>
             </div>
             <div className="bg-[#292828] h-8 w-20 rounded-full flex items-center justify-center">
               <span className="text-white font-semibold">Podcast</span>
@@ -94,10 +122,8 @@ const DeskTopHome = () => {
         </nav>
         {/* list songs */}
         <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
-          <div>
-
-          </div>
-          {playlist && <Playlist />}
+          <div></div>
+          {playlist?.length > 0 && <Playlist playlist={playlist} />}
           <div className="m-5">
             <div>
               <p className="text-white font-bold text-2xl">Popular Songs</p>
@@ -140,7 +166,7 @@ const DeskTopHome = () => {
                 </div>
               ))}
             </div>
-        <Footer />
+            <Footer />
           </div>
         </div>
       </div>
@@ -148,17 +174,24 @@ const DeskTopHome = () => {
         <div className="w-48 bg-[#292828] h-64 rounded-md absolute top-14 right-4">
           <div className="h-full">
             <ul className="text-white font-semibold px-2 flex flex-col justify-evenly h-full">
-              <li onClick={() => navigate("/profail")} className="hover:bg-[#383838] p-2">account</li>
+              <li
+                onClick={() => navigate("/profail")}
+                className="hover:bg-[#383838] p-2"
+              >
+                account
+              </li>
               <li className="hover:bg-[#383838] p-2">Upgrade To Premium</li>
               <li className="hover:bg-[#383838] p-2">Private Session</li>
               <li className="hover:bg-[#383838] p-2">settings</li>
               <hr />
-              <li className="hover:bg-[#383838] p-2" onClick={() => Logout()}>logout</li>
+              <li className="hover:bg-[#383838] p-2" onClick={() => Logout()}>
+                logout
+              </li>
             </ul>
           </div>
         </div>
       )}
-     
+
       <DesktopPlayer
         currentSong={currentSong !== null ? songs[currentSong] : null}
         isPlaying={isPlaying}
