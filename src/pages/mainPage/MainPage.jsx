@@ -17,6 +17,7 @@ import CreatePlaylist from "../playlist/CreatePlaylist";
 import PlaylistById from "../playlist/PlaylistById";
 import Music from "../Songs/Music";
 import Search from "../../components/search/Search";
+import AdminLogin from "../../components/admin/AdminLogin";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -116,6 +117,8 @@ const MainPage = () => {
           />
           <Route path="/music" element={<Music />} />
           <Route path="/search" element={<Search />} />
+
+          <Route path="/admin/login" element={<AdminLogin/>} />
         </Routes>
       </myContext.Provider>
     </div>
