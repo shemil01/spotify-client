@@ -22,7 +22,7 @@ const PlaylistById = () => {
   const [playlistMenu, setPlaylistMenu] = useState(false);
   const playRef = useRef();
 
-console.log('use',userData)
+
   const playlistToggle = (e) => {
     setPlaylistMenu(!playlistMenu);
     e.currentTarget.name = playlistMenu ? "menu" : "close";

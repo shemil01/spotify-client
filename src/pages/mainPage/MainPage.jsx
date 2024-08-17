@@ -18,6 +18,9 @@ import PlaylistById from "../playlist/PlaylistById";
 import Music from "../Songs/Music";
 import Search from "../../components/search/Search";
 import AdminLogin from "../../components/admin/AdminLogin";
+import AdminHome from "../../components/admin/pages/AdminHome";
+import Users from "../../components/admin/pages/users/Users";
+import Allsongs from "../../components/admin/pages/Songs/Allsongs";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -25,6 +28,7 @@ export const Axios = axios.create({
 
 const MainPage = () => {
   const [userData, setUserData] = useState({});
+  const [users,setUsers] = useState({})
   const [log, setLog] = useState(false);
   const [isOpen, onClose] = useState(false);
   const [songs, setSongs] = useState([]);
@@ -60,6 +64,7 @@ const MainPage = () => {
     setAddPlaylist,
     isPlaylist,
     setIsPlaylist,
+    users,setUsers
   };
 
   useEffect(() => {
@@ -119,6 +124,9 @@ const MainPage = () => {
           <Route path="/search" element={<Search />} />
 
           <Route path="/admin/login" element={<AdminLogin/>} />
+          <Route path="/admin/home" element={<AdminHome/>} />
+          <Route path="/admin/all-users" element={<Users/>} />
+          <Route path="/admin/all-songs" element={<Allsongs/>} />
         </Routes>
       </myContext.Provider>
     </div>

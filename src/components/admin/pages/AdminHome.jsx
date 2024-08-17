@@ -1,19 +1,21 @@
-import React from 'react'
-import AdminNav from '../AdminNav'
+import React from "react";
+
+import SideNav from "../SideNav";
+import TopNav from "../TopNav";
+import Dashboard from "./Dashboard";
 
 const AdminHome = () => {
   return (
-    <div className='w-full h-screen bg-[#121212] '>
-
-        <AdminNav/>
-<div className=' text-white'>
-
-    <header className='flex justify-center ml-80'>
-       
-    </header>
-</div>
+    <div className="flex h-screen bg-[#282828] text-white">
+    <SideNav />
+    <div className="flex flex-col flex-grow">
+      <TopNav />
+      <main className="flex-grow p-6">
+        <Dashboard />
+      </main>
     </div>
-  )
-}
+  </div>
+  );
+};
 
-export default AdminHome
+export default AdminHome;

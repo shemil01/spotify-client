@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { AiFillSpotify } from "react-icons/ai";
 import { Axios } from "../../pages/mainPage/MainPage";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const [admin, setAdmin] = useState({ email: "", password: "" });
+  const [adminData, setAdminData] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,10 +20,13 @@ const AdminLogin = () => {
       withCredentials: true,
     })
       .then((response) => {
-        console.log(response);
+        const { adminToken } = response.data;
+        Cookies.set("adminToken", adminToken);
+        localStorage.setItem("adminToken", adminToken);
+        navigate("/admin/home");
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.response.data.message);
       });
   };
 
@@ -63,7 +70,7 @@ const AdminLogin = () => {
                   onChange={(e) =>
                     setAdmin({ ...admin, password: e.target.value })
                   }
-                  className="w-80 py-3 px-8 bg-[#121212] border-solid border-2 border-[#727272] rounded-md  hover:border-white"
+                  className="w-80 py-3 px-8 text-white bg-[#121212] border-solid border-2 border-[#727272] rounded-md  hover:border-white"
                 />
               </div>
               <div className="flex justify-center items-center bg-green-500 rounded-full py-3 hover:bg-green-700 text-white mt-10">
