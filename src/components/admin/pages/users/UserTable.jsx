@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
 
 const UserTable = ({ users }) => {
-  
+  console.log(users);
+
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -10,14 +11,29 @@ const UserTable = ({ users }) => {
             <table className="min-w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                  Username
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    Username
                   </th>
-                  <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
                     Email
                   </th>
-                  <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                   LoginType
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    LoginType
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    join date
                   </th>
                 </tr>
               </thead>
@@ -32,6 +48,13 @@ const UserTable = ({ users }) => {
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-500">
                       {user.loginMethod}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {new Date(user.createdAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </td>
                   </tr>
                 ))}

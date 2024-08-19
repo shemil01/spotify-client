@@ -119,7 +119,7 @@ const navigate = useNavigate()
             <div className="flex flex-wrap justify-around">
               {[
                 "Male",
-                "Woman",
+                "Female",
                 "Non-binary",
                 "Something else",
                 "Prefer not to say",

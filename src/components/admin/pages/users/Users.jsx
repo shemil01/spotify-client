@@ -25,14 +25,14 @@ const Users = () => {
       <SideNav />
       <div className="flex flex-col flex-grow">
         <TopNav />
-        <main className="flex-grow p-6">
+        <main className="flex-grow p-6 overflow-y-auto no-scrollbar">
           <div className="p-4">
             <h1 className="mb-4 text-2xl font-semibold text-gray-700">
               User Dashboard
             </h1>
             <Statistics users={users} />
             <UserTable users={users} />
-            <GenderPieChart users={users} />/
+            <GenderPieChart users={users} />
           </div>
         </main>
       </div>

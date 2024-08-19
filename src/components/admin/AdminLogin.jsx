@@ -4,11 +4,18 @@ import { AiFillSpotify } from "react-icons/ai";
 import { Axios } from "../../pages/mainPage/MainPage";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { BiSolidShow,BiSolidHide  } from "react-icons/bi";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
   const [admin, setAdmin] = useState({ email: "", password: "" });
-  const [adminData, setAdminData] = useState({});
+  // const [adminData, setAdminData] = useState({});
+  const [showPassword,setShowPassword] = useState(false)
+
+
+  const passwordVisible  = ()=>{
+    setShowPassword((prevShowPass)=>!prevShowPass)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +55,7 @@ const AdminLogin = () => {
               </div>
               <div className="flex justify-center">
                 <input
-                  type="text"
+                 type="email"
                   placeholder="Enter Email"
                   value={admin.email}
                   onChange={(e) =>
@@ -62,9 +69,9 @@ const AdminLogin = () => {
                   Password
                 </span>
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-center relative">
                 <input
-                  type="text"
+                  type={showPassword ?"text":"password"}
                   placeholder="Enter your Password"
                   value={admin.password}
                   onChange={(e) =>
@@ -72,6 +79,7 @@ const AdminLogin = () => {
                   }
                   className="w-80 py-3 px-8 text-white bg-[#121212] border-solid border-2 border-[#727272] rounded-md  hover:border-white"
                 />
+                  <button onClick={passwordVisible} className="text-white absolute text-2xl right-10 top-1/2 transform -translate-y-1/2 ">{showPassword ?<BiSolidHide />:<BiSolidShow />}</button>
               </div>
               <div className="flex justify-center items-center bg-green-500 rounded-full py-3 hover:bg-green-700 text-white mt-10">
                 <button onClick={handleSubmit}>Login</button>

@@ -1,22 +1,46 @@
-// import React from "react";
-// import { Pie } from "react-chartjs-2";
+import React from 'react';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
-// const GenderPieChart = () => {
-//   const data = {
-//     labels: ["Male", "Female", "Other"],
-//     datasets: [
-//       {
-//         data: [400, 300, 100],
-//         backgroundColor: ["#0088FE", "#FF69B4", "#FFBB28"],
-//       },
-//     ],
-//   };
+ChartJS.register(ArcElement, Tooltip, Legend);
 
-//   return (
-//     <div className="flex justify-center items-center h-full">
-//       <Pie data={data} />
-//     </div>
-//   );
-// };
+const GenderPieChart = ({users}) => {
 
-// export default GenderPieChart;
+  const genderCounts = users.reduce((acc,user)=>{
+    if(user.gender === 'Male') acc.male += 1;
+    else if(user.gender === 'Female') acc.female +=1;
+    else acc.other += 1
+    return acc
+  },
+  {male:0,female:0,other:0}
+) 
+  const data = {
+    labels: ['Male', 'Female', 'Other'],
+    datasets: [
+      {
+        label: 'Total',
+        data: [genderCounts.male,genderCounts.female,genderCounts.other],
+        backgroundColor: [
+          '#4f46e5', 
+          '#ec4899', 
+          '#10b981',
+        ],
+        borderColor: [
+          '#4f46e5',
+          '#ec4899',
+          '#10b981',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  return (
+    <div className="w-full max-w-sm mx-auto p-4  rounded-lg shadow-md">
+      <h2 className="text-xl font-semibold text-center mb-4">Gender Distribution</h2>
+      <Pie data={data} />
+    </div>
+  );
+};
+
+export default GenderPieChart;

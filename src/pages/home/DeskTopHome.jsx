@@ -10,6 +10,7 @@ import ToggleMenu from "../../components/Toggle/ToggleMenu";
 import SideBar from "../../components/nav/SideBar";
 import DesktopPlayer from "../../components/player/Desktop";
 import Footer from "../../components/footer/Footer";
+import HomeNav from "../../components/nav/HomeNav";
 
 const DeskTopHome = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -97,32 +98,10 @@ const DeskTopHome = () => {
           userData={userData}
           Logout={Logout}
         />
-        <nav className="flex ">
-          <div className="flex flex-wrap space-x-7 py-3 px-4">
-            <div className="bg-white rounded-full w-10 h-8 flex items-center justify-center ">
-              <button
-                onClick={() => console.log("first")}
-                className="text-black cursor-pointer"
-              >
-                All
-              </button>
-            </div>
-            <div className="bg-[#292828] h-8 w-16 rounded-full flex items-center justify-center">
-              <button
-                className="text-white font-semibold"
-                onClick={() => navigate("/music")}
-              >
-                Music
-              </button>
-            </div>
-            <div className="bg-[#292828] h-8 w-20 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold">Podcast</span>
-            </div>
-          </div>
-        </nav>
+      <HomeNav/>
         {/* list songs */}
         <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
-          <div></div>
+          
           {playlist?.length > 0 && <Playlist playlist={playlist} />}
           <div className="m-5">
             <div>
