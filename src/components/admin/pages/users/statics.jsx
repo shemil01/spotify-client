@@ -12,7 +12,7 @@ const Statistics = ({ users }) => {
         <p className="mt-2 text-2xl font-bold text-gray-900">{totalUsers}</p>
       </div>
       <div className="p-4 bg-white border rounded-lg shadow-md">
-        <h2 className="text-lg font-semibold text-gray-700">Admin Users</h2>
+        <h2 className="text-lg font-semibold text-gray-700">Artist Users</h2>
         <p className="mt-2 text-2xl font-bold text-gray-900">0</p>
       </div>
       <div className="p-4 bg-white border rounded-lg shadow-md">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import TopNav from "../../TopNav";
-import SideNav from "../../SideNav";
+import TopNav from "../../adminComponent/TopNav";
+import SideNav from "../../adminComponent/SideNav";
 import Statistics from "./statics";
 import UserTable from "./UserTable";
 import { Axios } from "../../../../pages/mainPage/MainPage";

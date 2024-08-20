@@ -1,7 +1,7 @@
 import React from "react";
 
-import SideNav from "../SideNav";
-import TopNav from "../TopNav";
+import SideNav from "../adminComponent/SideNav";
+import TopNav from "../adminComponent/TopNav";
 import Dashboard from "./Dashboard";
 
 const AdminHome = () => {

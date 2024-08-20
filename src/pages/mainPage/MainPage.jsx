@@ -21,6 +21,7 @@ import AdminLogin from "../../components/admin/AdminLogin";
 import AdminHome from "../../components/admin/pages/AdminHome";
 import Users from "../../components/admin/pages/users/Users";
 import Allsongs from "../../components/admin/pages/Songs/Allsongs";
+import AddSong from "../../components/admin/pages/Songs/AddSong";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -28,12 +29,13 @@ export const Axios = axios.create({
 
 const MainPage = () => {
   const [userData, setUserData] = useState({});
-  const [users,setUsers] = useState({})
+  const [users, setUsers] = useState({});
   const [log, setLog] = useState(false);
   const [isOpen, onClose] = useState(false);
   const [songs, setSongs] = useState([]);
   const [playlist, setPlaylist] = useState([]);
   const [isPlaylist, setIsPlaylist] = useState(false);
+  const [adminLog, setAdminLog] = useState(false);
   const [signup, setSignup] = useState({
     email: "",
     password: "",
@@ -64,7 +66,10 @@ const MainPage = () => {
     setAddPlaylist,
     isPlaylist,
     setIsPlaylist,
-    users,setUsers
+    users,
+    setUsers,
+    adminLog,
+    setAdminLog,
   };
 
   useEffect(() => {
@@ -123,10 +128,11 @@ const MainPage = () => {
           <Route path="/music" element={<Music />} />
           <Route path="/search" element={<Search />} />
 
-          <Route path="/admin/login" element={<AdminLogin/>} />
-          <Route path="/admin/home" element={<AdminHome/>} />
-          <Route path="/admin/all-users" element={<Users/>} />
-          <Route path="/admin/all-songs" element={<Allsongs/>} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/home" element={<AdminHome />} />
+          <Route path="/admin/all-users" element={<Users />} />
+          <Route path="/admin/all-songs" element={<Allsongs />} />
+          <Route path="/admin/add-song" element={<AddSong />} />
         </Routes>
       </myContext.Provider>
     </div>

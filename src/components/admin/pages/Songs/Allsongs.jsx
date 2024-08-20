@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import TopNav from "../../TopNav";
-import SideNav from "../../SideNav";
+import TopNav from "../../adminComponent/TopNav";
+import SideNav from "../../adminComponent/SideNav";
 import { Axios } from "../../../../pages/mainPage/MainPage";
 
 const Allsongs = () => {

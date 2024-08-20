@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { AiFillSpotify } from "react-icons/ai";
 import { Axios } from "../../pages/mainPage/MainPage";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { BiSolidShow,BiSolidHide  } from "react-icons/bi";
+import myContext from "../../context/Context";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
+  const {setAdminLog} = useContext(myContext)
   const [admin, setAdmin] = useState({ email: "", password: "" });
   // const [adminData, setAdminData] = useState({});
   const [showPassword,setShowPassword] = useState(false)
@@ -31,6 +33,7 @@ const AdminLogin = () => {
         Cookies.set("adminToken", adminToken);
         localStorage.setItem("adminToken", adminToken);
         navigate("/admin/home");
+        setAdminLog(true)
       })
       .catch((error) => {
         toast.error(error.response.data.message);
