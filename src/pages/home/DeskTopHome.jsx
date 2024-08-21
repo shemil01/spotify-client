@@ -173,6 +173,7 @@ const DeskTopHome = () => {
 
       <DesktopPlayer
         currentSong={currentSong !== null ? songs[currentSong] : null}
+        
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         audioRef={currentSong !== null ? audioRefs.current[currentSong] : null}

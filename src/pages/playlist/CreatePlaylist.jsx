@@ -33,7 +33,7 @@ const CreatePlaylist = () => {
           withCredentials: true,
         }
       );
-      // console.log(response.data);
+    
       toast.success(response.data.message);
       navigate("/home");
       setPlaylist(addPlaylist);

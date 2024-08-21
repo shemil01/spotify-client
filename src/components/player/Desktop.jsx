@@ -19,6 +19,8 @@ const DesktopPlayer = ({
   setCurrentSongIndex,
   songs,
 }) => {
+
+  console.log(currentSong)
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -163,7 +165,7 @@ const DesktopPlayer = ({
               ></div>
             </div>
             <p className="text-xs">
-              {new Date(duration * 1000).toISOString().substr(14, 5)}
+              {currentSong?.duration}
             </p>
           </div>
         </div>
