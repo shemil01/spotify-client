@@ -65,7 +65,7 @@ const Login = () => {
     onSuccess: async (tokenResponse) => {
       try {
         const response = await Axios.post("/google-login", {
-          token: tokenResponse.access_token,
+          access_token: tokenResponse.access_token,
         });
         const { token, userData } = response.data;
         Cookies.set("token", token);

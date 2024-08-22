@@ -19,7 +19,9 @@ const Search = () => {
     const value = e.target.value;
     setSearchQuery(value);
     if (value.length > 2) {
-      const response = await Axios.get(`/search-song?q=${value}`);
+      const response = await Axios.get(`/search-song?q=${value}`,{
+        withCredentials:true
+      });
       setSuggestions(response.data.suggestions);
       setNoResults(false);
     } else {
@@ -32,7 +34,9 @@ const Search = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await Axios.get(`/search-song?q=${searchQuery}`);
+    const response = await Axios.get(`/search-song?q=${searchQuery}`,{
+      withCredentials:true
+    });
     const songs = response.data.song;
 
     setSearchResults(songs);
@@ -48,7 +52,7 @@ const Search = () => {
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
       {!mobileView && <SideBar />}
-      <div className="flex-1 h-[85%] rounded-md bg-[#121212] relative">
+      <div className="flex-1 md:h-[85%] h-screen  rounded-md bg-[#121212] relative">
         <header className="flex items-center gap-10 py-3 px-3">
           <div className="bg-black rounded-full w-8 h-8 flex items-center text-white justify-center hover:scale-110 transition-transform duration-200">
             <MdArrowBackIos onClick={() => navigate(-1)} />
@@ -117,7 +121,7 @@ const Search = () => {
             </div>
           )}
         </div>
-        <Footer />
+       {!mobileView && <Footer />}
       </div>
     </div>
   );

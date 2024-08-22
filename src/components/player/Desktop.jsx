@@ -20,7 +20,7 @@ const DesktopPlayer = ({
   songs,
 }) => {
 
-  console.log(currentSong)
+  
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);

@@ -4,7 +4,6 @@ import SideNav from "../../adminComponent/SideNav";
 import Statistics from "./statics";
 import UserTable from "./UserTable";
 import { Axios } from "../../../../pages/mainPage/MainPage";
-
 import GenderPieChart from "./Piechart";
 
 const Users = () => {
@@ -14,7 +13,7 @@ const Users = () => {
       withCredentials: true,
     })
       .then((response) => {
-        setUsers(response.data.user || []); // Update the state with the user data
+        setUsers(response.data.user || []); 
       })
       .catch((error) => {
         console.log(error);

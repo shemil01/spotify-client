@@ -55,7 +55,9 @@ const DeskTopHome = () => {
   }, []);
 
   useEffect(() => {
-    Axios.get("/view-songs")
+    Axios.get("/view-songs",{
+      withCredentials:true
+    })
       .then((response) => {
         setSongs(response.data.songs);
       })

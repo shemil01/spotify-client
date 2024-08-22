@@ -7,7 +7,7 @@ const Allsongs = () => {
   const [songs, setSongs] = useState([]);
 
   useEffect(() => {
-    Axios.get("/view-songs")
+    Axios.get("/admin/songs")
       .then((response) => {
         setSongs(response.data.songs);
         console.log(response.data.songs);

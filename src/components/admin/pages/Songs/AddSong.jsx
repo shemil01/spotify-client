@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import SideNav from "../../adminComponent/SideNav";
 import TopNav from "../../adminComponent/TopNav";
-import { IoIosMusicalNotes } from "react-icons/io";
 import { Axios } from "../../../../pages/mainPage/MainPage";
 import toast from "react-hot-toast";
 import { ClipLoader } from 'react-spinners';
@@ -14,10 +13,11 @@ const AddSong = () => {
     coverImage: null,
     fileUrl: null,
     artist: "",
-    duration: "",
+    duration: 0,
     description: "",
   });
 
+  const [songFile, setSongFile] = useState(null); // Store audio file
 
   const UploadingSpinner = () => (
     <div className="flex items-center justify-center h-screen">
@@ -28,20 +28,27 @@ const AddSong = () => {
   const getDefaultImage = () => {
     return "https://cdn.pixabay.com/photo/2017/11/10/05/24/add-2935429_960_720.png";
   };
-  const convertToSeconds = (duration) => {
-    const [minutes, seconds] = duration.split(":").map(Number);
-    return minutes * 60 + seconds;
+
+  // Function to automatically calculate the song duration
+  const calculateDuration = (file) => {
+    const audio = new Audio(URL.createObjectURL(file));
+    audio.onloadedmetadata = () => {
+      setuploadSong((prev) => ({
+        ...prev,
+        duration: Math.floor(audio.duration), // Set duration in seconds
+      }));
+    };
   };
 
   const addSong = async () => {
-    setIsUploading(true)
+    setIsUploading(true);
     const formData = new FormData();
 
     formData.append("name", uploadSong.name);
     formData.append("coverImage", uploadSong.coverImage || getDefaultImage());
     formData.append("fileUrl", uploadSong.fileUrl);
     formData.append("artist", uploadSong.artist);
-    formData.append("duration", convertToSeconds(uploadSong.duration));
+    formData.append("duration", uploadSong.duration); // Already in seconds
     formData.append("description", uploadSong.description);
 
     try {
@@ -50,7 +57,7 @@ const AddSong = () => {
       });
       console.log(response);
       toast.success(response.data.message);
-      setIsUploading(false)
+      setIsUploading(false);
       setSongs([...songs, uploadSong]);
     } catch (error) {
       toast.error(error.response?.data?.message || "Error adding song");
@@ -99,9 +106,11 @@ const AddSong = () => {
                   id="song"
                   accept="audio/*"
                   hidden
-                  onChange={(e) =>
-                    setuploadSong({ ...uploadSong, fileUrl: e.target.files[0] })
-                  }
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    setuploadSong({ ...uploadSong, fileUrl: file });
+                    calculateDuration(file); // Calculate duration on song upload
+                  }}
                 />
                 <label htmlFor="song">
                   <img
@@ -154,9 +163,7 @@ const AddSong = () => {
                   className="bg-transparent border-2 border-gray-400 p-2"
                   placeholder="Duration"
                   value={uploadSong.duration}
-                  onChange={(e) =>
-                    setuploadSong({ ...uploadSong, duration: e.target.value })
-                  }
+                  readOnly // Duration will be set automatically from the audio file
                 />
               </div>
             </div>
