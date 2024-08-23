@@ -22,6 +22,7 @@ import AdminHome from "../../components/admin/pages/AdminHome";
 import Users from "../../components/admin/pages/users/Users";
 import Allsongs from "../../components/admin/pages/Songs/Allsongs";
 import AddSong from "../../components/admin/pages/Songs/AddSong";
+import ViewSong from "../../components/admin/pages/Songs/ViewSong";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -132,6 +133,7 @@ const MainPage = () => {
           <Route path="/admin/home" element={<AdminHome />} />
           <Route path="/admin/all-users" element={<Users />} />
           <Route path="/admin/all-songs" element={<Allsongs />} />
+          <Route path="/admin/view-song" element={<ViewSong/>} />
           <Route path="/admin/add-song" element={<AddSong />} />
         </Routes>
       </myContext.Provider>

@@ -2,12 +2,21 @@ import React, { useContext, useEffect, useState } from "react";
 import TopNav from "../../adminComponent/TopNav";
 import SideNav from "../../adminComponent/SideNav";
 import { Axios } from "../../../../pages/mainPage/MainPage";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import DeleteSong from "./DeleteSong";
 
 const Allsongs = () => {
   const [songs, setSongs] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
-    Axios.get("/admin/songs")
+    Axios.get("/admin/songs", {
+      withCredentials: true,
+    })
       .then((response) => {
         setSongs(response.data.songs);
         console.log(response.data.songs);
@@ -22,7 +31,7 @@ const Allsongs = () => {
       <div className="flex flex-col flex-grow">
         <TopNav />
         <main className="flex-grow p-6 overflow-y-auto no-scrollbar">
-        <div className="m-5">
+          <div className="m-5">
             <div>
               <p className="text-white font-bold text-2xl">All Songs</p>
             </div>
@@ -30,7 +39,7 @@ const Allsongs = () => {
               {songs.map((songData, index) => (
                 <div
                   key={index}
-                  className="group relative  items-center  bg-[#161515] p-4 w-48 rounded-lg transition-all duration-300 hover:bg-[#2b2929]"
+                  className="group relative  items-center mt-5 bg-[#161515] p-4 w-48 rounded-lg transition-all duration-300 hover:bg-[#2b2929]"
                 >
                   <div className="relative w-full">
                     <img
@@ -49,10 +58,15 @@ const Allsongs = () => {
                       )}
                     </button> */}
                   </div>
+
                   {/* <Link to={`/song-by-id/${songData._id}`}> */}
-                    <p className="mt-2 text-white text-center font-semibold hover:underline">
-                      {songData.name}
-                    </p>
+                  <p className="mt-2 text-white text-center font-semibold hover:underline">
+                    {songData.name}
+                  </p>
+                  <div className="flex justify-end ">
+                    <BsThreeDotsVertical onClick={toggleMenu} />
+                  </div>
+                  <DeleteSong toggleMenu={toggleMenu} isOpen={isOpen} />
                   {/* </Link> */}
                   <p className="text-gray-400 text-center text-sm">
                     {songData.artist}

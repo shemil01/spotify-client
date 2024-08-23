@@ -19,8 +19,6 @@ const DesktopPlayer = ({
   setCurrentSongIndex,
   songs,
 }) => {
-
-  
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -74,7 +72,6 @@ const DesktopPlayer = ({
     setIsDrag(false);
   };
 
-
   const handlePlayPause = () => {
     if (audioRef) {
       if (isPlaying) {
@@ -90,7 +87,6 @@ const DesktopPlayer = ({
       }
     }
   };
-
 
   const handleNext = () => {
     if (songs && songs.length > 0) {
@@ -109,6 +105,17 @@ const DesktopPlayer = ({
     }
   };
 
+  //convert seconds to minutes
+  function SecondToMinutes(seconds) {
+    if (!seconds) return "00:00";
+    const minutes = Math.floor(seconds / 60);
+    const remainingSecond = seconds % 60;
+    return `${minutes}:${remainingSecond < 10 ? "0" : ""}${remainingSecond}`;
+  }
+  const songDuration = currentSong?.duration;
+  const result = SecondToMinutes(songDuration);
+
+  
   return (
     <div className="bg-black w-full fixed bottom-3 flex justify-between">
       <div className="m-2 md:w-2/12">
@@ -164,14 +171,11 @@ const DesktopPlayer = ({
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-            <p className="text-xs">
-              {currentSong?.duration}
-            </p>
+            <p className="text-xs">{result}</p>
           </div>
         </div>
       </div>
-      <div
-        className="text-white  w-32">
+      <div className="text-white  w-32">
         <div className="flex justify-around ">
           <button>
             <LuMic2 />
@@ -182,7 +186,9 @@ const DesktopPlayer = ({
           <button>
             <IoVolumeMuteSharp />
           </button>
-          <button><MdOpenInFull /></button>
+          <button>
+            <MdOpenInFull />
+          </button>
         </div>
       </div>
     </div>
