@@ -90,7 +90,12 @@ const SongById = () => {
               <h1 className="font-extrabold text-6xl capitalize">
                 {song?.name}
               </h1>
-              <p className="hover:underline">Artist</p>
+             <div>
+             <p >Artist</p>
+             <h1 className="hover:underline">{song?.artist}</h1>
+             
+             </div>
+             
               <audio ref={audioRef} src={song?.fileUrl} />
             </div>
           </div>

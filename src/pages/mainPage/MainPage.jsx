@@ -133,7 +133,7 @@ const MainPage = () => {
           <Route path="/admin/home" element={<AdminHome />} />
           <Route path="/admin/all-users" element={<Users />} />
           <Route path="/admin/all-songs" element={<Allsongs />} />
-          <Route path="/admin/view-song" element={<ViewSong/>} />
+          <Route path="/admin/view-song/:songId" element={<ViewSong/>} />
           <Route path="/admin/add-song" element={<AddSong />} />
         </Routes>
       </myContext.Provider>

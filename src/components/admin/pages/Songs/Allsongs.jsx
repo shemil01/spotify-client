@@ -4,14 +4,12 @@ import SideNav from "../../adminComponent/SideNav";
 import { Axios } from "../../../../pages/mainPage/MainPage";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import DeleteSong from "./DeleteSong";
+import { Link, useNavigate } from "react-router-dom";
 
 const Allsongs = () => {
+  const navigate = useNavigate()
   const [songs, setSongs] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
 
   useEffect(() => {
     Axios.get("/admin/songs", {
@@ -59,15 +57,15 @@ const Allsongs = () => {
                     </button> */}
                   </div>
 
-                  {/* <Link to={`/song-by-id/${songData._id}`}> */}
+                  <Link to={`/admin/view-song/${songData._id}`}>
                   <p className="mt-2 text-white text-center font-semibold hover:underline">
                     {songData.name}
                   </p>
                   <div className="flex justify-end ">
-                    <BsThreeDotsVertical onClick={toggleMenu} />
+                    <BsThreeDotsVertical  />
                   </div>
-                  <DeleteSong toggleMenu={toggleMenu} isOpen={isOpen} />
-                  {/* </Link> */}
+                  
+                  </Link>
                   <p className="text-gray-400 text-center text-sm">
                     {songData.artist}
                   </p>
