@@ -108,7 +108,7 @@ const Login = () => {
               
               className="text-white font-semibold px-5"
             >
-              Continue With Google
+              Continue With facebook
             </button>
           </div>
           {/* <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
