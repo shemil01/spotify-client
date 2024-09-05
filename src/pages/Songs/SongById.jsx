@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import NavBar from "../../components/nav/SideBar";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import myContext from "../../context/Context";
 import Cookies from "js-cookie";
 import { Axios } from "../mainPage/MainPage";
@@ -16,14 +16,12 @@ const SongById = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { userData, setUserData, setLog} = useContext(myContext);
+  const { userData, setUserData, setLog } = useContext(myContext);
   const { songId } = useParams();
   const [isPlaying, setIsPlaying] = useState(false);
   const [song, setSong] = useState(null);
   const audioRef = useRef(null);
 
-
-  
   // Logout function
   const Logout = () => {
     Cookies.remove("token");
@@ -66,7 +64,6 @@ const SongById = () => {
 
   const mobileView = useMediaQuery({ query: "(max-width: 1000px)" });
 
-  
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
       {!mobileView && <NavBar />}
@@ -90,12 +87,12 @@ const SongById = () => {
               <h1 className="font-extrabold text-6xl capitalize">
                 {song?.name}
               </h1>
-             <div>
-             <p >Artist</p>
-             <h1 className="hover:underline">{song?.artist}</h1>
-             
-             </div>
-             
+              <div className="flex flex-wrap">
+                <p>Artist</p>
+                <h1 className="hover:underline">{song?.artist}</h1>
+              <p className="ml-2">1,song</p>
+            
+              </div>
               <audio ref={audioRef} src={song?.fileUrl} />
             </div>
           </div>
@@ -111,12 +108,11 @@ const SongById = () => {
                 <IoIosMore />
               </span>
               <Menu isMenuOpen={isMenuOpen} onToggleSubMenu={onToggleSubMenu} />
-            <SubMenu isSubMenuOpen={isSubMenuOpen} songId={songId} />
+              <SubMenu isSubMenuOpen={isSubMenuOpen} songId={songId} />
             </div>
           </div>
         </div>
       </div>
-      
     </div>
   );
 };

@@ -23,6 +23,9 @@ import Users from "../../components/admin/pages/users/Users";
 import Allsongs from "../../components/admin/pages/Songs/Allsongs";
 import AddSong from "../../components/admin/pages/Songs/AddSong";
 import ViewSong from "../../components/admin/pages/Songs/ViewSong";
+import AdmnProtect from "../../components/admin/adminAuth/AdmnProtect";
+import AdminLoginProtect from "../../components/admin/adminAuth/AdminLoginProtect";
+import EditSong from "../../components/admin/pages/Songs/EditSong";
 
 export const Axios = axios.create({
   baseURL: "http://localhost:4500/api",
@@ -129,12 +132,62 @@ const MainPage = () => {
           <Route path="/music" element={<Music />} />
           <Route path="/search" element={<Search />} />
 
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/home" element={<AdminHome />} />
-          <Route path="/admin/all-users" element={<Users />} />
-          <Route path="/admin/all-songs" element={<Allsongs />} />
-          <Route path="/admin/view-song/:songId" element={<ViewSong/>} />
-          <Route path="/admin/add-song" element={<AddSong />} />
+          <Route
+            path="/admin/login"
+            element={
+              <AdminLoginProtect>
+                <AdminLogin />
+              </AdminLoginProtect>
+            }
+          />
+          <Route
+            path="/admin/home"
+            element={
+              <AdmnProtect>
+                <AdminHome />
+              </AdmnProtect>
+            }
+          />
+          <Route
+            path="/admin/all-users"
+            element={
+              <AdmnProtect>
+                <Users />
+              </AdmnProtect>
+            }
+          />
+          <Route
+            path="/admin/all-songs"
+            element={
+              <AdmnProtect>
+                <Allsongs />
+              </AdmnProtect>
+            }
+          />
+          <Route
+            path="/admin/view-song/:songId"
+            element={
+              <AdmnProtect>
+                <ViewSong />
+              </AdmnProtect>
+            }
+          />
+          <Route
+            path="/admin/add-song"
+            element={
+              <AdmnProtect>
+                <AddSong />
+              </AdmnProtect>
+            }
+          />
+          <Route
+            path="/admin/edit-song/:songId"
+            element={
+              <AdmnProtect>
+                <EditSong />
+              </AdmnProtect>
+            }
+          />
         </Routes>
       </myContext.Provider>
     </div>

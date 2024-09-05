@@ -7,7 +7,7 @@ import { IoIosAddCircleOutline, IoIosMore } from "react-icons/io";
 import DeleteSong from "./DeleteSong";
 
 const ViewSong = () => {
-  const [song, setSong] = useState(null); 
+  const [song, setSong] = useState(null);
   const { songId } = useParams();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -19,8 +19,7 @@ const ViewSong = () => {
   useEffect(() => {
     Axios.get(`/admin/songby-id/${songId}`, { withCredentials: true })
       .then((response) => {
-        console.log(response);
-        setSong(response.data.songData); 
+        setSong(response.data.songData);
       })
       .catch((error) => {
         console.log(error);
@@ -44,18 +43,17 @@ const ViewSong = () => {
               <h1 className="font-extrabold text-6xl capitalize">
                 {song?.name}
               </h1>
-             <div>
-             <p >Artist</p>
-             <h1 className="hover:underline">{song?.artist}</h1>
-             
-             </div>
-             
+              <div>
+                <p>Artist</p>
+                <h1 className="hover:underline">{song?.artist}</h1>
+              </div>
+
               {/* <audio ref={audioRef} src={song?.fileUrl} /> */}
             </div>
           </div>
           <div className="flex justify-between">
             <div className="flex flex-wrap gap-10 m-3">
-              <span className="text-green-500 text-5xl" >
+              <span className="text-green-500 text-5xl">
                 {/* {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />} */}
               </span>
               <span className="text-white text-4xl">
@@ -64,7 +62,7 @@ const ViewSong = () => {
               <span className="text-white text-4xl" onClick={toggleMenu}>
                 <IoIosMore />
               </span>
-            <DeleteSong isOpen={isOpen} songId={songId}/>
+              <DeleteSong isOpen={isOpen} songId={songId} song={song}/>
             </div>
           </div>
         </div>

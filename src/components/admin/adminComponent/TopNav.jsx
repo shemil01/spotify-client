@@ -11,29 +11,28 @@ const TopNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const logout = () => {
-   
     Cookies.remove("adminToken");
     localStorage.removeItem("adminToken");
     setAdminLog(false);
-    navigate('/')
+    navigate("admin/login");
   };
   return (
     <div className="bg-black p-4 flex justify-between items-center">
       <div className="text-lg font-semibold">Dashboard</div>
       <div className="flex items-center">
-        <span className="mr-4 text-2xl" onClick={toggleMenu}><IoIosAdd /></span>
-        <Toggle toggleMenu={toggleMenu} isOpen={isOpen}/>
+        <span className="mr-4 text-2xl" onClick={toggleMenu}>
+          <IoIosAdd />
+        </span>
+        <Toggle toggleMenu={toggleMenu} isOpen={isOpen} />
         <span className="mr-4">
           <IoIosNotifications />
         </span>
-        <span  className="mr-4">
+        <span className="mr-4">
           <IoIosSettings />
         </span>
         <Link

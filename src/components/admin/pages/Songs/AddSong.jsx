@@ -3,11 +3,13 @@ import SideNav from "../../adminComponent/SideNav";
 import TopNav from "../../adminComponent/TopNav";
 import { Axios } from "../../../../pages/mainPage/MainPage";
 import toast from "react-hot-toast";
-import { ClipLoader } from 'react-spinners';
+import { ClipLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 const AddSong = () => {
+  const navigate = useNavigate()
   const [songs, setSongs] = useState([]);
-  const [isUploading, setIsUploading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const [uploadSong, setuploadSong] = useState({
     name: "",
     coverImage: null,
@@ -17,14 +19,8 @@ const AddSong = () => {
     description: "",
   });
 
-  const [songFile, setSongFile] = useState(null); // Store audio file
+ 
 
-  const UploadingSpinner = () => (
-    <div className="flex items-center justify-center h-screen">
-      <ClipLoader color="#36D7B7" loading={true} size={50} />
-    </div>
-  );
-  
   const getDefaultImage = () => {
     return "https://cdn.pixabay.com/photo/2017/11/10/05/24/add-2935429_960_720.png";
   };
@@ -35,33 +31,36 @@ const AddSong = () => {
     audio.onloadedmetadata = () => {
       setuploadSong((prev) => ({
         ...prev,
-        duration: Math.floor(audio.duration), // Set duration in seconds
+        duration: Math.floor(audio.duration),
       }));
     };
   };
 
   const addSong = async () => {
-    setIsUploading(true);
+    setIsLoading(true)
     const formData = new FormData();
 
     formData.append("name", uploadSong.name);
     formData.append("coverImage", uploadSong.coverImage || getDefaultImage());
     formData.append("fileUrl", uploadSong.fileUrl);
     formData.append("artist", uploadSong.artist);
-    formData.append("duration", uploadSong.duration); // Already in seconds
+    formData.append("duration", uploadSong.duration);
     formData.append("description", uploadSong.description);
+    
 
     try {
       const response = await Axios.post("/add-song", formData, {
         withCredentials: true,
       });
-      console.log(response);
+
       toast.success(response.data.message);
-      setIsUploading(false);
+     
       setSongs([...songs, uploadSong]);
+      navigate('/admin/all-songs')
     } catch (error) {
       toast.error(error.response?.data?.message || "Error adding song");
-      console.log(error);
+    } finally {
+      setIsLoading(false); // Hide loading animation
     }
   };
 
@@ -120,6 +119,12 @@ const AddSong = () => {
                   />
                 </label>
               </div>
+              {isLoading && (
+        <div className="flex items-center mt-4">
+          <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-8 w-8"></div>
+          <p className="ml-2 text-sm text-gray-500">Uploading...</p>
+        </div>
+      )}
             </div>
             <div className="flex flex-col gap-2.5">
               <p className="font-bold">Song Name</p>
@@ -163,7 +168,7 @@ const AddSong = () => {
                   className="bg-transparent border-2 border-gray-400 p-2"
                   placeholder="Duration"
                   value={uploadSong.duration}
-                  readOnly // Duration will be set automatically from the audio file
+                  readOnly 
                 />
               </div>
             </div>
@@ -171,9 +176,11 @@ const AddSong = () => {
           <button
             onClick={addSong}
             className="w-36 bg-green-500 mt-5 rounded-full h-10"
+            disabled={isLoading}
           >
             Save
           </button>
+         
         </main>
       </div>
     </div>
