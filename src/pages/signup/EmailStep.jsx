@@ -103,7 +103,7 @@ const Emailstep = ({ onNext }) => {
           <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
           <FaFacebook className="text-xl text-blue-600" />
             <button className="text-white font-semibold px-5">
-            Continue With facebook
+              Continue With fb
             </button>
           </div>
           {/* <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
