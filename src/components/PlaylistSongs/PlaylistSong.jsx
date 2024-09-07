@@ -8,8 +8,10 @@ import { Link } from "react-router-dom";
 import { MdDelete,  } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 
+
 const PlaylistSongs = ({ playlist, isPlaying, playPause, playRef }) => {
   const [activeSongMenu, setActiveSongMenu] = useState(null);
+
 
   // Toggle menu for a specific song
   const songToggle = (songId) => {
@@ -28,7 +30,7 @@ const PlaylistSongs = ({ playlist, isPlaying, playPause, playRef }) => {
         console.log(error);
       });
   };
-
+ 
   return (
     <div className="flex flex-col">
       {playlist?.songs?.map((songData, index) => (

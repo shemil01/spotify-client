@@ -13,6 +13,7 @@ import { CiEdit } from "react-icons/ci";
 import { MdDelete, MdOutlineIosShare } from "react-icons/md";
 import { IoIosRemoveCircle } from "react-icons/io";
 import { RiAccountCircleFill } from "react-icons/ri";
+import { ClipLoader } from 'react-spinners';
 
 const PlaylistById = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const PlaylistById = () => {
   const { playlist, setPlaylist,userData } = useContext(myContext);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playlistMenu, setPlaylistMenu] = useState(false);
+  const   [loading,setLoading] = useState(true)
   const playRef = useRef();
 
 
@@ -41,6 +43,7 @@ const PlaylistById = () => {
     Axios.get(`playlist-by-id/${playlistId}`, { withCredentials: true })
       .then((response) => {
         setPlaylist(response.data.playlists);
+        setLoading(false)
       })
       .catch((error) => {
         console.log(error);
@@ -62,6 +65,14 @@ const PlaylistById = () => {
       });
   };
   const mobileView = useMediaQuery({ query: "(max-width: 1000px)" });
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-black w-full h-screen flex space-y-3">

@@ -5,11 +5,13 @@ import { Axios } from "../../../../pages/mainPage/MainPage";
 import { useParams } from "react-router-dom";
 import { IoIosAddCircleOutline, IoIosMore } from "react-icons/io";
 import DeleteSong from "./DeleteSong";
+import { ClipLoader } from 'react-spinners';
 
 const ViewSong = () => {
   const [song, setSong] = useState(null);
   const { songId } = useParams();
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true); 
 
   const toggleMenu = (e) => {
     setIsOpen(!isOpen);
@@ -20,11 +22,20 @@ const ViewSong = () => {
     Axios.get(`/admin/songby-id/${songId}`, { withCredentials: true })
       .then((response) => {
         setSong(response.data.songData);
+        setLoading(false)
       })
       .catch((error) => {
         console.log(error);
       });
   }, [songId]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-[#0d0d0d] text-white">

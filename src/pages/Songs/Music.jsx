@@ -13,6 +13,7 @@ const Music = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  
 
   const { userData, setUserData, setLog, songs, setSongs } =
     useContext(myContext);

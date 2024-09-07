@@ -11,9 +11,11 @@ import { MdOutlinePauseCircleFilled } from "react-icons/md";
 import Menu from "../../components/Toggle/Menu";
 import SubMenu from "../../components/Toggle/SubMenu";
 import ToggleMenu from "../../components/Toggle/ToggleMenu";
+import { ClipLoader } from 'react-spinners';
 
 const SongById = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const   [loading,setLoading] = useState(true)
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { userData, setUserData, setLog } = useContext(myContext);
@@ -47,6 +49,7 @@ const SongById = () => {
     Axios.get(`/song-by-id/${songId}`, { withCredentials: true })
       .then((response) => {
         setSong(response.data.songData);
+        setLoading(false)
       })
       .catch((error) => {
         console.log(error);
@@ -63,6 +66,14 @@ const SongById = () => {
   };
 
   const mobileView = useMediaQuery({ query: "(max-width: 1000px)" });
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-black w-full h-screen flex space-y-3">

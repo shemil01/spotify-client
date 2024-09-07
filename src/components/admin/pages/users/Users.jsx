@@ -5,9 +5,11 @@ import Statistics from "./statics";
 import UserTable from "./UserTable";
 import { Axios } from "../../../../pages/mainPage/MainPage";
 import GenderPieChart from "./Piechart";
+import { ClipLoader } from 'react-spinners';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [loading,setLoading] = useState(true)
   useEffect(() => {
     Axios.get("/get-all-users", {
       headers: {
@@ -17,11 +19,21 @@ const Users = () => {
     })
       .then((response) => {
         setUsers(response.data.user || []); 
+        setLoading(false)
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen bg-[#121212] text-white">
       <SideNav />

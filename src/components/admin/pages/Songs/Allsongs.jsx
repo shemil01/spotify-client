@@ -4,12 +4,13 @@ import SideNav from "../../adminComponent/SideNav";
 import { Axios } from "../../../../pages/mainPage/MainPage";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import DeleteSong from "./DeleteSong";
+import { ClipLoader } from 'react-spinners';
 import { Link, useNavigate } from "react-router-dom";
 
 const Allsongs = () => {
   const navigate = useNavigate()
   const [songs, setSongs] = useState([]);
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     Axios.get("/admin/songs", {
@@ -17,12 +18,20 @@ const Allsongs = () => {
     })
       .then((response) => {
         setSongs(response.data.songs);
-        console.log(response.data.songs);
+        setLoading(false)
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div>
+    );
+  }
   return (
     <div className="flex h-screen bg-[#0d0d0d] text-white">
       <SideNav />
