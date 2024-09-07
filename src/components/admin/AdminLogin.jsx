@@ -11,6 +11,7 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const {setAdminLog} = useContext(myContext)
   const [admin, setAdmin] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false); 
   // const [adminData, setAdminData] = useState({});
   const [showPassword,setShowPassword] = useState(false)
 
@@ -24,6 +25,7 @@ const AdminLogin = () => {
 
     if (!admin.email || !admin.password) {
       return toast.error("Enter email and password");
+      setLoading(true)
     }
     Axios.post("/admin-login", admin, {
       withCredentials: true,
@@ -34,6 +36,7 @@ const AdminLogin = () => {
         localStorage.setItem("adminToken", adminToken);
         navigate("/admin/home");
         setAdminLog(true)
+        setLoading(false)
       })
       .catch((error) => {
         toast.error(error.response.data.message);
@@ -85,7 +88,11 @@ const AdminLogin = () => {
                   <button onClick={passwordVisible} className="text-white absolute text-2xl right-10 top-1/2 transform -translate-y-1/2 ">{showPassword ?<BiSolidHide />:<BiSolidShow />}</button>
               </div>
               <div className="flex justify-center items-center bg-green-500 rounded-full py-3 hover:bg-green-700 text-white mt-10">
-                <button onClick={handleSubmit}>Login</button>
+                <button onClick={handleSubmit}>{loading ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+            ) : (
+              "Login"
+            )}</button>
               </div>
             </div>
           </div>
