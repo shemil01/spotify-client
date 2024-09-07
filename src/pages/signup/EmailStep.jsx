@@ -21,6 +21,7 @@ const navigate = useNavigate()
     await Axios.post("/user/email-check", signup)
       .then((response) => {
         setIsExist(response.data.success);
+        setLoading(false);
       })
       .catch((error) => {
         toast.error(error.response.data.message);
@@ -44,11 +45,11 @@ const navigate = useNavigate()
     } else if (!regex.test(signup.email)) {
       errors.email = "Invalid email format";
     }
+    setLoading(true);
     
     setFormError(errors);
     
     if (Object.keys(errors).length === 0 && isExist !== false) {
-      setLoading(true);
       onNext();
     }
   };
