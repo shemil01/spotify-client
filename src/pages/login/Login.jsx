@@ -59,7 +59,7 @@ const Login = () => {
       .catch((error) => {
         setLoading(false); // Set loading to false if there's an error
         console.log(error);
-        toast.error(error.response.data.messages);
+        toast.error(error.response.data.message);
       });
   };
 

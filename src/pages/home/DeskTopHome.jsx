@@ -98,7 +98,13 @@ const DeskTopHome = () => {
   };
 
 
-  {loading&&<ClipLoader color={"#ffffff"} loading={loading} size={35} />}
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div>
+    );
+  }
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
       <SideBar />
