@@ -29,20 +29,15 @@ const ViewSong = () => {
       });
   }, [songId]);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-black">
-        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
-      </div>
-    );
-  }
 
   return (
     <div className="flex h-screen bg-[#0d0d0d] text-white">
       <SideNav />
       <div className="flex flex-col flex-grow">
         <TopNav />
-        <div className="w-full h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
+      { loading ?  <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div> : <div className="w-full h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
           <div className="mt-10 flex gap-2 flex-col md:flex-row md:items-end ">
             <img
               src={song?.coverImage}
@@ -76,7 +71,7 @@ const ViewSong = () => {
               <DeleteSong isOpen={isOpen} songId={songId} song={song}/>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );

@@ -98,13 +98,6 @@ const DeskTopHome = () => {
   };
 
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-black">
-        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
-      </div>
-    );
-  }
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
       <SideBar />
@@ -118,7 +111,9 @@ const DeskTopHome = () => {
         />
       <HomeNav/>
         {/* list songs */}
-        <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
+       {loading ?  <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div>: <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
           
           {playlist?.length > 0 && <Playlist playlist={playlist} />}
           <div className="m-5">
@@ -165,7 +160,7 @@ const DeskTopHome = () => {
             </div>
             <Footer />
           </div>
-        </div>
+        </div>}
       </div>
       {isMenuOpen && (
         <div className="w-48 bg-[#292828] h-64 rounded-md absolute top-14 right-4">

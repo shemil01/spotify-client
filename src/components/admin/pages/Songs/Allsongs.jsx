@@ -25,19 +25,14 @@ const Allsongs = () => {
       });
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-black">
-        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
-      </div>
-    );
-  }
   return (
     <div className="flex h-screen bg-[#0d0d0d] text-white">
       <SideNav />
       <div className="flex flex-col flex-grow">
         <TopNav />
-        <main className="flex-grow p-6 overflow-y-auto no-scrollbar">
+      { loading ?  <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div> : <main className="flex-grow p-6 overflow-y-auto no-scrollbar">
           <div className="m-5">
             <div>
               <p className="text-white font-bold text-2xl">All Songs</p>
@@ -86,7 +81,7 @@ const Allsongs = () => {
               ))}
             </div>
           </div>
-        </main>
+        </main>}
       </div>
     </div>
   );

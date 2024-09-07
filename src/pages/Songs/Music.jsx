@@ -8,12 +8,14 @@ import { Axios } from "../mainPage/MainPage";
 import { FaCirclePlay } from "react-icons/fa6";
 import Player from "../../components/player/Desktop";
 import ToggleMenu from "../../components/Toggle/ToggleMenu";
+import { ClipLoader } from 'react-spinners';
 
 const Music = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  
+  const   [loading,setLoading] = useState(true)
+
 
   const { userData, setUserData, setLog, songs, setSongs } =
     useContext(myContext);
@@ -52,6 +54,7 @@ const Music = () => {
     Axios.get("/view-songs")
       .then((response) => {
         setSongs(response.data.songs);
+        setLoading(false)
       })
       .catch((error) => {
         console.log(error);
@@ -98,7 +101,9 @@ const Music = () => {
           </div>
         </div>
         {/* list songs */}
-        <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
+        {loading ?  <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div> : <div className="w-full bg-[#161515] h-[calc(96%-6rem)] overflow-y-auto no-scrollbar">
           <div className="m-5">
             <div>
               <p className="text-white font-bold text-2xl">Popular Songs</p>
@@ -142,7 +147,7 @@ const Music = () => {
               ))}
             </div>
           </div>
-        </div>
+        </div>}
       </div>
 
       {isMenuOpen && (

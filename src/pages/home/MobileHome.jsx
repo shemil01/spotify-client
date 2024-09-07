@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { ClipLoader } from 'react-spinners';
+import { ClipLoader } from "react-spinners";
 import { RiAccountCircleFill } from "react-icons/ri";
 import myContext from "../../context/Context";
 import { useNavigate } from "react-router-dom";
@@ -54,7 +54,7 @@ const MobileHome = () => {
     Axios.get("/view-songs")
       .then((response) => {
         setSongs(response.data.songs);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -75,14 +75,6 @@ const MobileHome = () => {
     setIsMenuOpen(!isMenuOpen);
     e.name = e.name === "menu" ? "close" : "menu";
   };
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-black">
-        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
-      </div>
-    );
-  }
 
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
@@ -115,51 +107,56 @@ const MobileHome = () => {
         </div>
 
         {/* list songs */}
-        <div className="w-full bg-[#161515]  h-[calc(96%-6rem)]  overflow-y-auto no-scrollbar">
-          <div className="m-5">
-            <div>
-              <p className="text-white font-bold text-2xl">Popular Songs</p>
-            </div>
-            <div className=" grid grid-cols-2  md:grid-cols-3 ">
-              {songs.map((songData, index) => (
-                <div
-                  key={index}
-                  className="group relative  items-center  bg-[#161515] p-2  rounded-lg transition-all duration-300 hover:bg-[#2b2929]"
-                >
-                  <div className="relative w-full">
-                    <img
-                      src={songData.coverImage}
-                      alt={songData.name}
-                      className="w-full rounded-lg"
+        {loading ? (
+          <div className="flex justify-center items-center h-screen bg-black">
+            <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+          </div>
+        ) : (
+          <div className="w-full bg-[#161515]  h-[calc(96%-6rem)]  overflow-y-auto no-scrollbar">
+            <div className="m-5">
+              <div>
+                <p className="text-white font-bold text-2xl">Popular Songs</p>
+              </div>
+              <div className=" grid grid-cols-2  md:grid-cols-3 ">
+                {songs.map((songData, index) => (
+                  <div
+                    key={index}
+                    className="group relative  items-center  bg-[#161515] p-2  rounded-lg transition-all duration-300 hover:bg-[#2b2929]"
+                  >
+                    <div className="relative w-full">
+                      <img
+                        src={songData.coverImage}
+                        alt={songData.name}
+                        className="w-full rounded-lg"
+                      />
+                      <button
+                        onClick={() => playPause(index)}
+                        className="absolute right-2 bottom-2 text-green-600 bg-black rounded-full text-3xl "
+                      >
+                        {isPlaying && currentSong === index ? (
+                          <MdOutlinePauseCircleFilled />
+                        ) : (
+                          <FaCirclePlay />
+                        )}
+                      </button>
+                    </div>
+                    <p className="mt-2 text-white text-center font-semibold">
+                      {songData.name}
+                    </p>
+                    <p className="text-gray-400 text-center text-sm">
+                      {songData.artist}
+                    </p>
+                    <audio
+                      src={songData.fileUrl}
+                      ref={(el) => (audioRefs.current[index] = el)}
                     />
-                    <button
-                      onClick={() => playPause(index)}
-                      className="absolute right-2 bottom-2 text-green-600 bg-black rounded-full text-3xl "
-                    >
-                      {isPlaying && currentSong === index ? (
-                        <MdOutlinePauseCircleFilled />
-                      ) : (
-                        <FaCirclePlay />
-                      )}
-                    </button>
                   </div>
-                  <p className="mt-2 text-white text-center font-semibold">
-                    {songData.name}
-                  </p>
-                  <p className="text-gray-400 text-center text-sm">
-                    {songData.artist}
-                  </p>
-                  <audio
-                    src={songData.fileUrl}
-                    ref={(el) => (audioRefs.current[index] = el)}
-                  />
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
-
       {isMenuOpen && (
         <div className=" w-full h-screen flex space-y-3 bg-[#292828]  z-30 absolute ">
           <div className="h-full ">
@@ -186,7 +183,7 @@ const MobileHome = () => {
           </div>
         </div>
       )}
- <MobilePlayer
+      <MobilePlayer
         currentSong={currentSong !== null ? songs[currentSong] : null}
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}

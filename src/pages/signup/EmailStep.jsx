@@ -48,8 +48,8 @@ const navigate = useNavigate()
     setFormError(errors);
     
     if (Object.keys(errors).length === 0 && isExist !== false) {
-      onNext();
       setLoading(true);
+      onNext();
     }
   };
 
