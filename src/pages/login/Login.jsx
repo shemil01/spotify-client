@@ -16,9 +16,7 @@ const Login = () => {
   const { setUserData, setLog } = useContext(myContext);
   const [user, setUser] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-
-
-
+  const [loading, setLoading] = useState(false); // New loading state
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -40,25 +38,28 @@ const Login = () => {
       toast.error("Please fill all fields");
       return;
     }
+
+    setLoading(true); // Set loading to true when login starts
+
     Axios.post("/user/login", user, {
       withCredentials: true,
     })
       .then((response) => {
-        console.log(response)
-        // const { token, userData } = response.data;
-        // Cookies.set("token", token);
-        // localStorage.setItem("token", token);
-        // const userInfo = JSON.stringify(userData);
-        // localStorage.setItem("userInfo", userInfo);
-        // toast.success(response.data.message);
-        // navigate("/home");
-        // setLog(true);
-        // setUserData(userData);
+        const { token, userData } = response.data;
+        Cookies.set("token", token);
+        localStorage.setItem("token", token);
+        const userInfo = JSON.stringify(userData);
+        localStorage.setItem("userInfo", userInfo);
+        toast.success(response.data.message);
+        navigate("/home");
+        setLog(true);
+        setUserData(userData);
+        setLoading(false); // Set loading to false after login success
       })
       .catch((error) => {
-        console.log(error)
-        // toast.error(error.response.data.messages);
-        // console.error("login error", error);
+        setLoading(false); // Set loading to false if there's an error
+        console.log(error);
+        toast.error(error.response.data.messages);
       });
   };
 
@@ -94,6 +95,7 @@ const Login = () => {
             </span>
           </div>
         </div>
+
         <div className="flex flex-col items-center mt-6 md:mt-4 space-y-2">
           <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <FcGoogle />
@@ -104,39 +106,34 @@ const Login = () => {
               Continue With Google
             </button>
           </div>
+
           <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
-          <FaFacebook className="text-xl text-blue-600" />
-            <button
-              
-              className="text-white font-semibold px-5"
-            >
+            <FaFacebook className="text-xl text-blue-600" />
+            <button className="text-white font-semibold px-5">
               Continue With fb
             </button>
           </div>
-          {/* <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
-            <FaFacebook className="text-xl text-blue-600" />
-            <button className="text-white font-semibold px-5">
-              Continue With Facebook
-            </button>
-          </div> */}
+
           <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <FaApple className="text-xl text-white" />
             <button className="text-white font-semibold px-5">
               Continue With Apple
             </button>
           </div>
+
           <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <Link to={"/login-number"}>
-              {" "}
               <button className="text-white font-semibold px-5">
                 Continue With Mobile
               </button>
             </Link>
           </div>
         </div>
+
         <div className="flex justify-center">
           <hr className="w-2/3 opacity-35" />
         </div>
+
         <div>
           <span className="text-white flex justify-center font-semibold">
             Email or username
@@ -151,6 +148,7 @@ const Login = () => {
             className="rounded-md text-white px-8 py-3 w-80 font-semibold border-solid border-2 border-[#727272] bg-[#121212] hover:border-white transition duration-300"
           />
         </div>
+
         <div>
           <span className="text-white flex justify-center font-semibold">
             Password
@@ -173,29 +171,36 @@ const Login = () => {
             </button>
           </div>
         </div>
+
         <div className="flex justify-center">
           <button
             onClick={handleSubmit}
-            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 transform transition-transform duration-200 hover:scale-105"
+            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 transform transition-transform duration-200 hover:scale-105 flex justify-center items-center"
           >
-            Login
+            {loading ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+            ) : (
+              "Login"
+            )}
           </button>
         </div>
+
         <div className="text-white font-semibold flex justify-center">
           <Link to="/forget-password" className="hover:underline">
             Forgot Your Password?
           </Link>
         </div>
+
         <div className="flex justify-center">
           <hr className="w-2/3 opacity-35" />
         </div>
+
         <div className="mt-4 flex flex-col md:flex-row items-center justify-center">
           <span className="text-white text-sm md:text-base">
             Don't have an account?
           </span>
           <span className="font-bold text-white ml-0 md:ml-1 mt-1 md:mt-0 flex items-center text-sm md:text-base">
             <Link to="/register" className="hover:underline">
-              {" "}
               Sign up for Spotify.
             </Link>
           </span>
