@@ -16,6 +16,7 @@ function PasswordReset() {
   const { token } = useParams();
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
+  const [loading,setLoading] = useState(false)
   
 
   //show and hide
@@ -51,11 +52,13 @@ const passwordVisible =()=>{
 
     setFormError(errors);
     if (Object.keys(errors).length === 0) {
+      setLoading(true)
       try {
         const response = await Axios.post(`/reset/${token}`, input);
         navigate("/home");
         toast.success("Password has been reset");
         setMessage(response.data);
+        setLoading(false)
       } catch (error) {
         setMessage("Error resetting password");
       }
@@ -141,9 +144,14 @@ const passwordVisible =()=>{
         <div className="flex justify-center  py-8">
           <button
             onClick={handleSubmit}
-            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 md:w-80"
+            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 md:w-80 flex justify-center items-center"
           >
-            Change password
+            {loading ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+            ) : (
+              " Change password"
+            )}
+           
           </button>
         </div>
         {message && <p className="text-white">{message}</p>}

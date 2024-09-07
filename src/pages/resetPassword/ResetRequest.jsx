@@ -5,6 +5,7 @@ import { Axios } from "../mainPage/MainPage";
 function PasswordResetRequest() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [loading,setLoading] = useState(false)
 
 
 
@@ -12,9 +13,11 @@ function PasswordResetRequest() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await Axios.post("/password-reset", { email });
       setMessage(response.data);
+      setLoading(false)
     } catch (error) {
       setMessage("Error sending reset email");
     }
@@ -60,9 +63,15 @@ function PasswordResetRequest() {
         <div className="flex justify-center  py-8">
           <button
             onClick={handleSubmit}
-            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 md:w-80 transform transition-transform duration-200 hover:scale-105"
+            className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 md:w-80 transform transition-transform duration-200 hover:scale-105 flex justify-center items-center"
           >
-            Send link
+
+{loading ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+            ) : (
+              "Send link"
+            )}
+            
           </button>
         </div>
         {message && <p className="text-white">{message}</p>}
