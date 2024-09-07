@@ -34,22 +34,22 @@ const navigate = useNavigate()
   };
 
   const handleSubmit = (e) => {
-    setLoading(true);
     e.preventDefault();
     emailCheck();
     const errors = {};
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
+    
     if (signup.email.trim() === "") {
       errors.email = "Email is required";
     } else if (!regex.test(signup.email)) {
       errors.email = "Invalid email format";
     }
-
+    
     setFormError(errors);
-
+    
     if (Object.keys(errors).length === 0 && isExist !== false) {
       onNext();
+      setLoading(true);
     }
   };
 
@@ -137,12 +137,7 @@ const navigate = useNavigate()
               Continue With fb
             </button>
           </div>
-          {/* <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
-            <FaFacebook className="text-xl text-blue-600" />
-            <button className="text-white font-semibold px-5">
-              Continue With Facebook
-            </button>
-          </div> */}
+       
           <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <FaApple className="text-xl text-white" />
             <button className="text-white font-semibold px-5">
