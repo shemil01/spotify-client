@@ -88,7 +88,7 @@ const AdminLogin = () => {
                   <button onClick={passwordVisible} className="text-white absolute text-2xl right-10 top-1/2 transform -translate-y-1/2 ">{showPassword ?<BiSolidHide />:<BiSolidShow />}</button>
               </div>
               <div className="flex justify-center items-center bg-green-500 rounded-full py-3 hover:bg-green-700 text-white mt-10">
-                <button onClick={handleSubmit}>{loading ? (
+                <button className="flex justify-center items-center" onClick={handleSubmit}>{loading ? (
               <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
             ) : (
               "Login"
