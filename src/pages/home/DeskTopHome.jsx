@@ -11,11 +11,14 @@ import SideBar from "../../components/nav/SideBar";
 import DesktopPlayer from "../../components/player/Desktop";
 import Footer from "../../components/footer/Footer";
 import HomeNav from "../../components/nav/HomeNav";
+import { ClipLoader } from 'react-spinners';
+
 
 const DeskTopHome = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const {
     userData,
@@ -40,6 +43,8 @@ const DeskTopHome = () => {
     }
   }, [isPlaying, currentSong]);
 
+  
+
   useEffect(() => {
     const data = async () => {
       try {
@@ -47,6 +52,7 @@ const DeskTopHome = () => {
           withCredentials: true,
         });
         setPlaylist(Data.data.playlist);
+        setLoading(false)
       } catch (error) {
         console.log(error);
       }
@@ -60,6 +66,7 @@ const DeskTopHome = () => {
     })
       .then((response) => {
         setSongs(response.data.songs);
+        setLoading(false)
       })
       .catch((error) => {
         console.log(error);
@@ -89,6 +96,9 @@ const DeskTopHome = () => {
     setUserData("");
     navigate("/");
   };
+
+
+  {loading&&<ClipLoader color={"#ffffff"} loading={loading} size={35} />}
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
       <SideBar />
