@@ -55,7 +55,7 @@ const passwordVisible =()=>{
       setLoading(true)
       try {
         const response = await Axios.post(`/reset/${token}`, input);
-        navigate("/home");
+        navigate("/login");
         toast.success("Password has been reset");
         setMessage(response.data);
         setLoading(false)
