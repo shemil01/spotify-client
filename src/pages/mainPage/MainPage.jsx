@@ -34,6 +34,7 @@ import EditSong from "../../components/admin/pages/Songs/EditSong";
  
 export const Axios = axios.create({
   baseURL: "https://spotify-server-mxch.onrender.com/api",
+  withCredentials: true,
 });
 
 const MainPage = () => {
