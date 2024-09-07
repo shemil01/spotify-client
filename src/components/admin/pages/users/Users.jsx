@@ -13,7 +13,7 @@ const Users = () => {
   useEffect(() => {
     Axios.get("/get-all-users", {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("admin_token")}`,
+        Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
       },
       withCredentials: true,
     })

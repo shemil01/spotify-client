@@ -50,7 +50,7 @@ const AddSong = () => {
 
     try {
       const response = await Axios.post("/add-song", formData, {
-        withCredentials: true,
+        withCredentials:true
       });
 
       toast.success(response.data.message);
