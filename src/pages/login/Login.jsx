@@ -44,19 +44,21 @@ const Login = () => {
       withCredentials: true,
     })
       .then((response) => {
-        const { token, userData } = response.data;
-        Cookies.set("token", token);
-        localStorage.setItem("token", token);
-        const userInfo = JSON.stringify(userData);
-        localStorage.setItem("userInfo", userInfo);
-        toast.success(response.data.message);
-        navigate("/home");
-        setLog(true);
-        setUserData(userData);
+        console.log(response)
+        // const { token, userData } = response.data;
+        // Cookies.set("token", token);
+        // localStorage.setItem("token", token);
+        // const userInfo = JSON.stringify(userData);
+        // localStorage.setItem("userInfo", userInfo);
+        // toast.success(response.data.message);
+        // navigate("/home");
+        // setLog(true);
+        // setUserData(userData);
       })
       .catch((error) => {
-        toast.error(error.response.data.messages);
-        console.error("login error", error);
+        console.log(error)
+        // toast.error(error.response.data.messages);
+        // console.error("login error", error);
       });
   };
 
