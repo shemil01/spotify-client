@@ -28,8 +28,12 @@ import AdminLoginProtect from "../../components/admin/adminAuth/AdminLoginProtec
 import EditSong from "../../components/admin/pages/Songs/EditSong";
 
 export const Axios = axios.create({
-  baseURL: "https://spotify-server-mxch.onrender.com/api",
+  baseURL: "https://localhost:4500/api",
 });
+
+// export const Axios = axios.create({
+//   baseURL: "https://spotify-server-mxch.onrender.com/api",
+// });
 
 const MainPage = () => {
   const [userData, setUserData] = useState({});
