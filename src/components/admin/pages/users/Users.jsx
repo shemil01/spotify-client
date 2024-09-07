@@ -10,6 +10,9 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     Axios.get("/get-all-users", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("admin_token")}`,
+      },
       withCredentials: true,
     })
       .then((response) => {

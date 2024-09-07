@@ -25,8 +25,8 @@ const AdminLogin = () => {
 
     if (!admin.email || !admin.password) {
       return toast.error("Enter email and password");
-      setLoading(true)
     }
+    setLoading(true)
     Axios.post("/admin-login", admin, {
       withCredentials: true,
     })
