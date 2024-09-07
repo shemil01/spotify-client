@@ -1,17 +1,21 @@
-import React, { useContext,  useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiFillSpotify } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaApple } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import myContext from "../../context/Context";
 import { Axios } from "../mainPage/MainPage";
 import toast from "react-hot-toast";
+import { useGoogleLogin } from "@react-oauth/google";
+import Cookies from "js-cookie";
 
 const Emailstep = ({ onNext }) => {
-  const { signup, setSignup } = useContext(myContext);
+const navigate = useNavigate()
+
+  const { signup, setSignup, setUserData, setLog } = useContext(myContext);
   const [formError, setFormError] = useState({});
   const [isExist, setIsExist] = useState(false);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   const emailCheck = async () => {
     await Axios.post("/user/email-check", signup)
@@ -20,7 +24,7 @@ const Emailstep = ({ onNext }) => {
       })
       .catch((error) => {
         toast.error(error.response.data.message);
-        setLoading(false)
+        setLoading(false);
         setIsExist(error.response.data.success);
       });
   };
@@ -30,7 +34,7 @@ const Emailstep = ({ onNext }) => {
   };
 
   const handleSubmit = (e) => {
-    setLoading(true)
+    setLoading(true);
     e.preventDefault();
     emailCheck();
     const errors = {};
@@ -48,6 +52,27 @@ const Emailstep = ({ onNext }) => {
       onNext();
     }
   };
+
+  // Google OAuth
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const response = await Axios.post("/google-login", {
+          access_token: tokenResponse.access_token,
+        });
+        const { token, userData } = response.data;
+        Cookies.set("token", token);
+        localStorage.setItem("token", token);
+        const userInfo = JSON.stringify(userData);
+        localStorage.setItem("userInfo", userInfo);
+        navigate("/home");
+        setLog(true);
+        setUserData(userInfo);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
 
   return (
     <div className="w-full bg-[#121212] flex justify-center overflow-y-scroll no-scrollbar">
@@ -87,7 +112,7 @@ const Emailstep = ({ onNext }) => {
             onClick={handleSubmit}
             className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 transform transition-transform duration-200 hover:scale-105"
           >
-           {loading ? (
+            {loading ? (
               <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
             ) : (
               "Next"
@@ -102,12 +127,12 @@ const Emailstep = ({ onNext }) => {
         <div className="flex flex-col items-center mt-6 md:mt-4 space-y-2">
           <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
             <FcGoogle />
-            <button className="text-white font-semibold px-5">
+            <button className="text-white font-semibold px-5" onClick={()=>googleLogin()}>
               Continue With Google
             </button>
           </div>
           <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
-          <FaFacebook className="text-xl text-blue-600" />
+            <FaFacebook className="text-xl text-blue-600" />
             <button className="text-white font-semibold px-5">
               Continue With fb
             </button>
@@ -138,7 +163,9 @@ const Emailstep = ({ onNext }) => {
             Already have an account?
           </span>
           <span className="font-bold text-white ml-0 md:ml-1 mt-1 md:mt-0 flex items-center text-sm md:text-base">
-            <Link to={"/login"} className="hover:underline">Log in here.</Link>
+            <Link to={"/login"} className="hover:underline">
+              Log in here.
+            </Link>
           </span>
         </div>
       </div>
