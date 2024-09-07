@@ -11,6 +11,7 @@ const Emailstep = ({ onNext }) => {
   const { signup, setSignup } = useContext(myContext);
   const [formError, setFormError] = useState({});
   const [isExist, setIsExist] = useState(false);
+  const [loading, setLoading] = useState(false); 
 
   const emailCheck = async () => {
     await Axios.post("/user/email-check", signup)
@@ -19,7 +20,7 @@ const Emailstep = ({ onNext }) => {
       })
       .catch((error) => {
         toast.error(error.response.data.message);
-
+        setLoading(false)
         setIsExist(error.response.data.success);
       });
   };
@@ -29,6 +30,7 @@ const Emailstep = ({ onNext }) => {
   };
 
   const handleSubmit = (e) => {
+    setLoading(true)
     e.preventDefault();
     emailCheck();
     const errors = {};
@@ -85,7 +87,11 @@ const Emailstep = ({ onNext }) => {
             onClick={handleSubmit}
             className="text-black font-semibold rounded-full bg-logoColor space-x-3 px-8 py-3 w-80 transform transition-transform duration-200 hover:scale-105"
           >
-            Next
+           {loading ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+            ) : (
+              "Next"
+            )}
           </button>
         </div>
         <div className="flex justify-center items-center space-x-3">

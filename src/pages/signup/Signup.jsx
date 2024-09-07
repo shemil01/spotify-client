@@ -11,12 +11,13 @@ import Cookies from "js-cookie";
 const Signup = () => {
   const [step, setStep] = useState(0);
   const { signup ,setLog,setUserData} = useContext(myContext);
+  const [loading, setLoading] = useState(false); 
 
   const navigate = useNavigate();
   const handleNext = () => setStep(step + 1);
   const handleFinish = (event) => {
     event.preventDefault();
-
+    setLoading(true)
     Axios.post("/user/register", {
       ...signup,
       dateOfBirth: `${signup.dateOfBirth.day}/${signup.dateOfBirth.month}/${signup.dateOfBirth.year}`,
@@ -32,7 +33,7 @@ const Signup = () => {
         setLog(true);
         setUserData(userData);
 
-       
+       setLoading(false)
       })
       .catch((error) => {
         console.error("registration error", error);
@@ -43,7 +44,7 @@ const Signup = () => {
     <div>
       {step === 0 && <Emailstep onNext={handleNext} />}
       {step === 1 && <PasswordStep onNext={handleNext} />}
-      {step === 2 && <DateOfBirthStep onFinish={handleFinish} />}
+      {step === 2 && <DateOfBirthStep onFinish={handleFinish} loading={loading}/>}
     </div>
   );
 };

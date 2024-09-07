@@ -5,7 +5,7 @@ import { AiFillSpotify } from "react-icons/ai";
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";
 
-const DateOfBirthStep = ({ onFinish }) => {
+const DateOfBirthStep = ({ onFinish ,loading}) => {
   const { signup, setSignup } = useContext(myContext);
 const navigate = useNavigate()
   const handleDateChange = (e) => {
@@ -146,7 +146,11 @@ const navigate = useNavigate()
               onClick={onFinish}
               className="text-black font-semibold rounded-full bg-logoColor px-8 py-3 w-full md:w-80 hover:bg-green-500 transition duration-300"
             >
-              Next
+            {loading ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+            ) : (
+              "Next"
+            )}
             </button>
           </div>
         </form>

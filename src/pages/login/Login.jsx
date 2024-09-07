@@ -16,7 +16,7 @@ const Login = () => {
   const { setUserData, setLog } = useContext(myContext);
   const [user, setUser] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false); // New loading state
+  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
     const token = Cookies.get("token");
