@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-
+import { ClipLoader } from 'react-spinners';
 import { RiAccountCircleFill } from "react-icons/ri";
 import myContext from "../../context/Context";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,8 @@ const MobileHome = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const { userData, setUserData, setLog, songs, setSongs } =
     useContext(myContext);
   const navigate = useNavigate();
@@ -52,6 +54,7 @@ const MobileHome = () => {
     Axios.get("/view-songs")
       .then((response) => {
         setSongs(response.data.songs);
+        setLoading(false)
       })
       .catch((error) => {
         console.log(error);
@@ -72,6 +75,15 @@ const MobileHome = () => {
     setIsMenuOpen(!isMenuOpen);
     e.name = e.name === "menu" ? "close" : "menu";
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-black w-full h-screen flex space-y-3">
       <div className="bg-[#121212] flex-1 rounded-md">
