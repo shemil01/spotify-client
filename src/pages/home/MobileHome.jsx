@@ -85,7 +85,7 @@ const MobileHome = () => {
               <span className="text-black ">All</span>
             </div>
             <div className="bg-[#292828] h-8 w-16 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold">Music</span>
+              <span className="text-white font-semibold"   onClick={() => navigate("/music")}>Music</span>
             </div>
             <div className="bg-[#292828] h-8 w-20 rounded-full flex items-center justify-center">
               <span className="text-white font-semibold">Podcast</span>
@@ -197,7 +197,7 @@ const MobileHome = () => {
           <span>
             <MdHomeFilled />
           </span>
-          <span>
+          <span onClick={()=>navigate('/search')}>
             <FaSearch />
           </span>
           <span>

@@ -3,7 +3,6 @@ import SideNav from "../../adminComponent/SideNav";
 import TopNav from "../../adminComponent/TopNav";
 import { Axios } from "../../../../pages/mainPage/MainPage";
 import toast from "react-hot-toast";
-import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 
 const AddSong = () => {
@@ -119,12 +118,7 @@ const AddSong = () => {
                   />
                 </label>
               </div>
-              {isLoading && (
-        <div className="flex items-center mt-4">
-          <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-8 w-8"></div>
-          <p className="ml-2 text-sm text-gray-500">Uploading...</p>
-        </div>
-      )}
+            
             </div>
             <div className="flex flex-col gap-2.5">
               <p className="font-bold">Song Name</p>
@@ -175,10 +169,16 @@ const AddSong = () => {
           </form>
           <button
             onClick={addSong}
-            className="w-36 bg-green-500 mt-5 rounded-full h-10"
+            className="w-36 bg-green-500 mt-5 rounded-full h-10 flex justify-center items-center"
             disabled={isLoading}
           >
-            Save
+              {isLoading ? (
+        <div className="flex items-center mt-4">
+          <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-8 w-8"></div>
+          <p className="ml-2 text-sm text-gray-500">Uploading...</p>
+        </div>
+      ):"Save"}
+            
           </button>
          
         </main>

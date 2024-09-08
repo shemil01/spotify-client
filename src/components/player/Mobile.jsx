@@ -73,6 +73,11 @@ const MobilePlayer = ({
         audioRef.play();
       }
       setIsPlaying(!isPlaying);
+    }else {
+      if (!currentSong && songs.length > 0) {
+        setCurrentSongIndex(0);
+        playPause(0);
+      }
     }
   };
 
