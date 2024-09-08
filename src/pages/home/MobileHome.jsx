@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { RiAccountCircleFill } from "react-icons/ri";
 import myContext from "../../context/Context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Axios } from "../mainPage/MainPage";
 import { FaCirclePlay } from "react-icons/fa6";
@@ -85,7 +85,12 @@ const MobileHome = () => {
               <span className="text-black ">All</span>
             </div>
             <div className="bg-[#292828] h-8 w-16 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold"   onClick={() => navigate("/music")}>Music</span>
+              <span
+                className="text-white font-semibold"
+                onClick={() => navigate("/music")}
+              >
+                Music
+              </span>
             </div>
             <div className="bg-[#292828] h-8 w-20 rounded-full flex items-center justify-center">
               <span className="text-white font-semibold">Podcast</span>
@@ -124,11 +129,14 @@ const MobileHome = () => {
                     className="group relative  items-center  bg-[#161515] p-2  rounded-lg transition-all duration-300 hover:bg-[#2b2929]"
                   >
                     <div className="relative w-full">
-                      <img
-                        src={songData.coverImage}
-                        alt={songData.name}
-                        className="w-full rounded-lg"
-                      />
+                      <Link to={`/song-id/${songData._id}`}>
+                        {" "}
+                        <img
+                          src={songData.coverImage}
+                          alt={songData.name}
+                          className="w-full rounded-lg"
+                        />
+                      </Link>
                       <button
                         onClick={() => playPause(index)}
                         className="absolute right-2 bottom-2 text-green-600 bg-black rounded-full text-3xl "
@@ -197,7 +205,7 @@ const MobileHome = () => {
           <span>
             <MdHomeFilled />
           </span>
-          <span onClick={()=>navigate('/search')}>
+          <span onClick={() => navigate("/search")}>
             <FaSearch />
           </span>
           <span>

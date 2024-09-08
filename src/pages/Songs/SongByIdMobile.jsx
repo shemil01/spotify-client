@@ -1,11 +1,81 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { IoIosArrowDown } from "react-icons/io";
+import { AiOutlineLike } from "react-icons/ai";
+import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
+import { LuShuffle } from "react-icons/lu";
+import { FaCirclePlay } from "react-icons/fa6";
+import { RiRepeatFill } from "react-icons/ri";
+import { useParams } from "react-router-dom";
+import { Axios } from "../mainPage/MainPage";
+import { ClipLoader } from "react-spinners";
+import { MdOutlinePauseCircleFilled } from "react-icons/md";
 
 const SongByIdMobile = () => {
+  const { songId } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [song, setSong] = useState(null);
+  const [currentTime, setCurrentTime] = useState(0); // Current playback time in seconds
+  const [duration, setDuration] = useState(255); // Total duration in seconds
+  const [progress, setProgress] = useState(0); // Progress in percentage
+  const [isPlaying, setIsPlaying] = useState(false);
+  const clickRef = useRef(null);
+  const audioRef = useRef(null);
+
+
+  // Fetch song by ID
+  useEffect(() => {
+    Axios.get(`/song-by-id/${songId}`, { withCredentials: true })
+      .then((response) => {
+        setSong(response.data.songData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [songId]);
+
+  // Simulate song progress for the example (remove this when using real audio)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime((prev) => Math.min(prev + 1, duration)); // Update time every second
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [duration]);
+
+  useEffect(() => {
+    setProgress((currentTime / duration) * 100); // Calculate progress percentage
+  }, [currentTime, duration]);
+
+  // Handle updating playback position when the user clicks on the seekbar
+  const updatePlaybackPosition = (e) => {
+    const seekbarWidth = clickRef.current.offsetWidth;
+    const clickX = e.nativeEvent.offsetX;
+    const newTime = (clickX / seekbarWidth) * duration;
+    setCurrentTime(newTime); // Set the new current time based on click
+  };
+
+  // Play/pause function
+  const playPause = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-black">
+        <ClipLoader color={"#ffffff"} loading={loading} size={50} />
+      </div>
+    );
+  }
+
   return (
-    <div className="h-screen bg-orange-300">
-      <header className="pt-10 text-white pl-5 flex justify-between pr-5 text-3xl" >
+    <div className="h-screen bg-orange-300 space-y-10">
+      <header className="pt-10 text-white pl-5 flex justify-between pr-5 text-3xl">
         <div>
           <IoIosArrowDown />
         </div>
@@ -14,8 +84,63 @@ const SongByIdMobile = () => {
         </div>
       </header>
 
+      <div className="pl-8 pr-5 space-y-5">
+        <div>
+          <img src={song?.coverImage} alt="" className="w-80 h-72" />
+        </div>
+        <div className="text-white font flex justify-between">
+          <div>
+            <h1 className="font-semibold text-2xl"> {song?.name}</h1>
+            <p>{song?.artist}</p>
+          </div>
+          <audio src={song?.fileUrl} />
+          <div className="text-3xl">
+            <AiOutlineLike />
+          </div>
+        </div>
+      </div>
+
       <div>
-        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fsoundcloud.com%2Fuser-596479501%2Fpakalin-vaathil-parava-movie&psig=AOvVaw3QRL86F3AiP_XZnljWjGWr&ust=1725877265183000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIC21_-Ps4gDFQAAAAAdAAAAABAE" alt="" className="w-40 h-40"/>
+        <div className="flex items-center gap-3 max-w-[500px] w-full px-5 text-white">
+          {/* Current Time */}
+          <p className="text-xs">
+            {new Date(currentTime * 1000).toISOString().substr(14, 5)}
+          </p>
+
+          {/* Seekbar */}
+          <div
+            ref={clickRef}
+            className="relative w-full h-1 bg-gray-300 rounded-full cursor-pointer"
+            onClick={updatePlaybackPosition}
+          >
+            <div
+              className="absolute top-0 left-0 h-full bg-green-800 rounded-full"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+
+          {/* Duration */}
+          <p className="text-xs">
+            {new Date(duration * 1000).toISOString().substr(14, 5)}
+          </p>
+        </div>
+        <div className="flex flex-row justify-between pl-5 pr-5 space-x-5 pt-5 text-white text-3xl">
+          <span>
+            <LuShuffle />
+          </span>
+          <span>
+            <BiSkipPrevious />
+          </span>
+          <span onClick={playPause}>
+          {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />}
+          </span>
+          <span>
+            <BiSkipNext />
+          </span>
+          <span>
+            <RiRepeatFill />
+          </span>
+        </div>
       </div>
     </div>
   );
