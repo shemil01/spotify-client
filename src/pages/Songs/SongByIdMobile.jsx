@@ -20,7 +20,7 @@ const SongByIdMobile = () => {
   const [progress, setProgress] = useState(0); // Progress in percentage
   const [isPlaying, setIsPlaying] = useState(false);
   const clickRef = useRef(null);
-  const audioRef = useRef(null);
+  // const audioRef = useRef(null);
 
 
   // Fetch song by ID
@@ -58,9 +58,9 @@ const SongByIdMobile = () => {
   // Play/pause function
   const playPause = () => {
     if (isPlaying) {
-      audioRef.current.pause();
+      clickRef.current.pause();
     } else {
-      audioRef.current.play();
+      clickRef.current.play();
     }
     setIsPlaying(!isPlaying);
   };
@@ -93,7 +93,7 @@ const SongByIdMobile = () => {
             <h1 className="font-semibold text-2xl"> {song?.name}</h1>
             <p>{song?.artist}</p>
           </div>
-          <audio src={song?.fileUrl} />
+          <audio ref={clickRef} src={song?.fileUrl} />
           <div className="text-3xl">
             <AiOutlineLike />
           </div>
