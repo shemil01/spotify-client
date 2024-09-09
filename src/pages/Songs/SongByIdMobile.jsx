@@ -22,7 +22,6 @@ const SongByIdMobile = () => {
   const clickRef = useRef(null);
   const audioRef = useRef(null);
 
-
   // Fetch song by ID
   useEffect(() => {
     Axios.get(`/song-by-id/${songId}`, { withCredentials: true })
@@ -35,14 +34,23 @@ const SongByIdMobile = () => {
       });
   }, [songId]);
 
-  // Simulate song progress for the example (remove this when using real audio)
+  // Sync progress with real audio playback
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime((prev) => Math.min(prev + 1, duration)); // Update time every second
-    }, 1000);
-    return () => clearInterval(interval);
+    if (audioRef.current) {
+      const handleTimeUpdate = () => {
+        setCurrentTime(audioRef.current.currentTime);
+        setDuration(audioRef.current.duration || duration);
+      };
+
+      audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
+
+      return () => {
+        audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
+      };
+    }
   }, [duration]);
 
+  // Calculate progress percentage when currentTime changes
   useEffect(() => {
     setProgress((currentTime / duration) * 100); // Calculate progress percentage
   }, [currentTime, duration]);
@@ -52,7 +60,8 @@ const SongByIdMobile = () => {
     const seekbarWidth = clickRef.current.offsetWidth;
     const clickX = e.nativeEvent.offsetX;
     const newTime = (clickX / seekbarWidth) * duration;
-    setCurrentTime(newTime); // Set the new current time based on click
+    audioRef.current.currentTime = newTime; // Set audio playback position
+    setCurrentTime(newTime); // Update the state
   };
 
   // Play/pause function
@@ -132,7 +141,7 @@ const SongByIdMobile = () => {
             <BiSkipPrevious />
           </span>
           <span onClick={playPause}>
-          {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />}
+            {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />}
           </span>
           <span>
             <BiSkipNext />
