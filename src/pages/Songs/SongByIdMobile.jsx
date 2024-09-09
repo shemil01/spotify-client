@@ -6,18 +6,17 @@ import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { LuShuffle } from "react-icons/lu";
 import { FaCirclePlay } from "react-icons/fa6";
 import { RiRepeatFill } from "react-icons/ri";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Axios } from "../mainPage/MainPage";
 import { ClipLoader } from "react-spinners";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
 
 const SongByIdMobile = () => {
-  const navigate = useNavigate()
   const { songId } = useParams();
   const [loading, setLoading] = useState(true);
   const [song, setSong] = useState(null);
   const [currentTime, setCurrentTime] = useState(0); // Current playback time in seconds
-  const [duration, setDuration] = useState(255); // Total duration in seconds
+  const [duration, setDuration] = useState(0); // Total duration in seconds, initially 0
   const [progress, setProgress] = useState(0); // Progress in percentage
   const [isPlaying, setIsPlaying] = useState(false);
   const clickRef = useRef(null);
@@ -35,12 +34,30 @@ const SongByIdMobile = () => {
       });
   }, [songId]);
 
-  // Sync progress with real audio playback
+  // Sync duration when audio metadata is loaded
+  useEffect(() => {
+    if (audioRef.current) {
+      const handleLoadedMetadata = () => {
+        setDuration(audioRef.current.duration); // Set the duration once metadata is loaded
+      };
+
+      audioRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
+
+      return () => {
+        audioRef.current.removeEventListener(
+          "loadedmetadata",
+          handleLoadedMetadata
+        );
+      };
+    }
+  }, [audioRef.current]);
+
+  // Sync current time and progress with real audio playback
   useEffect(() => {
     if (audioRef.current) {
       const handleTimeUpdate = () => {
         setCurrentTime(audioRef.current.currentTime);
-        setDuration(audioRef.current.duration || duration);
+        setProgress((audioRef.current.currentTime / duration) * 100);
       };
 
       audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
@@ -51,11 +68,6 @@ const SongByIdMobile = () => {
     }
   }, [duration]);
 
-  // Calculate progress percentage when currentTime changes
-  useEffect(() => {
-    setProgress((currentTime / duration) * 100); // Calculate progress percentage
-  }, [currentTime, duration]);
-
   // Handle updating playback position when the user clicks on the seekbar
   const updatePlaybackPosition = (e) => {
     const seekbarWidth = clickRef.current.offsetWidth;
@@ -63,6 +75,7 @@ const SongByIdMobile = () => {
     const newTime = (clickX / seekbarWidth) * duration;
     audioRef.current.currentTime = newTime; // Set audio playback position
     setCurrentTime(newTime); // Update the state
+    setProgress((newTime / duration) * 100); // Update progress
   };
 
   // Play/pause function
@@ -86,7 +99,7 @@ const SongByIdMobile = () => {
   return (
     <div className="h-screen bg-orange-300 space-y-10">
       <header className="pt-10 text-white pl-5 flex justify-between pr-5 text-3xl">
-        <div onClick={()=>navigate(-1)}>
+        <div>
           <IoIosArrowDown />
         </div>
         <div>
