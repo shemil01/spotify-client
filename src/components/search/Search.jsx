@@ -50,7 +50,7 @@ const Search = () => {
   };
 
   return (
-    <div className="bg-black w-full h-screen flex space-y-3">
+    <div className="bg-black md:w-full h-screen flex space-y-3 w-80">
       {!mobileView && <SideBar />}
       <div className="flex-1 md:h-[85%] h-screen  rounded-md bg-[#121212] relative">
         <header className="flex items-center gap-10 py-3 px-3">

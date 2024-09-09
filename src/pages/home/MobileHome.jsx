@@ -87,7 +87,7 @@ const MobileHome = () => {
             <div className="bg-[#292828] h-8 w-16 rounded-full flex items-center justify-center">
               <span
                 className="text-white font-semibold"
-                onClick={() => navigate("/music")}
+                // onClick={() => navigate("/music")}
               >
                 Music
               </span>
