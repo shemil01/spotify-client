@@ -6,12 +6,13 @@ import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { LuShuffle } from "react-icons/lu";
 import { FaCirclePlay } from "react-icons/fa6";
 import { RiRepeatFill } from "react-icons/ri";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Axios } from "../mainPage/MainPage";
 import { ClipLoader } from "react-spinners";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
 
 const SongByIdMobile = () => {
+  const navigate = useNavigate()
   const { songId } = useParams();
   const [loading, setLoading] = useState(true);
   const [song, setSong] = useState(null);
@@ -85,7 +86,7 @@ const SongByIdMobile = () => {
   return (
     <div className="h-screen bg-orange-300 space-y-10">
       <header className="pt-10 text-white pl-5 flex justify-between pr-5 text-3xl">
-        <div>
+        <div onClick={()=>navigate(-1)}>
           <IoIosArrowDown />
         </div>
         <div>
