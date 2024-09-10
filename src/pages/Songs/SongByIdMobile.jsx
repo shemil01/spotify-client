@@ -73,6 +73,24 @@ const SongByIdMobile = () => {
     }
   };
 
+  //next song function
+
+  const handleNext = () => {
+    if (song && song.length > 0) {
+      const nextSongIndex = (currentSong + 1) % song.length;
+      setCurrentSong(nextSongIndex);
+      playPause(nextSongIndex);
+    }
+  };
+  // prev song 
+
+  const handlePrevious = ()=> {
+    const prevSongIndex =
+    (currentSong - 1 + song.length) % song.length;
+  setCurrentSong(prevSongIndex);
+  playPause(prevSongIndex);
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-black">
@@ -136,13 +154,13 @@ const SongByIdMobile = () => {
           <span>
             <LuShuffle />
           </span>
-          <span>
+          <span onClick={handlePrevious}>
             <BiSkipPrevious />
           </span>
           <span onClick={playPause}>
           {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />}
           </span>
-          <span>
+          <span onClick={handleNext}>
             <BiSkipNext />
           </span>
           <span>
