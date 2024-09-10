@@ -20,6 +20,7 @@ const SongByIdMobile = () => {
   const [duration, setDuration] = useState(0); // Total duration in seconds
   const [progress, setProgress] = useState(0); // Progress in percentage
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentSong, setCurrentSong] = useState(null);
   // const clickRef = useRef(null);
   const audioRef = useRef(null);
 
@@ -56,15 +57,19 @@ const SongByIdMobile = () => {
     setCurrentTime(newTime); // Set the new current time based on click
   };
 
-  // Play/pause function
-  const handlePlayPause = () => {
-    if (audioRef) {
-      if (isPlaying) {
-        audioRef.pause();
-      } else {
-        audioRef.play();
-      }
-      setIsPlaying(!isPlaying);
+  
+  const playPause = (index) => {
+    if (currentSong !== null && currentSong !== index) {
+      audioRef.current[currentSong].pause();
+      audioRef.current[currentSong].currentTime = 0;
+    }
+
+    if (currentSong === index && isPlaying) {
+      audioRef.current[index].pause();
+      setIsPlaying(false);
+    } else {
+      setCurrentSong(index);
+      setIsPlaying(true);
     }
   };
 
@@ -134,7 +139,7 @@ const SongByIdMobile = () => {
           <span>
             <BiSkipPrevious />
           </span>
-          <span onClick={handlePlayPause}>
+          <span onClick={playPause}>
           {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />}
           </span>
           <span>
