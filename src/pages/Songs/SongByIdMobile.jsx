@@ -37,17 +37,25 @@ const SongByIdMobile = () => {
       });
   }, [songId]);
 
-  // Simulate song progress for the example (remove this when using real audio)
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime((prev) => Math.min(prev + 1, duration)); // Update time every second
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [duration]);
-
-  useEffect(() => {
-    setProgress((currentTime / duration) * 100); // Calculate progress percentage
-  }, [currentTime, duration]);
+    if (audioRef.current) {
+      const handleTimeUpdate = () => {
+        setCurrentTime(audioRef.current.currentTime);
+      };
+      const handleLoadedMetadata = () => {
+        setDuration(audioRef.current.duration);
+      };
+  
+      audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
+      audioRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
+  
+      return () => {
+        audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
+        audioRef.current.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      };
+    }
+  }, []);
+  
 
   // Handle updating playback position when the user clicks on the seekbar
   const updatePlaybackPosition = (e) => {
@@ -57,22 +65,17 @@ const SongByIdMobile = () => {
     setCurrentTime(newTime); // Set the new current time based on click
   };
 
-  
-  const playPause = (index) => {
-    if (currentSong !== null && currentSong !== index) {
-      audioRef.current[currentSong].pause();
-      audioRef.current[currentSong].currentTime = 0;
-    }
-
-    if (currentSong === index && isPlaying) {
-      audioRef.current[index].pause();
-      setIsPlaying(false);
-    } else {
-      setCurrentSong(index);
-      setIsPlaying(true);
+  const playPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
     }
   };
-
+  
   //next song function
 
   const handleNext = () => {
@@ -135,7 +138,7 @@ const SongByIdMobile = () => {
 
           {/* Seekbar */}
           <div
-            ref={audioRef}
+            
             className="relative w-full h-1 bg-gray-300 rounded-full cursor-pointer"
             onClick={updatePlaybackPosition}
           >
