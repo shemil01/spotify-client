@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { IoIosArrowDown } from "react-icons/io";
 import { AiOutlineLike } from "react-icons/ai";
@@ -10,19 +10,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Axios } from "../mainPage/MainPage";
 import { ClipLoader } from "react-spinners";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
+import myContext from "../../context/Context";
 
 const SongByIdMobile = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { songId } = useParams();
+
+  const { songs, setSongs } = useContext(myContext);
+
   const [loading, setLoading] = useState(true);
   const [song, setSong] = useState(null);
   const [currentTime, setCurrentTime] = useState(0); // Current playback time in seconds
-  const [duration, setDuration] = useState(255); // Total duration in seconds
+  const [duration, setDuration] = useState(0); // Total duration in seconds (set dynamically)
   const [progress, setProgress] = useState(0); // Progress in percentage
   const [isPlaying, setIsPlaying] = useState(false);
-  // const clickRef = useRef(null);
   const audioRef = useRef(null);
-
 
   // Fetch song by ID
   useEffect(() => {
@@ -36,24 +38,26 @@ const SongByIdMobile = () => {
       });
   }, [songId]);
 
-  // Simulate song progress for the example (remove this when using real audio)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime((prev) => Math.min(prev + 1, duration)); // Update time every second
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [duration]);
+  // Update duration when metadata is loaded
+  const handleLoadedMetadata = () => {
+    const audioDuration = audioRef.current.duration;
+    setDuration(audioDuration);
+  };
 
-  useEffect(() => {
-    setProgress((currentTime / duration) * 100); // Calculate progress percentage
-  }, [currentTime, duration]);
+  // Update the seek bar based on the current time of the audio
+  const handleTimeUpdate = () => {
+    const currentAudioTime = audioRef.current.currentTime;
+    setCurrentTime(currentAudioTime);
+    setProgress((currentAudioTime / duration) * 100);
+  };
 
-  // Handle updating playback position when the user clicks on the seekbar
+  // Handle updating playback position when the user clicks or drags on the seekbar
   const updatePlaybackPosition = (e) => {
     const seekbarWidth = audioRef.current.offsetWidth;
     const clickX = e.nativeEvent.offsetX;
     const newTime = (clickX / seekbarWidth) * duration;
-    setCurrentTime(newTime); // Set the new current time based on click
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
   };
 
   // Play/pause function
@@ -79,7 +83,7 @@ const SongByIdMobile = () => {
   return (
     <div className="h-screen bg-orange-300 space-y-10">
       <header className="pt-10 text-white pl-5 flex justify-between pr-5 text-3xl">
-        <div onClick={()=>navigate(-1)}>
+        <div onClick={() => navigate(-1)}>
           <IoIosArrowDown />
         </div>
         <div>
@@ -96,7 +100,12 @@ const SongByIdMobile = () => {
             <h1 className="font-semibold text-2xl"> {song?.name}</h1>
             <p>{song?.artist}</p>
           </div>
-          <audio ref={audioRef} src={song?.fileUrl} />
+          <audio
+            ref={audioRef}
+            src={song?.fileUrl}
+            onLoadedMetadata={handleLoadedMetadata}
+            onTimeUpdate={handleTimeUpdate}
+          />
           <div className="text-3xl">
             <AiOutlineLike />
           </div>
@@ -112,7 +121,6 @@ const SongByIdMobile = () => {
 
           {/* Seekbar */}
           <div
-            ref={audioRef}
             className="relative w-full h-1 bg-gray-300 rounded-full cursor-pointer"
             onClick={updatePlaybackPosition}
           >
@@ -124,9 +132,10 @@ const SongByIdMobile = () => {
 
           {/* Duration */}
           <p className="text-xs">
-            {song?.duration}
+            {new Date(duration * 1000).toISOString().substr(14, 5)}
           </p>
         </div>
+
         <div className="flex flex-row justify-between pl-5 pr-5 space-x-5 pt-5 text-white text-3xl">
           <span>
             <LuShuffle />
@@ -135,7 +144,7 @@ const SongByIdMobile = () => {
             <BiSkipPrevious />
           </span>
           <span onClick={playPause}>
-          {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />}
+            {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />}
           </span>
           <span>
             <BiSkipNext />
