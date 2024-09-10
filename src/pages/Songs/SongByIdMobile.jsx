@@ -17,10 +17,9 @@ const SongByIdMobile = () => {
   const [loading, setLoading] = useState(true);
   const [song, setSong] = useState(null);
   const [currentTime, setCurrentTime] = useState(0); // Current playback time in seconds
-  const [duration, setDuration] = useState(0); // Total duration in seconds
+  const [duration, setDuration] = useState(255); // Total duration in seconds
   const [progress, setProgress] = useState(0); // Progress in percentage
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentSong, setCurrentSong] = useState(null);
   // const clickRef = useRef(null);
   const audioRef = useRef(null);
 
@@ -37,25 +36,17 @@ const SongByIdMobile = () => {
       });
   }, [songId]);
 
+  // Simulate song progress for the example (remove this when using real audio)
   useEffect(() => {
-    if (audioRef.current) {
-      const handleTimeUpdate = () => {
-        setCurrentTime(audioRef.current.currentTime);
-      };
-      const handleLoadedMetadata = () => {
-        setDuration(audioRef.current.duration);
-      };
-  
-      audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
-      audioRef.current.addEventListener("loadedmetadata", handleLoadedMetadata);
-  
-      return () => {
-        audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
-        audioRef.current.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      };
-    }
-  }, []);
-  
+    const interval = setInterval(() => {
+      setCurrentTime((prev) => Math.min(prev + 1, duration)); // Update time every second
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [duration]);
+
+  useEffect(() => {
+    setProgress((currentTime / duration) * 100); // Calculate progress percentage
+  }, [currentTime, duration]);
 
   // Handle updating playback position when the user clicks on the seekbar
   const updatePlaybackPosition = (e) => {
@@ -65,6 +56,7 @@ const SongByIdMobile = () => {
     setCurrentTime(newTime); // Set the new current time based on click
   };
 
+  // Play/pause function
   const playPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -75,24 +67,6 @@ const SongByIdMobile = () => {
       setIsPlaying(!isPlaying);
     }
   };
-  
-  //next song function
-
-  const handleNext = () => {
-    if (song && song.length > 0) {
-      const nextSongIndex = (currentSong + 1) % song.length;
-      setCurrentSong(nextSongIndex);
-      playPause(nextSongIndex);
-    }
-  };
-  // prev song 
-
-  const handlePrevious = ()=> {
-    const prevSongIndex =
-    (currentSong - 1 + song.length) % song.length;
-  setCurrentSong(prevSongIndex);
-  playPause(prevSongIndex);
-  }
 
   if (loading) {
     return (
@@ -138,7 +112,7 @@ const SongByIdMobile = () => {
 
           {/* Seekbar */}
           <div
-            
+            ref={audioRef}
             className="relative w-full h-1 bg-gray-300 rounded-full cursor-pointer"
             onClick={updatePlaybackPosition}
           >
@@ -157,13 +131,13 @@ const SongByIdMobile = () => {
           <span>
             <LuShuffle />
           </span>
-          <span onClick={handlePrevious}>
+          <span>
             <BiSkipPrevious />
           </span>
           <span onClick={playPause}>
           {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />}
           </span>
-          <span onClick={handleNext}>
+          <span>
             <BiSkipNext />
           </span>
           <span>
