@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { IoIosArrowDown } from "react-icons/io";
-import { AiOutlineLike } from "react-icons/ai";
+import { AiOutlineLike ,AiFillLike} from "react-icons/ai";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { LuShuffle } from "react-icons/lu";
 import { FaCirclePlay } from "react-icons/fa6";
@@ -11,6 +11,8 @@ import { Axios } from "../mainPage/MainPage";
 import { ClipLoader } from "react-spinners";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
 import myContext from "../../context/Context";
+import toast from "react-hot-toast";
+
 
 const SongByIdMobile = () => {
   const navigate = useNavigate();
@@ -24,6 +26,7 @@ const SongByIdMobile = () => {
   const [progress, setProgress] = useState(0); // Progress in percentage
   const [isPlaying, setIsPlaying] = useState(false);
   const [isDragging, setIsDragging] = useState(false); // For handling seek bar dragging
+  const [isLike,setIsLike] = useState(false)
 
   const audioRef = useRef(null);
 
@@ -40,6 +43,36 @@ console.log("Songs:",songs)
         console.log(error);
       });
   }, [songId]);
+
+
+// like/unlike
+
+const handlLike = () => {
+  if(!isLike){
+    Axios.post(`/user/like-song/${songId}`,{
+      withCredentials:true
+    })
+    .then(()=>{
+      setIsLike(true)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }else{
+    Axios.delete(`/user/remove-likedsong/${songId}`,{
+      withCredentials:true
+    })
+    .then(()=>{
+      setIsLike(false)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+
+  }
+}
+
+
 
   // Update duration when metadata is loaded
   const handleLoadedMetadata = () => {
@@ -130,8 +163,8 @@ console.log("Songs:",songs)
             onLoadedMetadata={handleLoadedMetadata}
             onTimeUpdate={handleTimeUpdate}
           />
-          <div className="text-3xl">
-            <AiOutlineLike />
+          <div className="text-3xl" onClick={handlLike}>
+          {isLike? <AiFillLike /> : <AiOutlineLike />}
           </div>
         </div>
       </div>
