@@ -11,7 +11,7 @@ import { Axios } from "../mainPage/MainPage";
 import { ClipLoader } from "react-spinners";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
 import myContext from "../../context/Context";
-import toast from "react-hot-toast";
+
 
 
 const SongByIdMobile = () => {
@@ -31,7 +31,6 @@ const SongByIdMobile = () => {
 
   const audioRef = useRef(null);
 
-console.log("Songs:",songs)
 
   // Fetch song by ID
   useEffect(() => {

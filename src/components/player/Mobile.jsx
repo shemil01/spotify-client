@@ -1,6 +1,7 @@
 import { FaCirclePlay } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import { MdOutlinePauseCircleFilled } from "react-icons/md";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MobilePlayer = ({
   audioRef,
@@ -16,6 +17,9 @@ const MobilePlayer = ({
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isDrag, setIsDrag] = useState();
+
+  const navigate = useNavigate()
+  const songId = useParams()
 
   const clickRef = useRef();
 
@@ -87,7 +91,7 @@ const MobilePlayer = ({
     <div className="bg-black w-full fixed bottom-10 flex flex-col p-3">
       <div className="flex justify-between ">
         {currentSong && (
-          <div className="flex items-center gap-2 text-white">
+          <div className="flex items-center gap-2 text-white" onClick={()=>navigate(`/song-id/${songId}`)}>
             <img
               src={currentSong.coverImage}
               alt=""
