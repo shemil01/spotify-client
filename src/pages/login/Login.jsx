@@ -67,7 +67,9 @@ const Login = () => {
 
   // Google OAuth
   const googleLogin = useGoogleLogin({
+    
     onSuccess: async (tokenResponse) => {
+      setDotLoading(true); 
       try {
         const response = await Axios.post("/google-login", {
           access_token: tokenResponse.access_token,
