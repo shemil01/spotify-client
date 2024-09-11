@@ -152,14 +152,27 @@ const handlLike = () => {
     if (songs && songs.length > 0) {
       const prevSongIndex = (currentSongIndex -1 + songs.length) % songs.length; // Loop to the beginning if at the end
       setCurrentSongIndex(prevSongIndex);
-      const nextSong = songs[prevSongIndex];
+      const prevSong = songs[prevSongIndex];
 
-      setSong(nextSong); // Set the next song
-      audioRef.current.src = nextSong.fileUrl; // Update audio source
+      setSong(prevSong); // Set the next song
+      audioRef.current.src = prevSong.fileUrl; // Update audio source
       audioRef.current.play(); // Start playing the next song
       setIsPlaying(true);
     }
   };
+
+
+  const handleShuffle=()=>{
+    if(songs && songs.length>0){
+      const randomSongIndex = Math.floor(Math.random * songs.length)
+      setCurrentSongIndex(randomSongIndex)
+      const randomSong = songs[randomSongIndex]
+      setSong(randomSong)
+      audioRef.current.src = randomSong.fileUrl; // Update audio source
+      audioRef.current.play(); // Start playing the random song
+      setIsPlaying(true)
+    }
+  }
 
   if (loading) {
     return (
@@ -229,7 +242,7 @@ const handlLike = () => {
         </div>
 
         <div className="flex flex-row justify-between pl-5 pr-5 space-x-5 pt-5 text-white text-3xl">
-          <span>
+          <span onClick={handleShuffle}>
             <LuShuffle />
           </span>
           <span onClick={handlePrevious}>
