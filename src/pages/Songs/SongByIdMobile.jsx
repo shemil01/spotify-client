@@ -16,6 +16,7 @@ const SongByIdMobile = () => {
   const navigate = useNavigate();
   const { songId } = useParams();
   const { songs, setSongs } = useContext(myContext);
+  console.log("song:",songs)
 
   const [loading, setLoading] = useState(true);
   const [song, setSong] = useState(null);
