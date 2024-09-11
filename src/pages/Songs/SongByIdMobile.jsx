@@ -129,6 +129,15 @@ const handlLike = () => {
     }
   };
 
+
+  const handleNext = () => {
+    if (songs && songs.length > 0) {
+      const nextSongIndex = (songs + 1) % songs.length;
+      setSongs(nextSongIndex);
+      playPause(nextSongIndex);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-black">
@@ -206,7 +215,7 @@ const handlLike = () => {
           <span onClick={playPause}>
             {isPlaying ? <MdOutlinePauseCircleFilled /> : <FaCirclePlay />}
           </span>
-          <span>
+          <span onClick={handleNext}>
             <BiSkipNext />
           </span>
           <span>
