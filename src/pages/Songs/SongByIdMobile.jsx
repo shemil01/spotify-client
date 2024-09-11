@@ -15,15 +15,16 @@ import myContext from "../../context/Context";
 const SongByIdMobile = () => {
   const navigate = useNavigate();
   const { songId } = useParams();
-
   const { songs, setSongs } = useContext(myContext);
 
   const [loading, setLoading] = useState(true);
   const [song, setSong] = useState(null);
   const [currentTime, setCurrentTime] = useState(0); // Current playback time in seconds
-  const [duration, setDuration] = useState(0); // Total duration in seconds (set dynamically)
+  const [duration, setDuration] = useState(0); // Total duration in seconds
   const [progress, setProgress] = useState(0); // Progress in percentage
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isDragging, setIsDragging] = useState(false); // For handling seek bar dragging
+
   const audioRef = useRef(null);
 
   // Fetch song by ID
@@ -46,18 +47,11 @@ const SongByIdMobile = () => {
 
   // Update the seek bar based on the current time of the audio
   const handleTimeUpdate = () => {
-    const currentAudioTime = audioRef.current.currentTime;
-    setCurrentTime(currentAudioTime);
-    setProgress((currentAudioTime / duration) * 100);
-  };
-
-  // Handle updating playback position when the user clicks or drags on the seekbar
-  const updatePlaybackPosition = (e) => {
-    const seekbarWidth = audioRef.current.offsetWidth;
-    const clickX = e.nativeEvent.offsetX;
-    const newTime = (clickX / seekbarWidth) * duration;
-    audioRef.current.currentTime = newTime;
-    setCurrentTime(newTime);
+    if (!isDragging) { // Only update when not dragging
+      const currentAudioTime = audioRef.current.currentTime;
+      setCurrentTime(currentAudioTime);
+      setProgress((currentAudioTime / duration) * 100);
+    }
   };
 
   // Play/pause function
@@ -69,6 +63,34 @@ const SongByIdMobile = () => {
         audioRef.current.play();
       }
       setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Start dragging the seek bar
+  const startDragging = () => {
+    setIsDragging(true);
+  };
+
+  // Dragging the seek bar (mouse move)
+  const handleSeekbarChange = (e) => {
+    if (isDragging) {
+      const seekbarWidth = e.currentTarget.clientWidth;
+      const clickX = e.nativeEvent.offsetX;
+      const newTime = (clickX / seekbarWidth) * duration;
+      setProgress((clickX / seekbarWidth) * 100);
+      setCurrentTime(newTime);
+    }
+  };
+
+  // Stop dragging and update playback position
+  const stopDragging = (e) => {
+    if (isDragging) {
+      const seekbarWidth = e.currentTarget.clientWidth;
+      const clickX = e.nativeEvent.offsetX;
+      const newTime = (clickX / seekbarWidth) * duration;
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+      setIsDragging(false);
     }
   };
 
@@ -122,7 +144,10 @@ const SongByIdMobile = () => {
           {/* Seekbar */}
           <div
             className="relative w-full h-1 bg-gray-300 rounded-full cursor-pointer"
-            onClick={updatePlaybackPosition}
+            onMouseDown={startDragging}
+            onMouseMove={handleSeekbarChange}
+            onMouseUp={stopDragging}
+            onMouseLeave={stopDragging}
           >
             <div
               className="absolute top-0 left-0 h-full bg-green-800 rounded-full"
