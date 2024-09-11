@@ -16,7 +16,6 @@ const SongByIdMobile = () => {
   const navigate = useNavigate();
   const { songId } = useParams();
   const { songs, setSongs } = useContext(myContext);
-  console.log("song:",songs)
 
   const [loading, setLoading] = useState(true);
   const [song, setSong] = useState(null);
@@ -27,6 +26,8 @@ const SongByIdMobile = () => {
   const [isDragging, setIsDragging] = useState(false); // For handling seek bar dragging
 
   const audioRef = useRef(null);
+
+console.log("Songs:",songs)
 
   // Fetch song by ID
   useEffect(() => {
@@ -83,17 +84,17 @@ const SongByIdMobile = () => {
     }
   };
 
-    // Stop dragging and update playback position
-    const stopDragging = (e) => {
-      if (isDragging) {
-        const seekbarWidth = e.currentTarget.clientWidth;
-        const clickX = e.nativeEvent.offsetX;
-        const newTime = (clickX / seekbarWidth) * duration;
-        audioRef.current.currentTime = newTime;
-        setCurrentTime(newTime);
-        setIsDragging(false);
-      }
-    };
+  // Stop dragging and update playback position
+  const stopDragging = (e) => {
+    if (isDragging) {
+      const seekbarWidth = e.currentTarget.clientWidth;
+      const clickX = e.nativeEvent.offsetX;
+      const newTime = (clickX / seekbarWidth) * duration;
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+      setIsDragging(false);
+    }
+  };
 
   if (loading) {
     return (
