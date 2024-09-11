@@ -23,6 +23,7 @@ const DesktopPlayer = ({
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isDrag, setIsDrag] = useState();
+  const [isDragging, setIsDragging] = useState(false); // For handling seek bar dragging
 
   const clickRef = useRef();
 
@@ -57,20 +58,34 @@ const DesktopPlayer = ({
     }
   };
 
-  const handleMouseDown = (e) => {
-    setIsDrag(true);
-    updatePlaybackPosition(e);
-  };
+    // Start dragging the seek bar
+    const startDragging = () => {
+      setIsDragging(true);
+    };
+// Dragging the seek bar (mouse move)
+const handleSeekbarChange = (e) => {
+  if (isDragging) {
+    const seekbarWidth = e.currentTarget.clientWidth;
+    const clickX = e.nativeEvent.offsetX;
+    const newTime = (clickX / seekbarWidth) * duration;
+    setProgress((clickX / seekbarWidth) * 100);
+    setCurrentTime(newTime);
+  }
+};
 
-  const handleMouseMove = (e) => {
-    if (isDrag) {
-      updatePlaybackPosition(e);
+ 
+  // Stop dragging and update playback position
+  const stopDragging = (e) => {
+    if (isDragging) {
+      const seekbarWidth = e.currentTarget.clientWidth;
+      const clickX = e.nativeEvent.offsetX;
+      const newTime = (clickX / seekbarWidth) * duration;
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+      setIsDragging(false);
     }
   };
-
-  const handleMouseUp = () => {
-    setIsDrag(false);
-  };
+  
 
   const handlePlayPause = () => {
     if (audioRef) {
@@ -159,12 +174,13 @@ const DesktopPlayer = ({
               {new Date(currentTime * 1000).toISOString().substr(14, 5)}
             </p>
             <div
-              ref={clickRef}
+              
               className="relative w-full h-1 bg-gray-300 rounded-full cursor-pointer"
               onClick={updatePlaybackPosition}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
+              onMouseDown={startDragging}
+              onMouseMove={handleSeekbarChange}
+              onMouseUp={stopDragging}
+              onMouseLeave={stopDragging}
             >
               <div
                 className="absolute top-0 left-0 h-full bg-green-800 rounded-full"

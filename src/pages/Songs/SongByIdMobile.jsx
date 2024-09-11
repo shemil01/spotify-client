@@ -83,17 +83,17 @@ const SongByIdMobile = () => {
     }
   };
 
-  // Stop dragging and update playback position
-  const stopDragging = (e) => {
-    if (isDragging) {
-      const seekbarWidth = e.currentTarget.clientWidth;
-      const clickX = e.nativeEvent.offsetX;
-      const newTime = (clickX / seekbarWidth) * duration;
-      audioRef.current.currentTime = newTime;
-      setCurrentTime(newTime);
-      setIsDragging(false);
-    }
-  };
+    // Stop dragging and update playback position
+    const stopDragging = (e) => {
+      if (isDragging) {
+        const seekbarWidth = e.currentTarget.clientWidth;
+        const clickX = e.nativeEvent.offsetX;
+        const newTime = (clickX / seekbarWidth) * duration;
+        audioRef.current.currentTime = newTime;
+        setCurrentTime(newTime);
+        setIsDragging(false);
+      }
+    };
 
   if (loading) {
     return (
