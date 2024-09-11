@@ -27,6 +27,7 @@ const SongByIdMobile = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isDragging, setIsDragging] = useState(false); // For handling seek bar dragging
   const [isLike,setIsLike] = useState(false)
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
   const audioRef = useRef(null);
 
@@ -38,11 +39,16 @@ console.log("Songs:",songs)
       .then((response) => {
         setSong(response.data.songData);
         setLoading(false);
+        const songIndex = songs.findIndex((s) => s._id === songId);
+        if (songIndex >= 0) {
+          setCurrentSongIndex(songIndex);
+        }
+
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [songId]);
+  }, [songId,songs]);
 
 
 // like/unlike
@@ -132,9 +138,26 @@ const handlLike = () => {
 
   const handleNext = () => {
     if (songs && songs.length > 0) {
-      const nextSongIndex = (songs + 1) % songs.length;
-      setSongs(nextSongIndex);
-      playPause(nextSongIndex);
+      const nextSongIndex = (currentSongIndex + 1) % songs.length; // Loop to the beginning if at the end
+      setCurrentSongIndex(nextSongIndex);
+      const nextSong = songs[nextSongIndex];
+
+      setSong(nextSong); // Set the next song
+      audioRef.current.src = nextSong.fileUrl; // Update audio source
+      audioRef.current.play(); // Start playing the next song
+      setIsPlaying(true);
+    }
+  };
+  const handlePrevious = () => {
+    if (songs && songs.length > 0) {
+      const prevSongIndex = (currentSongIndex -1 + songs.length) % songs.length; // Loop to the beginning if at the end
+      setCurrentSongIndex(prevSongIndex);
+      const nextSong = songs[prevSongIndex];
+
+      setSong(nextSong); // Set the next song
+      audioRef.current.src = nextSong.fileUrl; // Update audio source
+      audioRef.current.play(); // Start playing the next song
+      setIsPlaying(true);
     }
   };
 
@@ -209,7 +232,7 @@ const handlLike = () => {
           <span>
             <LuShuffle />
           </span>
-          <span>
+          <span onClick={handlePrevious}>
             <BiSkipPrevious />
           </span>
           <span onClick={playPause}>
