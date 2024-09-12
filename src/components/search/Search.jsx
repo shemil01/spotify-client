@@ -50,9 +50,9 @@ const Search = () => {
   };
 
   return (
-    <div className="bg-black md:w-full h-screen flex space-y-3 w-80">
+    <div className="bg-black md:w-full min-h-screen flex space-y-3 w-80">
       {!mobileView && <SideBar />}
-      <div className="flex-1 md:h-[85%] h-screen  rounded-md bg-[#121212] relative">
+      <div className="flex-1 md:h-[85%]  rounded-md bg-[#121212] relative">
         <header className="flex items-center gap-10 py-3 px-3">
           <div className="bg-black rounded-full w-8 h-8 flex items-center text-white justify-center hover:scale-110 transition-transform duration-200">
             <MdArrowBackIos onClick={() => navigate(-1)} />
