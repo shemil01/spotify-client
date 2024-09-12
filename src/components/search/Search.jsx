@@ -4,11 +4,12 @@ import SideBar from "../nav/SideBar";
 import { GrSearch } from "react-icons/gr";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { Axios } from "../../pages/mainPage/MainPage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../footer/Footer";
 
 const Search = () => {
   const navigate = useNavigate();
+  const songId = useParams();
   const mobileView = useMediaQuery({ query: "(max-width: 1000px)" });
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -19,8 +20,8 @@ const Search = () => {
     const value = e.target.value;
     setSearchQuery(value);
     if (value.length > 2) {
-      const response = await Axios.get(`/search-song?q=${value}`,{
-        withCredentials:true
+      const response = await Axios.get(`/search-song?q=${value}`, {
+        withCredentials: true,
       });
       setSuggestions(response.data.suggestions);
       setNoResults(false);
@@ -34,8 +35,8 @@ const Search = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await Axios.get(`/search-song?q=${searchQuery}`,{
-      withCredentials:true
+    const response = await Axios.get(`/search-song?q=${searchQuery}`, {
+      withCredentials: true,
     });
     const songs = response.data.song;
 
@@ -46,6 +47,14 @@ const Search = () => {
       setNoResults(true);
     } else {
       setNoResults(false);
+    }
+  };
+
+  const handleSongClick = () => {
+    if (mobileView) {
+      navigate(`/song-id/${songId}`);
+    } else {
+      navigate(`/song-by-id/${songId}`);
     }
   };
 
@@ -80,7 +89,7 @@ const Search = () => {
             <div className="flex-1">
               <h1 className="text-white font-bold text-lg mb-3">Top Result</h1>
               <div
-                onClick={() => navigate(`/song-by-id/${searchResults[0]._id}`)}
+                onClick={() => handleSongClick(searchResults[0]._id)}
                 className="flex items-center hover:bg-[#2A2A2A] p-3 rounded-md cursor-pointer"
               >
                 <img
@@ -121,7 +130,7 @@ const Search = () => {
             </div>
           )}
         </div>
-       {!mobileView && <Footer />}
+        {!mobileView && <Footer />}
       </div>
     </div>
   );
