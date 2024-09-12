@@ -59,7 +59,7 @@ const SearchInMob = () => {
                 type="text"
                 className="bg-[#2A2A2A] border-none w-full focus:outline-none text-white"
                 value={searchQuery}
-                onClick={handleSearch}
+                onChange={handleSearch}
               />
             </form>
           </div>
