@@ -1,85 +1,75 @@
-import React, { useState } from "react";
-import SideBar from "../nav/SideBar";
+import { MdArrowBackIos } from "react-icons/md";
 import { GrSearch } from "react-icons/gr";
-import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
-import { Axios } from "../../pages/mainPage/MainPage";
 import { useNavigate } from "react-router-dom";
-import Footer from "../footer/Footer";
+import { useState } from "react";
+import { Axios } from "../../pages/mainPage/MainPage";
 
-const Search = () => {
+const SearchInMob = () => {
   const navigate = useNavigate();
-  
   const [searchQuery, setSearchQuery] = useState("");
+  const [noResult, setNoResult] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
-  const [noResults, setNoResults] = useState(false);
 
   const handleSearch = async (e) => {
     const value = e.target.value;
     setSearchQuery(value);
+
     if (value.length > 2) {
-      const response = await Axios.get(`/search-song?q=${value}`,{
-        withCredentials:true
+      const response = await Axios.get(`/search-song?q=${value}`, {
+        withCredentials: true,
       });
       setSuggestions(response.data.suggestions);
-      setNoResults(false);
+      setNoResult(false);
     } else {
       setSuggestions([]);
       setSearchResults([]);
-      setNoResults(false);
+      setNoResult(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await Axios.get(`/search-song?q=${searchQuery}`,{
-      withCredentials:true
+    const response = await Axios.get(`/search-song?q=${searchQuery}`, {
+      withCredentials: true,
     });
     const songs = response.data.song;
 
     setSearchResults(songs);
     setSuggestions([]);
-
     if (songs.length === 0) {
-      setNoResults(true);
+      setNoResult(true);
     } else {
-      setNoResults(false);
+      setNoResult(false);
     }
   };
 
   return (
-    <div className="bg-black md:w-full h-screen flex space-y-3 w-80">
-       <SideBar />
-      <div className="flex-1 md:h-[85%] h-screen  rounded-md bg-[#121212] relative">
-        <header className="flex items-center gap-10 py-3 px-3">
-          <div className="bg-black rounded-full w-8 h-8 flex items-center text-white justify-center hover:scale-110 transition-transform duration-200">
-            <MdArrowBackIos onClick={() => navigate(-1)} />
+    <div className="bg-[#121212] h-screen w-full">
+      <div className="flex1">
+        <header className="text-white flex items-center justify-around space-y-5 ">
+          <div className="bg-black rounded-full w-8 h-8 flex items-center text-white justify-center mt-5">
+            <MdArrowBackIos />
           </div>
-          <div className="bg-black rounded-full w-8 h-8 flex items-center text-white justify-center hover:scale-110 transition-transform duration-200">
-            <MdArrowForwardIos onClick={() => navigate(1)} />
-          </div>
-
-          <div className="w-80 bg-[#2A2A2A] rounded-full h-12 flex items-center px-4">
-            <GrSearch className="text-[#E3E3E3] mr-2" />
-            <form className="w-full" onSubmit={handleSubmit}>
+          <div className="w-80 h-12 bg-[#2A2A2A] flex items-center  rounded-full ">
+            <GrSearch className="mr-5 ml-5" />
+            <form onSubmit={handleSubmit}>
               <input
-                type="text"
-                className="bg-[#2A2A2A] w-full text-[#E3E3E3] focus:outline-none border-none"
                 placeholder="What do you want to play?"
+                type="text"
+                className="bg-[#2A2A2A] border-none w-full focus:outline-none text-white"
                 value={searchQuery}
-                onChange={handleSearch}
+                onClick={handleSearch}
               />
             </form>
           </div>
         </header>
-
         <div className="flex p-4 space-x-4">
           {searchResults.length > 0 && (
             <div className="flex-1">
               <h1 className="text-white font-bold text-lg mb-3">Top Result</h1>
               <div
-                onClick={() => navigate(`/song-by-id/${searchResults[0]._id}`)}
+                onClick={() => navigate(`/song-id/${searchResults[0]._id}`)}
                 className="flex items-center hover:bg-[#2A2A2A] p-3 rounded-md cursor-pointer"
               >
                 <img
@@ -109,7 +99,7 @@ const Search = () => {
             </div>
           )}
 
-          {noResults && (
+          {noResult && (
             <div className="flex-1">
               <h1 className="text-white font-bold text-lg mb-3">
                 No Results Found
@@ -120,10 +110,9 @@ const Search = () => {
             </div>
           )}
         </div>
-       <Footer />
       </div>
     </div>
   );
 };
 
-export default Search;
+export default SearchInMob;

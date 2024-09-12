@@ -205,7 +205,7 @@ const MobileHome = () => {
           <span>
             <MdHomeFilled />
           </span>
-          <span onClick={() => navigate("/search")}>
+          <span onClick={() => navigate("/mobile/search")}>
             <FaSearch />
           </span>
           <span>

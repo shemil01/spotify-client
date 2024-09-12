@@ -27,6 +27,7 @@ import AdmnProtect from "../../components/admin/adminAuth/AdmnProtect";
 import AdminLoginProtect from "../../components/admin/adminAuth/AdminLoginProtect";
 import EditSong from "../../components/admin/pages/Songs/EditSong";
 import SongByIdMobile from "../Songs/SongByIdMobile";
+import SearchInMob from "../../components/search/SearchInMob";
 
 // export const Axios = axios.create({
 //   baseURL: "http://localhost:4500/api",
@@ -140,8 +141,9 @@ const MainPage = () => {
             element={<PlaylistById />}
           />
           <Route path="/music" element={<Music />} />
-          <Route path="/search" element={<Search />} />
 
+          <Route path="/search" element={<Search />} />
+          <Route path="/mobile/search" element={<SearchInMob />} />
           <Route
             path="/admin/login"
             element={
