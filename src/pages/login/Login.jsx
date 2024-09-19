@@ -104,7 +104,10 @@ const Login = () => {
         </div>
 
         {dotLoading ? (
-          <DotLoader />
+          <div className="flex justify-center items-center" >
+            <DotLoader className="flex justify-center items-center" />
+          </div>
+
         ) : (
           <div className="flex flex-col items-center mt-6 md:mt-4 space-y-2">
             <div className="rounded-full border-solid border-2 border-[#727272] flex flex-row items-center space-x-3 px-8 py-3 w-80 hover:border-white transition duration-300">
