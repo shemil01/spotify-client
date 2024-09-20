@@ -105,7 +105,7 @@ const Login = () => {
 
         {dotLoading ? (
           <div className="flex justify-center items-center" >
-            <DotLoader className="flex justify-center items-center" />
+            <DotLoader className="flex justify-center items-center text-white" />
           </div>
 
         ) : (
